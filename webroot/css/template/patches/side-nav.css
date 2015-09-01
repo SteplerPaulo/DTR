@@ -1,0 +1,13 @@
+.navmenu-nav.side-nav{
+	position:initial;
+	width:auto;
+	top: 0;
+	left: 0;
+	margin: 0;
+}
+.navmenu-nav.side-nav>li{
+	padding: 10px 0px;
+}
+.navmenu-nav.side-nav>li>a{
+	width:auto;
+}

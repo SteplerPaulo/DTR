@@ -1,0 +1,64 @@
+.list-group,.list-group-item,.list-group-item-heading{
+	 -webkit-transition: all 0.8s ease-in-out;
+	transition:   all 0.8s ease-in-out;
+}
+.grid-view .list-group-item-text{
+   -webkit-transition: all 0.4s ease-out;
+	transition:   all 0.4s ease-out;
+
+}
+.list-view .list-group-item-text{
+    -webkit-transition: all 0.8s ease-in;
+	transition:   all 0.8s ease-in;
+
+}
+
+.list-view.list-group>.list-group-item{display:inline-block;width:100%;}
+.list-view.list-group>.list-group-item>.list-group-item-heading{margin-top:0%;margin-bottom:0%}
+
+.grid-view.list-group>.list-group-item{border-radius: 0 !important;}
+/*.grid-view.list-group>.list-group-item:not(:first-child){border-left:none;}*/
+.grid-view.list-group>.list-group-item>.list-group-item-heading{margin-top:27%;margin-bottom:-10%}
+.grid-view.list-group>.list-group-item>.list-group-item-text{opacity:0;}
+.split-view.list-group>.list-group-head{
+	padding-right:16px;
+	margin-bottom:-4px;
+	z-index: 1;
+	position: relative;
+}
+.split-view.list-group>.list-group-head>.list-group-item{
+	min-height:111px;
+	border-bottom-right-radius:0px;
+	border-bottom-left-radius:0px;
+}
+.split-view.list-group>.list-group-body{
+	height: 300px;
+	overflow-y: scroll;
+	margin-bottom: 10px;
+	padding-right:5px;
+	border-bottom: 1px solid #ddd;
+	border-bottom-left-radius:4px;
+	border-bottom-right-radius:4px;
+}
+.split-view.list-group>.list-group-head>.list-group-item{
+	background: #EFEFEF;
+	color: #777;
+}
+.split-view.list-group>.list-group-head h2,.split-view.list-group>.list-group-head h3,.split-view.list-group>.list-group-head h4,.split-view.list-group>.list-group-head h5{
+	color: #333;
+}
+.list-group-item,.split-view.list-group>.list-group-body>.list-group-item{
+	background:#fff;
+}
+.split-view.list-group>.list-group-body>.list-group-item:last-child{
+	margin-bottom:-1px;
+	border-bottom-right-radius:0px;
+	border-bottom-left-radius:0px;
+}
+.split-view.list-group>.list-group-body::-webkit-scrollbar{
+    width: 11px;
+	background:#F1F1F1;
+}
+.split-view.list-group>.list-group-body::-webkit-scrollbar-thumb {
+    background-color:#BCBCBC;    
+}

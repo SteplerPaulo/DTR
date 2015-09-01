@@ -1,0 +1,116 @@
+/**Theme**/
+#ThemeColor i{
+	font-size: 50px;
+}
+#ThemeColor a{
+	cursor:pointer;
+}
+#Default-Theme,#DefaultTheme a{
+	color:#303030  ;
+}
+
+#Purple-Theme,#Purple-Theme a{
+	color:#A40053;
+}
+#Yellow-Theme,#Yellow-Theme a{
+	color:#FF9900;
+}
+
+
+/**Purple**/
+#Purple .submodule a{
+	color:#A40053;
+	cursor:pointer;
+}
+#Purple .submodule a:hover{
+	color:#770941;
+}
+
+#Purple .btn-primary{
+	color: #fff;
+	background-color: #A40053;
+	border-color: #770941;
+}
+#Purple .btn-primary:hover,.btn-primary:focus,.btn-primary:active{
+	color: #fff;
+	background-color: #74063E;
+	border-color: #54042D;
+}
+
+
+
+#Purple .top-nav>li>a:hover,
+#Purple .top-nav>li>a:focus,
+#Purple .top-nav>.open>a,
+#Purple .top-nav>.open>a:hover,
+#Purple .top-nav>.open>a:focus {
+    color: #fff;
+    background-color: #770941 !important;
+}
+
+@media(min-width:768px) {
+	#Purple .side-nav li a:hover,
+    #Purple .side-nav li a:focus {
+        outline: none;
+        background-color: #770941 !important;
+    }
+}
+
+#Purple .form-control:focus {
+	border-color: #D321BC;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(176, 0, 153, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(176, 0, 153, 0.6);
+}
+
+#Purple .panel-default>.panel-heading {
+	color: #FDFCFC;
+	background-color: #A40053;
+	border-color: #770941;
+}
+
+/**Yellow**/
+#Yellow .submodule a{
+	color:#FF9900 ;
+	cursor:pointer;
+}
+#Yellow .submodule a:hover{
+	color:#FF6600;
+}
+
+#Yellow .btn-primary{
+	color: #fff;
+	background-color: #FF9900;
+	border-color: #FF6600;
+}
+#Yellow .btn-primary:hover,.btn-primary:focus,.btn-primary:active{
+	color: #fff;
+	background-color: #E88E07;
+	border-color: #FF6600;
+}
+
+
+
+#Yellow .top-nav>li>a:hover,
+#Yellow .top-nav>li>a:focus,
+#Yellow .top-nav>.open>a,
+#Yellow .top-nav>.open>a:hover,
+#Yellow .top-nav>.open>a:focus {
+    color: #fff;
+    background-color: #FF9900 !important;
+}
+
+@media(min-width:768px) {
+	#Yellow .side-nav li a:hover,
+    #Yellow .side-nav li a:focus {
+        outline: none;
+        background-color: #FF9900 !important;
+    }
+}
+
+#Yellow .form-control:focus {
+	border-color: #FF9900;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(255, 102, 0, 1);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(255, 102, 0, 1);
+}
