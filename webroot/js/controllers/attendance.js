@@ -1,6 +1,6 @@
 App.controller('AttendanceController',function($scope,$rootScope,$http){
 	$scope.initializeController = function(){
-		$http.get("http://localhost/DTR/attendances/employees").success(function (data) {
+		$http.get("/DTR/attendances/employees").success(function (data) {
 			console.log(data);
 			var employees = [];
 			angular.forEach(data, function(o, i) {
@@ -22,7 +22,7 @@ App.controller('AttendanceController',function($scope,$rootScope,$http){
 
 			$http({
 				method: 'POST',
-				url: 'http://localhost/DTR/attendances/add',
+				url: '/DTR/attendances/add',
 				data: $.param({data:{'Attendance':{
 								'employee_number':$scope.empno,
 							}}}),
