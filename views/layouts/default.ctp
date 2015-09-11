@@ -59,7 +59,7 @@
     <![endif]-->
 </head>
 <body id="">
-	<div ng-app="app">
+	<div ng-app="App">
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 		<div class="navmenu navmenu-inverse navmenu-fixed-left col-md-3 col-sm-5 col-xs-8">
 			<a class="navmenu-brand" href="#">Menu</a>
@@ -73,7 +73,7 @@
 				</li>
 				<li>
 					<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Daily Time Record',
-								array('controller'=>'pages','action'=>'display','pagename' => 'main'),
+								array('controller'=>'attendances','action'=>'/'),
 								array('escape'=>false )
 							);?>
 				</li>
@@ -192,13 +192,8 @@
 		echo $this->Html->script(array('test/data'));
 		//echo $this->Html->script(array('template/plugins/dataTables/jquery.dataTables'));
 		//echo $this->Html->script(array('template/plugins/dataTables/dataTables.bootstrap'));
-		echo $scripts_for_layout;
 	?>
-	
-  <script>
-    $(document).ready(function() {
-//$('#dataTables-example').dataTable();
-    });
-    </script>
+	<script type="text/javascript">(function(){window.App = angular.module('App',[])})();</script>
+	<?php  echo $scripts_for_layout; ?>
 </body>
 </html>
