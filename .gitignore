@@ -7,8 +7,8 @@ CakePHP 3
 CakePHP 2
 
 /app/tmp/*
-/app/config/core.php
-/app/config/database.php
+/app/Config/core.php
+/app/Config/database.php
 
 webroot/index.php
 config/database.php 
