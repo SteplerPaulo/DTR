@@ -7,7 +7,15 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'login' => 'root',
 		'password' => '',
-		'database' => 'new-erb',
+		'database' => 'dtr',
+	);
+	var $gatekeeper = array(
+		'driver' => 'mysql',
+		'persistent' => false,
+		'host' => 'localhost',
+		'login' => 'root',
+		'password' => '',
+		'database' => 'gatekeeper_jsm',
 	);
 }
 ?>
