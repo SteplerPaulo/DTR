@@ -48,7 +48,7 @@ class AttendancesController extends AppController {
 				$response['status'] = 1;
 				$response['data'] = $this->Attendance->find('all',array(
 																'conditions'=>array('employee_number'=>$this->data['Attendance']['employee_number']),
-																'order' => array('timein'=> 'DESC')
+																'order' => array('id'=> 'DESC')
 																));
 				echo json_encode($response);
 				exit();
@@ -102,7 +102,7 @@ class AttendancesController extends AppController {
 	function test(){
 		$response['data'] = $this->Attendance->find('all',array(
 																'conditions'=>array('employee_number'=>'A-1981-0014'),
-																'order' => array('timein'=> 'DESC')
+																'order' => array('id'=> 'DESC')
 																));
 		pr($response);
 		exit();
