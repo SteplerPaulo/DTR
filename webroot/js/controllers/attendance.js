@@ -14,12 +14,14 @@ App.controller('AttendanceController',function($scope,$rootScope,$http){
 		
 	}
 	
+	$scope.currentPage = 1;
+	$scope.pageSize = 5;
+	
 	$scope.PostRFID = function(){
 		if(typeof ($scope.Employees[$scope.RFID]) != 'undefined'){
 			$scope.empno = $scope.Employees[$scope.RFID].empno;
 			$scope.empname = $scope.Employees[$scope.RFID].empname;
 			
-
 			$http({
 				method: 'POST',
 				url: '/DTR/attendances/add',
@@ -28,22 +30,16 @@ App.controller('AttendanceController',function($scope,$rootScope,$http){
 							}}}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).then(function(response) {
-				
-				//$scope.status = response.status;
-				//$scope.data = response.data;
 				$scope.History = response.data.data;
-				console.log($scope.History );
-				  
+				//console.log($filter('date')(item.date, "dd/MM/yyyy"););
+				console.log($scope.History);
 			});
-			
 		}else{
 			$scope.empno = '';
 			$scope.empname = '';
 		}
 	}
 });
-
-
 
 App.directive('myEnter', function () {
     return function (scope, element, attrs) {
@@ -57,3 +53,5 @@ App.directive('myEnter', function () {
         });
     };
 });
+
+

@@ -108,4 +108,11 @@ class AttendancesController extends AppController {
 		exit();
 		
 	}
+	
+	function pagination(){
+		
+	}
+	function dirPagination(){
+
+	}
 }

@@ -25,6 +25,21 @@
 		</section>
 	</div>
 	<div class="col-lg-9">	
+		<div class="row">
+			<div class="col-xs-4">
+				<h3>{{ empname }}</h3>
+			</div>
+			<div class="col-xs-4">
+				<!--<label for="search">Search</label>
+				<input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+				-->
+			</div>
+			<div class="col-xs-4">
+				<label for="search">Items per page</label>
+				<input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+			</div>
+		</div><br/>
+	
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -38,13 +53,20 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="h in History | limitTo: 12">
+				<tr dir-paginate="h in History | filter:q | itemsPerPage: pageSize" current-page="currentPage">
 					<td class="text-center">{{h.Attendance.date |  date:"MMM dd, yyyy" }}</td>
 					<td class="text-center">{{h.Attendance.date |  date:"EEEE" }}</td>
 					<td class="text-center">{{h.Attendance.timein}}</td>
 					<td class="text-center">{{h.Attendance.timeout}}</td>
 				</tr>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4" class="text-center">
+						<dir-pagination-controls></dir-pagination-controls>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 
 	</div>

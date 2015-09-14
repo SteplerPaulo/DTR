@@ -190,10 +190,11 @@
 		echo $this->Html->script(array('template/jqueryForm'));
 		echo $this->Html->script(array('biz/app'));
 		echo $this->Html->script(array('test/data'));
+		echo $this->Html->script(array('angularUtils/directives/dirPagination'));
 		//echo $this->Html->script(array('template/plugins/dataTables/jquery.dataTables'));
 		//echo $this->Html->script(array('template/plugins/dataTables/dataTables.bootstrap'));
-	?>
-	<script type="text/javascript">(function(){window.App = angular.module('App',[])})();</script>
+	?> 
+	<script type="text/javascript">(function(){window.App = angular.module('App',['angularUtils.directives.dirPagination'])})();</script>
 	<?php  echo $scripts_for_layout; ?>
 </body>
 </html>
