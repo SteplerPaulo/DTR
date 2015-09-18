@@ -37,6 +37,7 @@ App.controller('AttendanceController',function($scope,$rootScope,$http){
 		}else{
 			$scope.empno = '';
 			$scope.empname = '';
+			alert('Data not found!');
 		}
 	}
 });

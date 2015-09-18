@@ -19,8 +19,6 @@ class AttendancesController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) {
-			
-		
 			date_default_timezone_set("Asia/Singapore");
 			$this->data['Attendance']['date'] = date('Y-m-d');
 			
@@ -40,7 +38,6 @@ class AttendancesController extends AppController {
 				$this->data['Attendance']['timeout']= date("G:i:s");
 			}else{
 				$this->data['Attendance']['timein']= date("G:i:s");
-				
 			}
 			
 			$this->Attendance->create();		
@@ -94,8 +91,8 @@ class AttendancesController extends AppController {
 	
 	function employees(){
 		$sy = $this->SchoolYear->findByIsDefault(1);
-		$response = $this->RfidStudent->find('all',array('conditions'=>array('RfidStudent.type'=>'2')));
-		echo json_encode($response);
+		$employees = $this->RfidStudent->find('all',array('conditions'=>array('RfidStudent.type'=>2)));
+		echo json_encode($employees);
 		exit;
 	}
 	
@@ -104,7 +101,7 @@ class AttendancesController extends AppController {
 																'conditions'=>array('employee_number'=>'A-1981-0014'),
 																'order' => array('id'=> 'DESC')
 																));
-		pr($response);
+		echo json_encode($response);
 		exit();
 		
 	}
@@ -112,6 +109,7 @@ class AttendancesController extends AppController {
 	function pagination(){
 		
 	}
+	
 	function dirPagination(){
 
 	}
