@@ -1,2 +1,1 @@
-# new_isms
-New ISMS
+DAILY TIME RECORD
