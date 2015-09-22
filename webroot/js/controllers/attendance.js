@@ -1,5 +1,6 @@
 App.controller('AttendanceController',function($scope,$rootScope,$http){
 	$scope.initializeController = function(){
+
 		$http.get("/DTR/attendances/employees").success(function (data) {
 			console.log(data);
 			var employees = [];
@@ -55,4 +56,20 @@ App.directive('myEnter', function () {
     };
 });
 
+App.directive('focusMe', function($timeout) {
+  return {
+    scope: { trigger: '@focusMe' },
+    link: function(scope, element) {
+      scope.$watch('trigger', function(value) {
+        if(value === "true") { 
+          $timeout(function() {
+            element[0].focus(); 
+          });
+        }
+      });
+    }
+  };
+});
+
+$('#rfid').focus();
 

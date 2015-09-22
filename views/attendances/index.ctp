@@ -17,7 +17,7 @@
 				<?php echo $this->Form->input('employee_number',array('id'=>'EmployeeNumber','class'=>'form-control input-sm','type'=>'hidden','ng-model'=>'empno')); ?>
 			</div>
 			<div class="row">	
-				<?php echo $this->Form->input('name',array('id'=>'EmployeeName','class'=>'form-control input-sm','ng-model'=>'empname')); ?>
+				<?php echo $this->Form->input('name',array('id'=>'EmployeeName','readonly'=>'readonly','class'=>'form-control input-sm','ng-model'=>'empname')); ?>
 			</div>
 			<div class="row">	
 				<?php echo $this->Form->input('message',array('class'=>'form-control input-sm')); ?>
