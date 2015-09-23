@@ -5,7 +5,7 @@ App.controller('AttendanceController',function($scope,$rootScope,$http){
 			console.log(data);
 			var employees = [];
 			angular.forEach(data, function(o, i) {
-				employees[o.RfidStudent.rfid] = {
+				employees[o.RfidStudent.source_rfid] = {
 					"empno":o.RfidStudent.employee_number,
 					"empname":o.RfidStudent.full_name,
 				}
@@ -56,20 +56,6 @@ App.directive('myEnter', function () {
     };
 });
 
-App.directive('focusMe', function($timeout) {
-  return {
-    scope: { trigger: '@focusMe' },
-    link: function(scope, element) {
-      scope.$watch('trigger', function(value) {
-        if(value === "true") { 
-          $timeout(function() {
-            element[0].focus(); 
-          });
-        }
-      });
-    }
-  };
-});
 
-$('#rfid').focus();
+//$('#rfid').focus();
 
