@@ -57,5 +57,5 @@ App.directive('myEnter', function () {
 });
 
 
-//$('#rfid').focus();
+$('#rfid').focus();
 
