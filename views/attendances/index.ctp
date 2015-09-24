@@ -35,10 +35,12 @@
 				<input ng-model="q" id="search" class="form-control" placeholder="Filter text">
 				-->
 			</div>
+			<!--
 			<div class="col-xs-4">
 				<label for="search">Items per page</label>
 				<input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
 			</div>
+			-->
 		</div><br/>
 	
 		<table class="table table-bordered">
