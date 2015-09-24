@@ -1,7 +1,7 @@
 App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout){
 	$scope.initializeController = function(focus){
 		$scope.currentPage = 1;
-		$scope.pageSize = 3;
+		$scope.pageSize = 15;
 		
 		$http.get("/DTR/attendances/employees").success(function (data) {
 			var employees = [];
