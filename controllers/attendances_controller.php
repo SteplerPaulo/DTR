@@ -30,19 +30,23 @@ class AttendancesController extends AppController {
 															),
 												'order' => array('id' => 'DESC')
 												));
-
+			$type;
 			if(empty($result['Attendance']['timein'])){
 				$this->data['Attendance']['timein']= date("G:i:s");
+				$type = 'IN';
 			}else if(empty($result['Attendance']['timeout'])){
 				$this->data['Attendance']['id']=$result['Attendance']['id'];
 				$this->data['Attendance']['timeout']= date("G:i:s");
-			}else{
+				$type = 'OUT';
+			}else{//IF NO RESULT FOUND
 				$this->data['Attendance']['timein']= date("G:i:s");
+				$type = 'IN';
 			}
 			
 			$this->Attendance->create();		
 			if ($this->Attendance->saveAll($this->data['Attendance'])) {
 				$response['status'] = 1;
+				$response['type'] = $type;
 				$response['data'] = $this->Attendance->find('all',array(
 																'conditions'=>array('employee_number'=>$this->data['Attendance']['employee_number']),
 																'order' => array('id'=> 'DESC')
