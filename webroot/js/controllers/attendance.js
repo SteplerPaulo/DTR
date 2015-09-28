@@ -1,4 +1,4 @@
-App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout){
+App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,focus){
 	$scope.initializeController = function(focus){
 		$scope.currentPage = 1;
 		$scope.pageSize = 15;
@@ -17,12 +17,15 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout)
 			}, employees);
 			$scope.Employees = employees;
 		});
+		
 	}
 	
+	focus('focusMe');
+	var promise;
 	
 	//ON RFID ENTRY
 	$scope.PostRFID = function(){
-
+		$timeout.cancel(promise);
 		$scope.isSaving = true;
 		$timeout( function(){
 			 $scope.isSaving = false;
@@ -41,28 +44,41 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout)
 					$scope.empno = '';
 					$scope.History = response.data.data;
 					$scope.TYPE = response.data.type;// IN OR OUT
-					$('#rfid').focus();
+					focus('focusMe');
 					if($scope.TYPE == 'OUT'){//CLASS MANIPULATION WHETHER ENTRY IS FOR IN OR OUT
 						$scope.ICON = 'fa-sign-out'
 						$scope.BADGE = 'label-warning'
-						$scope.INFO = 'label-info'
+						$scope.INFO = 'label label-info'
 					}else{
 						$scope.ICON = 'fa-sign-in';
 						$scope.BADGE = 'label-success'
-						$scope.INFO = 'label-info'
+						$scope.INFO = 'label label-info'
 					}
 				});
 			}else{
+				
 				$scope.RFID = '';
 				$scope.empno = '';
 				$scope.empname = 'DATA NOT FOUND. RETAP ID';
 				$scope.History = [];
 				$scope.ICON = '';
 				$scope.BADGE = ''
-				$scope.INFO = 'label-danger';
-				
+				$scope.INFO = 'label label-danger';
+				focus('focusMe');
 			}
         }, 500);	
+		
+		//CLEAR TABLE AFTER 60 Seconds
+		promise = $timeout( function(){
+			$scope.RFID = '';
+			$scope.empno = '';
+			$scope.empname = '';
+			$scope.History = [];
+			$scope.ICON = '';
+			$scope.BADGE = ''
+			$scope.INFO = '';
+			focus('focusMe');
+		}, 60000);
 	}
 });
 
@@ -77,4 +93,22 @@ App.directive('myEnter', function () {
             }
         });
     };
+});
+
+App.directive('focusOn', function() {
+   return function(scope, elem, attr) {
+      scope.$on('focusOn', function(e, name) {
+        if(name === attr.focusOn) {
+          elem[0].focus();
+        }
+      });
+   };
+});
+
+App.factory('focus', function ($rootScope, $timeout) {
+  return function(name) {
+    $timeout(function (){
+      $rootScope.$broadcast('focusOn', name);
+    });
+  }
 });

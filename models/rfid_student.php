@@ -4,7 +4,7 @@ class RfidStudent extends AppModel {
 	var $useDbConfig = 'gatekeeper';
 
 	var $virtualFields = array(
-		'full_name' => 'CONCAT(RfidStudent.last_name, ", ", RfidStudent.first_name," ",RfidStudent.middle_name)'
+		'full_name' => 'CONCAT(RfidStudent.first_name, ", " ,RfidStudent.last_name, " ",RfidStudent.middle_name, ".")'
 	);
 
 }
