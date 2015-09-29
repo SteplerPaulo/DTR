@@ -4,6 +4,11 @@ class AttendancesController extends AppController {
 	var $name = 'Attendances';
 	var $helpers = array('Access');
 	var $uses = array('Attendance','RfidStudent','SchoolYear');
+	
+	function beforeFilter(){ 
+		$this->Auth->userModel = 'User'; 
+		$this->Auth->allow(array('index','employees','add'));	
+    } 
 
 	function index() {
 		

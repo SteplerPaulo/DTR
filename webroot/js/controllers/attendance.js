@@ -37,6 +37,7 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 					url: '/DTR/attendances/add',
 					data: $.param({data:{'Attendance':{
 									'employee_number':$scope.empno,
+									'rfid':$scope.RFID,
 								}}}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				}).then(function(response) {
