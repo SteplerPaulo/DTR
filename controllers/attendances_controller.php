@@ -12,6 +12,7 @@ class AttendancesController extends AppController {
 
 	function index() {
 		
+		
 	}
 
 	function view($id = null) {
@@ -31,7 +32,10 @@ class AttendancesController extends AppController {
 			$result = $this->Attendance->find('first',array(
 												'conditions'=>array(
 															'date'=>date('Y-m-d'),
-															'employee_number'=>$this->data['Attendance']['employee_number']
+															'OR'=>array(
+																	array('employee_number'=>$this->data['Attendance']['employee_number']),
+																	array('rfid'=>$this->data['Attendance']['rfid']),
+																)
 															),
 												'order' => array('id' => 'DESC')
 												));

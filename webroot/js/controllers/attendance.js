@@ -58,14 +58,28 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 				});
 			}else{
 				
-				$scope.RFID = '';
-				$scope.empno = '';
-				$scope.empname = 'DATA NOT FOUND. RETAP ID';
-				$scope.History = [];
-				$scope.ICON = '';
-				$scope.BADGE = ''
-				$scope.INFO = 'label label-danger';
-				focus('focusMe');
+				$http({
+					method: 'POST',
+					url: '/DTR/attendances/add',
+					data: $.param({data:{'Attendance':{
+									'employee_number':'',
+									'rfid':$scope.RFID,
+								}}}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}).then(function(response) {
+					$scope.RFID = '';
+					$scope.empno = '';
+					$scope.empname = 'DATA NOT FOUND.';
+					$scope.History = [];
+					$scope.ICON = '';
+					$scope.BADGE = ''
+					$scope.INFO = 'label label-danger';
+					focus('focusMe');
+				});
+				
+				
+				
+				
 			}
         }, 500);	
 		
