@@ -61,11 +61,12 @@
 <body id="">
 	<div ng-app="App">
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-		<div class="navmenu navmenu-inverse navmenu-fixed-left col-md-3 col-sm-5 col-xs-8">
-			<a class="navmenu-brand" href="#">Menu</a>
+		<div class=" col-md-3 col-sm-5 col-xs-8">
+		<!--<div class="navmenu navmenu-inverse navmenu-fixed-left col-md-3 col-sm-5 col-xs-8">-->
+			<!--<a class="navmenu-brand" href="#">Menu</a>
 			 <ul class="nav navmenu-nav side-nav">
 			   <li>
-					<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-home fa-fw')).' '.
+					<?php /* echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-home fa-fw')).' '.
 								$this->Html->tag('span', 'Home'),
 								array('controller'=>'pages','action'=>'/'),
 								array('escape' => false)
@@ -83,7 +84,7 @@
 									array('controller'=>'pages','plugin'=>null,'action'=>'access_control'), array('escape' => false)
 									);  ?>	
 				</li>
-				<?php endif; ?>
+				<?php endif; */ ?>
 				<li>
 					<a href="javascript:void(0)" data-toggle="collapse" data-target="#demo"><i class="fa fa-archive fa-fw "></i> UI Elements <i class="fa fa-fw fa-caret-down"></i></a>
 					<ul id="demo" class="collapse">
@@ -113,7 +114,7 @@
 				<li>
 					<a href="theme-color"><i class="fa fa-paint-brush"></i> Theme Color</a>
 				</li>
-			</ul>
+			</ul>-->
 		</div>
 		<div class="canvas">
 			<!-- Navigation -->
