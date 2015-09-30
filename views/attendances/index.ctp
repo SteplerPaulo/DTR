@@ -11,7 +11,7 @@
 		</section>
 		<section>
 			<div class="row">
-				<?php echo $this->Form->input('rfid',array('class'=>'form-control input-sm','type'=>'text','label'=>'RFID','my-enter'=>'PostRFID()','ng-model'=>'RFID','ng-disabled'=>'isSaving','focus-on'=>'focusMe')); ?>
+				<?php echo $this->Form->input('rfid',array('class'=>'form-control input-sm','type'=>'text','label'=>'RFID','ng-blur'=>'refocus()','my-enter'=>'PostRFID()','ng-model'=>'RFID','ng-disabled'=>'isSaving','focus-on'=>'focusMe')); ?>
 			</div>
 			<div class="row">	
 				<?php echo $this->Form->input('employee_number',array('id'=>'EmployeeNumber','class'=>'form-control input-sm','type'=>'hidden','ng-model'=>'empno')); ?>

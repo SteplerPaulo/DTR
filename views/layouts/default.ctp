@@ -137,7 +137,7 @@
 					<li  >
 						<a>JUAN SUMULONG MEMORIAL JUNIOR COLLEGE</a>
 					</li>
-					<li class="dropdown">
+					<li class="dropdown" ng-hide="true">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 						   <li >

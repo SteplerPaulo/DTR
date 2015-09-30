@@ -97,6 +97,11 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 			focus('focusMe');
 		}, 60000);
 	}
+	
+	$scope.refocus = function(){
+		focus('focusMe');
+	}
+	
 });
 
 App.directive('myEnter', function () {
