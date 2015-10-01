@@ -7,7 +7,7 @@ class AttendancesController extends AppController {
 	
 	function beforeFilter(){ 
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','employees','add'));	
+		$this->Auth->allow(array('index','employees','add','checking'));	
     } 
 
 	function index() {
@@ -125,5 +125,17 @@ class AttendancesController extends AppController {
 	
 	function dirPagination(){
 
+	}
+	
+	function checking(){
+		$response = $this->Attendance->find('all',array('conditions'=>array('Attendance.remarks'=>0)));
+		foreach ($response as $r){
+			$h = $this->RfidStudent->findBySourceRfid($r['Attendance']['rfid']);
+			$data = 
+			pr($h);
+			
+			
+		}exit; 
+		pr($response );exit;
 	}
 }
