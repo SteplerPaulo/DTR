@@ -127,5 +127,25 @@ class AttendancesController extends AppController {
 
 	}
 	
-
+	function checking(){
+		$attendance = $this->Attendance->find('all',array('conditions'=>array('Attendance.remarks'=>0)));
+		$i =0;
+		foreach ($attendance as $v){
+			$response =  $this->RfidStudent->findBySourceRfid($v['Attendance']['rfid']);
+			if(isset($response['RfidStudent'])){
+				$data[$i]['RFID201'] = $response['RfidStudent'];
+				$data[$i]['Attendance'] = $v['Attendance'];
+				$i++;
+			}
+		}
+		
+		//pr($data);exit;
+		echo json_encode($data);
+		exit;
+	}
+	
+	function report(){
+		
+		
+	}
 }
