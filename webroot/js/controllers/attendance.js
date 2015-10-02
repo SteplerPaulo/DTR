@@ -6,7 +6,7 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 		$http.get("/DTR/attendances/employees").success(function (data) {
 			var employees = [];
 			angular.forEach(data, function(o, i) {
-				employees[o.RfidStudent.source_rfid] = {
+				employees[(o.RfidStudent.source_rfid).toLowerCase()] = {
 					"empno":o.RfidStudent.employee_number,
 					"empname":o.RfidStudent.full_name,
 				}
@@ -29,6 +29,7 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 		$scope.isSaving = true;
 		$timeout( function(){
 			 $scope.isSaving = false;
+			 $scope.RFID = ($scope.RFID).toLowerCase();
 			 if(typeof ($scope.Employees[$scope.RFID]) != 'undefined'){
 				$scope.empno = $scope.Employees[$scope.RFID].empno;
 				$scope.empname = $scope.Employees[$scope.RFID].empname;

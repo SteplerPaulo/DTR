@@ -28,12 +28,12 @@ class AttendancesController extends AppController {
 			date_default_timezone_set("Asia/Singapore");
 			$this->data['Attendance']['date'] = date('Y-m-d');
 			
-			
 			$result = $this->Attendance->find('first',array(
 												'conditions'=>array(
 															'date'=>date('Y-m-d'),
 															'OR'=>array(
-																	array('employee_number'=>$this->data['Attendance']['employee_number']),
+																	array('employee_number'=>strtolower ($this->data['Attendance']['employee_number'])),
+																	array('employee_number'=>strtoupper ($this->data['Attendance']['employee_number'])),
 																	array('rfid'=>$this->data['Attendance']['rfid']),
 																)
 															),
