@@ -6,7 +6,10 @@
 				<div class="container"><div id="myclock"></div></div>
 			</div>
 			<div class="row">		
+				<!--
 				<h4><center><?php date_default_timezone_set("Asia/Singapore"); echo date("l F d, Y");  ?></center></h4>
+				-->
+				<h4><center><div id="timer"></div></center></h4>
 			</div>
 		</section>
 		<section>
@@ -79,5 +82,6 @@
 <?php echo $this->Html->script('jquery.thooClock',array('inline'=>false)); ?>
 <?php echo $this->Html->script('biz/clock',array('inline'=>false)); ?>
 <?php echo $this->Html->script('controllers/attendance',array('inline'=>false)); ?>
+<?php echo $this->Html->script('biz/updateDate',array('inline'=>false)); ?>
 
 <!--CLOCK REFENRENCE: http://www.jqueryscript.net/time-clock/Customizable-Analog-Alarm-Clock-with-jQuery-Canvas-thooClock.html-->
