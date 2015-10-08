@@ -7,7 +7,7 @@ class AttendancesController extends AppController {
 	
 	function beforeFilter(){ 
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','employees','add','checking','report'));	
+		$this->Auth->allow(array('index','employees','add','checking','report','datetime'));	
     } 
 
 	function index() {
@@ -147,5 +147,12 @@ class AttendancesController extends AppController {
 	function report(){
 		
 		
+	}
+	
+	function datetime(){
+		date_default_timezone_set("Asia/Singapore");
+		$msg = date('l F d, Y');
+		echo $msg;
+		exit;
 	}
 }
