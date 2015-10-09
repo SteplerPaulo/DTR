@@ -5,10 +5,7 @@
 			<div class="row">	
 				<div id="myclock"></div>
 			</div>
-			<div class="row">		
-				<!--
-				<h4><center><?php date_default_timezone_set("Asia/Singapore"); echo date("l F d, Y");  ?></center></h4>
-				-->
+			<div class="row">
 				<h4><center><div id="timer"></div></center></h4>
 			</div>
 		</section>
@@ -27,7 +24,7 @@
 			</div>
 		</section>
 	</div>
-	<div class="col-lg-9">	
+	<div class="col-lg-8 col-lg-offset-1">	
 		<div class="row-fluid">
 			<div class="col-lg-12">
 				<h1><span class="{{INFO}}"> {{ empname }}</span> <span class="label {{BADGE}}"><i class="fa {{ICON}}"></i> {{TYPE}}</span></h1>

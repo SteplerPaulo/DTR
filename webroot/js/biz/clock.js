@@ -5,10 +5,9 @@ $(window).resize(function(){
 
 $(document).ready(function(){
 	var audioElement = new Audio("");
-
 	//clock plugin constructor
 	$('#myclock').thooClock({
-		size:$(document).height()/2.5,
+		size:$(document).height()/2,
 		onAlarm:function(){
 			//all that happens onAlarm
 			$('#alarm1').show();
