@@ -24,7 +24,7 @@
 			</div>
 		</section>
 	</div>
-	<div class="col-lg-8 col-lg-offset-1">	
+	<div class="col-lg-9">	
 		<div class="row-fluid">
 			<div class="col-lg-12">
 				<h1><span class="{{INFO}}"> {{ empname }}</span> <span class="label {{BADGE}}"><i class="fa {{ICON}}"></i> {{TYPE}}</span></h1>
