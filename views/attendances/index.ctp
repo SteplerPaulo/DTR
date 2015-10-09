@@ -3,7 +3,7 @@
 	<div class="col-lg-3" >
 		<section>
 			<div class="row">	
-				<div class="container"><div id="myclock"></div></div>
+				<div id="myclock"></div>
 			</div>
 			<div class="row">		
 				<!--
