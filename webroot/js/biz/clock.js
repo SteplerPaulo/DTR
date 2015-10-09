@@ -7,7 +7,7 @@ $(document).ready(function(){
 	var audioElement = new Audio("");
 	//clock plugin constructor
 	$('#myclock').thooClock({
-		size:$(document).height()/3.2,
+		size:$(document).height()/3.5,
 		onAlarm:function(){
 			//all that happens onAlarm
 			$('#alarm1').show();
