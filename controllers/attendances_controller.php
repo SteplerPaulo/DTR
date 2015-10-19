@@ -128,7 +128,7 @@ class AttendancesController extends AppController {
 	}
 	
 	function checking(){
-		$attendance = $this->Attendance->find('all',array('conditions'=>array('Attendance.remarks'=>0)));
+		$attendance = $this->Attendance->find('all');//,array('conditions'=>array('Attendance.remarks'=>0)));
 		$i =0;
 		foreach ($attendance as $v){
 			$response =  $this->RfidStudent->findBySourceRfid($v['Attendance']['rfid']);
@@ -144,7 +144,7 @@ class AttendancesController extends AppController {
 		exit;
 	}
 	
-	function report(){
+	function data_not_found_entry(){
 		
 		
 	}
@@ -154,5 +154,29 @@ class AttendancesController extends AppController {
 		$msg = date('l F d, Y');
 		echo $msg;
 		exit;
+	}
+
+	function admin_report(){
+		
+		
+	}
+	
+	function doc_report(){
+		
+		$month = date('m');
+		$year = date('Y');
+		$empno = 'F-2015-1506';
+		$data =  $this->Attendance->per_employee($month,$empno);
+		$hdr['full_name'] = $data[0][0]['full_name'];
+		$hdr['employee_number'] = $data[0]['attendances']['employee_number'];
+		$hdr['month'] = $month;
+		$hdr['year'] = $year;
+		
+		//pr($data);exit;
+		$this->layout = 'report_default';
+		$this->set(compact('data','hdr'));
+		$this->layout='pdf';
+		$this->render();
+		
 	}
 }

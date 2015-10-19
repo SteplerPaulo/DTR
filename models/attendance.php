@@ -1,7 +1,33 @@
 <?php
 class Attendance extends AppModel {
 	var $name = 'Attendance';
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
+	
+	var $virtualFields = array(
+		'remark_string' =>"CASE Attendance.remarks
+										WHEN '0' THEN 'Data Not Found'
+										WHEN '1' THEN 'Ok'
+									END "
+	);
+	
+	
+	public function per_employee($month,$empno){
+		return $this->query( 
+			"SELECT 
+			 `attendances`.`employee_number`,
+			  CONCAT(last_name,',',first_name,' ',middle_name) AS full_name,
+			  `attendances`.`date`,
+			  timein,
+			  timeout,
+			  remarks
+			FROM
+			  attendances 
+			  INNER JOIN `gatekeeper_2015`.`rfid_students` 
+				ON (
+				  `rfid_students`.`employee_number` = `attendances`.`employee_number`
+				) 
+			WHERE `attendances`.`employee_number` = '$empno' AND MONTH(`date`)='$month'"
+		);
+	}
+		
 
 }
