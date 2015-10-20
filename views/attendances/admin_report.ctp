@@ -8,7 +8,7 @@
 				</div>
 			</div>
 			<table class="table table-bordered">
-				<caption><h3>Employees<a class="btn btn-primary btn-sm pull-right" disabled="disabled"><i class="fa fa-print" ></i> Print all</a></h3></caption>
+				<caption><h3>Employees<a class="btn btn-primary btn-sm pull-right" disabled="disabled"><i class="fa fa-print" ></i> All</a></h3></caption>
 				<br/>
 				<thead>
 					<tr>
@@ -46,12 +46,12 @@
 					<h4 class="modal-title"></h4>
 				</div>
 				<div class="modal-body">
-					Print report for the month of:
+					Generate report for the month of:
 					<input  type="month" id="Month" class="form-control" value="<?php echo date("Y-m")?>">
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary" id="PrintReport">Print</button>
+					<button type="button" class="btn btn-primary" id="GenerateReport">Generate</button>
 				</div>
 			</div>
 		</div>

@@ -26,7 +26,7 @@ App.controller('ReportController',function($scope,$rootScope,$http){
 $(document).ready(function(){
 	
 	
-	$('#PrintReport').click(function(){
+	$('#GenerateReport').click(function(){
 		var date = $('#Month').val();
 		var empno = $('#DateFilterModal .modal-title').attr('empno');
 		var empname = $('#DateFilterModal .modal-title').attr('empname');
