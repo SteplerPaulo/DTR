@@ -7,7 +7,7 @@ class AttendancesController extends AppController {
 	
 	function beforeFilter(){ 
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report'));	
+		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report'));	
     } 
 
 	function index() {
