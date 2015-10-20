@@ -36,8 +36,8 @@ class DocRerpot extends Formsheet{
 		$this->centerText(0,$y++,'DAILY TIME RECORD',$metrics['cols'],'b');
 		$this->DrawImage(8.525,0,0.6,0.6,'../webroot/img/school_logo.png');
 		$y++;
-		$this->leftText(0.3,$y++,'Name: '.$hdr['full_name'],'','');
-		$this->leftText(0.3,$y,'Employee No: '.$hdr['employee_number'],'','');
+		$this->leftText(0.3,$y++,'Name: '.$hdr['empname'],'','');
+		$this->leftText(0.3,$y,'Employee No: '.$hdr['empno'],'','');
 		$this->leftText(12,$y++,'Department:','','');
 		$this->leftText(0.3,$y,'Month: '. date("F", mktime($hdr['month'])),'','');
 		$this->leftText(12,$y++,'Year: '.$hdr['year'],'','');
@@ -105,6 +105,21 @@ class DocRerpot extends Formsheet{
 		$y = 1;
 		$this->GRID['font_size']=11;
 		$this->drawLine(2,'v');
+	}
+	
+	function nodata(){
+		$metrics = array(
+			'base_x'=> 0,
+			'base_y'=> 0,
+			'width'=> 8.5,
+			'height'=> 11,
+			'cols'=> 4,
+			'rows'=> 3,	
+		);	
+		$this->section($metrics);
+		$y = 1;
+		$this->GRID['font_size']=16;
+		$this->centerText(0,1,'NO DATA AVAILABLE',$metrics['cols'],'b');
 	}
 	
 }

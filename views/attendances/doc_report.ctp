@@ -2,21 +2,23 @@
 App::import('Vendor','report');
 
 
-//$array_chunk =array_chunk($products, 45);
-
 
 $pr= new DocRerpot();
-$pr->divider();
-
-$pr->hdr(0,$hdr,$data);
-$pr->table(0,$hdr,$data);
-
-$pr->hdr(4.25,$hdr,$data);
-$pr->table(4.25,$hdr,$data);
+if(!empty($data) && !empty($hdr)){
+	$pr->divider();
+	$pr->hdr(0,$hdr,$data);
+	$pr->table(0,$hdr,$data);
+	$pr->hdr(4.25,$hdr,$data);
+	$pr->table(4.25,$hdr,$data);
+}else{
+	
+	$pr->nodata();
+}
 
 $pr->output();
 
 
+//$array_chunk =array_chunk($products, 45);
 //foreach($array_chunk as $key => $products){
 	//$pr->hdr();
 	//$pr->details($products);	

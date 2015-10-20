@@ -161,27 +161,45 @@ class AttendancesController extends AppController {
 		
 	}
 	
-	function doc_report(){
-		$fields = get_class_vars('DATABASE_CONFIG');
-		$gatekeeper_db  = $fields['gatekeeper']['database'];
+	function doc_report($empno=null,$empname=null,$date=null){
+		//pr($empno);
+		//pr($empname);
+		//pr($date);exit;
+
+		if(!empty($empno) && !empty($empname) && !empty($date)){
+		
+			
+			
+			$fields = get_class_vars('DATABASE_CONFIG');
+			$gatekeeper_db  = $fields['gatekeeper']['database'];
 
 		
+			
+			$date = explode('-',$date);
+			
+			$year = $date[0];
+			$month = $date[1];
+			$empno = $empno;
+			$empname = $empname;
+			
+			
+			$data =  $this->Attendance->per_employee($month,$empno,$gatekeeper_db);
+			$hdr['empname'] = $empname;
+			$hdr['empno'] = $empno;
+			$hdr['month'] = $month;
+			$hdr['year'] = $year;
+			
+			$this->set(compact('data','hdr'));
+			$this->layout='pdf';
+			$this->render();
+		}else{
+			$data = array();
+			$hdr = array();
+			$this->set(compact('data','hdr'));
+			$this->layout='pdf';
+			$this->render();
+		}
 		
-		
-		$month = date('m');
-		$year = date('Y');
-		$empno = 'F-2015-1506';
-		$data =  $this->Attendance->per_employee($month,$empno,$gatekeeper_db);
-		$hdr['full_name'] = $data[0][0]['full_name'];
-		$hdr['employee_number'] = $data[0]['attendances']['employee_number'];
-		$hdr['month'] = $month;
-		$hdr['year'] = $year;
-		
-		//pr($data);exit;
-		$this->layout = 'report_default';
-		$this->set(compact('data','hdr'));
-		$this->layout='pdf';
-		$this->render();
 		
 	}
 }
