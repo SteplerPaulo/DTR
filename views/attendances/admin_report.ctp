@@ -8,7 +8,7 @@
 				</div>
 			</div>
 			<table class="table table-bordered">
-				<caption><h3>Employees<a class="btn btn-primary btn-sm pull-right"><i class="fa fa-print"></i> Print all</a></h3></caption>
+				<caption><h3>Employees<a class="btn btn-primary btn-sm pull-right" disabled="disabled"><i class="fa fa-print" ></i> Print all</a></h3></caption>
 				<br/>
 				<thead>
 					<tr>
