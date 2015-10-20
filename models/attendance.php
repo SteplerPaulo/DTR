@@ -9,8 +9,11 @@ class Attendance extends AppModel {
 									END "
 	);
 	
+
 	
-	public function per_employee($month,$empno){
+	public function per_employee($month,$empno,$gatekeeper_db){
+		
+		
 		return $this->query( 
 			"SELECT 
 			 `attendances`.`employee_number`,
@@ -21,7 +24,7 @@ class Attendance extends AppModel {
 			  remarks
 			FROM
 			  attendances 
-			  INNER JOIN `gatekeeper_2015`.`rfid_students` 
+			  INNER JOIN `$gatekeeper_db`.`rfid_students` 
 				ON (
 				  `rfid_students`.`employee_number` = `attendances`.`employee_number`
 				) 

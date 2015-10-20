@@ -162,11 +162,16 @@ class AttendancesController extends AppController {
 	}
 	
 	function doc_report(){
+		$fields = get_class_vars('DATABASE_CONFIG');
+		$gatekeeper_db  = $fields['gatekeeper']['database'];
+
+		
+		
 		
 		$month = date('m');
 		$year = date('Y');
 		$empno = 'F-2015-1506';
-		$data =  $this->Attendance->per_employee($month,$empno);
+		$data =  $this->Attendance->per_employee($month,$empno,$gatekeeper_db);
 		$hdr['full_name'] = $data[0][0]['full_name'];
 		$hdr['employee_number'] = $data[0]['attendances']['employee_number'];
 		$hdr['month'] = $month;
