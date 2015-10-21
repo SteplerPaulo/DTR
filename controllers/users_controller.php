@@ -461,4 +461,9 @@ class UsersController extends AppController {
 		foreach(Configure::listObjects('model') as $m){$models[$m]=$m;}	
 		$this->set(compact('users','models'));
 	}
+	
+	
+	function admin_login(){
+		$this->redirect(array('controller'=>'users', 'action'=>'login', 'admin'=>false));
+	}
 }
