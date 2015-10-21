@@ -172,23 +172,20 @@ class AttendancesController extends AppController {
 			
 			$fields = get_class_vars('DATABASE_CONFIG');
 			$gatekeeper_db  = $fields['gatekeeper']['database'];
-
-		
-			
 			$date = explode('-',$date);
 			
 			$year = $date[0];
 			$month = $date[1];
 			$empno = $empno;
 			$empname = $empname;
-			
-			
 			$data =  $this->Attendance->per_employee($month,$empno,$gatekeeper_db);
 			$hdr['empname'] = $empname;
 			$hdr['empno'] = $empno;
 			$hdr['month'] = $month;
 			$hdr['year'] = $year;
 			
+			
+			//pr($data);exit;
 			$this->set(compact('data','hdr'));
 			$this->layout='pdf';
 			$this->render();
@@ -200,6 +197,25 @@ class AttendancesController extends AppController {
 			$this->render();
 		}
 		
+		
+	}
+	
+	function schedules(){
+		
+		 $deliverytime = new DateTime('2014-10-08 06:00:00');
+		 $hour = $deliverytime->format('H');
+		 if ($hour < 12) {
+			pr("Morning");
+		 } else {
+			pr("Afternoon or evening");
+		 }
+		 exit;
+		
+		//df$time.of.day[df$time >= "00:00:00" & df$time <= "07:00:00"] <- "morning"
+		//df$time.of.day[df$time >= "07:00:00" & df$time <= "10:00:00"] <- "home2work"
+		//df$time.of.day[df$time >= "10:00:00" & df$time <= "16:00:00"] <- "mid_day"
+		//df$time.of.day[df$time >= "16:00:00" & df$time <= "19:00:00"] <- "work2home"
+		//df$time.of.day[df$time >= "19:00:00" & df$time <= "23:59:59"] <- "night"
 		
 	}
 }

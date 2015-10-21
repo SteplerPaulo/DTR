@@ -74,19 +74,37 @@ class DocRerpot extends Formsheet{
 		$this->centerText(16,1.7,'OUT',3,'');
 		$y=2.8;
 		$prev_date = $data[0]['attendances']['date'];
+		$timein_ctr = $timeout_ctr = 0;
 		foreach($data as $d){
-			$parts = explode('-', $d['attendances']['date']);
-			$curr_date  = $parts[2];
+			
+			//FILTER TIMEIN AM OR PM
+			if ($d['attendances']['timein'] < '13:00:00') {
+				$this->centerText(7,$y,$d['attendances']['timein'],3,'');
+				$timein_ctr++;
+			}else if($d['attendances']['timein'] > '13:00:00'){
+				$this->centerText(13,$y,$d['attendances']['timein'],3,'');
+				$timein_ctr++;
+			} 
+			//FILTER TIMEOUT AM OR PM
+			if ($d['attendances']['timeout'] < '13:00:00') {
+				$this->centerText(10,$y,$d['attendances']['timeout'],3,'');
+				$timeout_ctr++;
+			}
+			else if($d['attendances']['timeout'] > '13:00:00') {
+				$this->centerText(16,$y,$d['attendances']['timeout'],3,'');
+				$timeout_ctr++;
+			}
+			
+			
+			$curr_date = explode('-', $d['attendances']['date'])[2];
 			if($prev_date != $curr_date){
 				$this->centerText(0,$y,$curr_date,3,'');	
-				$this->centerText(3,$y,date("D", mktime($curr_date)),4,'');
-				$this->centerText(7,$y,$d['attendances']['timein'],3,'');
-				$this->centerText(10,$y,$d['attendances']['timeout'],3,'');
+				$date = new DateTime($d['attendances']['date']);
+				$this->centerText(3,$y,$date->format('D'),4,'');
 				$y++;
-			}else{
-				$y--;
-				$this->centerText(13,$y,$d['attendances']['timein'],3,'');
-				$this->centerText(16,$y,$d['attendances']['timeout'],3,'');
+				$timein_ctr = $timeout_ctr = 0;
+			}else if($timein_ctr > 0 ){
+				$y++;
 			}
 			$prev_date = $curr_date;
 		}
