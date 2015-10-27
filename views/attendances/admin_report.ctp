@@ -4,7 +4,7 @@
 			<div class="row-fluid">
 				<div class="col-lg-9">
 					<label for="search">Search</label>
-					<input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+					<input ng-model="q" id="search" class="form-control input-sm" placeholder="Filter text">
 				</div>
 			</div>
 			<table class="table table-bordered">
@@ -21,7 +21,10 @@
 					<tr pagination-id="Table" dir-paginate="d in data | filter:q | itemsPerPage: pageSize" current-page="currentPage">
 						<td class="text-center">{{d.RfidStudent.employee_number}}</td>
 						<td class="">{{d.RfidStudent.full_name}}</td>
-						<td class="text-center actions"><a ng-click="DateFilterModal(d.RfidStudent.full_name,d.RfidStudent.employee_number)" data-toggle="tooltip" title="Print"><i class="fa fa-print"></a></i></td>
+						<td class="text-center actions">
+							<a ng-click="AdjustButton(d.RfidStudent.full_name,d.RfidStudent.employee_number)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
+							<a ng-click="DateFilterModal(d.RfidStudent.full_name,d.RfidStudent.employee_number)" data-toggle="tooltip" title="Print"><i class="fa fa-print"></a></i>
+						</td>
 					</tr>
 				</tbody>
 				<tfoot>

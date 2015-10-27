@@ -3,11 +3,11 @@ class AttendancesController extends AppController {
 
 	var $name = 'Attendances';
 	var $helpers = array('Access');
-	var $uses = array('Attendance','RfidStudent','SchoolYear');
+	var $uses = array('Attendance','RfidStudent','SchoolYear','DeletedAttendance');
 	
 	function beforeFilter(){ 
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report'));	
+		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','update'));	
     } 
 
 	function index() {
@@ -162,14 +162,8 @@ class AttendancesController extends AppController {
 	}
 	
 	function doc_report($empno=null,$empname=null,$date=null){
-		//pr($empno);
-		//pr($empname);
-		//pr($date);exit;
 
 		if(!empty($empno) && !empty($empname) && !empty($date)){
-		
-			
-			
 			$fields = get_class_vars('DATABASE_CONFIG');
 			$gatekeeper_db  = $fields['gatekeeper']['database'];
 			$date = explode('-',$date);
@@ -178,7 +172,7 @@ class AttendancesController extends AppController {
 			$month = $date[1];
 			$empno = $empno;
 			$empname = $empname;
-			$data =  $this->Attendance->per_employee($month,$empno,$gatekeeper_db);
+			$data =  $this->Attendance->per_employee($year,$month,$empno,$gatekeeper_db);
 			$hdr['empname'] = $empname;
 			$hdr['empno'] = $empno;
 			$hdr['month'] = $month;
@@ -200,22 +194,55 @@ class AttendancesController extends AppController {
 		
 	}
 	
-	function schedules(){
+	function admin_adjust($empno=null,$empname=null,$date=null){
+		$this->layout='clean';
+		$this->set(compact('empname','empno','date'));
+	}
+	
+	function data($empno=null,$empname=null,$date=null){
+		$fields = get_class_vars('DATABASE_CONFIG');
+		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		$date = explode('-',$date);
 		
-		 $deliverytime = new DateTime('2014-10-08 06:00:00');
-		 $hour = $deliverytime->format('H');
-		 if ($hour < 12) {
-			pr("Morning");
-		 } else {
-			pr("Afternoon or evening");
-		 }
-		 exit;
+		$year = $date[0];
+		$month = $date[1];
+		$empno = $empno;
+		$empname = $empname;
+		$data =  $this->Attendance->per_employee($year,$month,$empno,$gatekeeper_db);
+		echo json_encode($data);
+		exit;
+	}
+	
+	function update(){
+		$fields = get_class_vars('DATABASE_CONFIG');
+		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		$date = explode('-',$this->data['attendances']['date']);
 		
-		//df$time.of.day[df$time >= "00:00:00" & df$time <= "07:00:00"] <- "morning"
-		//df$time.of.day[df$time >= "07:00:00" & df$time <= "10:00:00"] <- "home2work"
-		//df$time.of.day[df$time >= "10:00:00" & df$time <= "16:00:00"] <- "mid_day"
-		//df$time.of.day[df$time >= "16:00:00" & df$time <= "19:00:00"] <- "work2home"
-		//df$time.of.day[df$time >= "19:00:00" & df$time <= "23:59:59"] <- "night"
+		$year = $date[0];
+		$month = $date[1];
+		$empno = $this->data['attendances']['employee_number'];;
+		
+		//FIELDS DATA FOR EDITING 
+		$this->data['Attendance']['id'] = $this->data['attendances']['id'];
+		$this->data['Attendance']['timein'] = $this->data['attendances']['timein'];
+		$this->data['Attendance']['timeout'] = $this->data['attendances']['timeout'];
+		
+		if($this->Attendance->save($this->data['Attendance'])){
+			
+			$data =  $this->Attendance->per_employee($year,$month,$empno,$gatekeeper_db);
+			
+			//MOVE TO DELETED ATTENDANCE TABLE
+			//$this->data['DeletedAttendance']['employee_number'] =    $this->data['attendances']['employee_number'];
+			//$this->data['DeletedAttendance']['date'] =    $this->data['attendances']['date'];
+			//$this->data['DeletedAttendance']['timein'] =   $this->data['attendances']['timein'];
+			//$this->data['DeletedAttendance']['timeout'] =  $this->data['attendances']['timeout'];
+			//$this->data['DeletedAttendance']['timeout'] =    $this->data['attendances']['timeout'];
+			
+			//$this->DeletedAttendance->save($this->data['DeletedAttendance']);
+			
+		}
+		echo json_encode($data);
+		exit;
 		
 	}
 }

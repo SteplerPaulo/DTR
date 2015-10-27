@@ -7,7 +7,6 @@ App.controller('ReportController',function($scope,$rootScope,$http){
 		//GET ALL CATEGORIES
 		$http.get("/DTR/attendances/employees").success(function(response) {
 			$scope.data = response;
-			//console.log(response);
 			
 		});
 	}
@@ -20,11 +19,25 @@ App.controller('ReportController',function($scope,$rootScope,$http){
 		$('#DateFilterModal .modal-title').attr('empname',empname);
 	}
 	
+	$scope.AdjustButton = function(empname,empno){
+		var myDate = new Date();
+		var year = myDate.getFullYear();
+		var month = myDate.getMonth() + 1;
+		if(month <= 9) month = '0'+month;
+		var date = year +'-'+ month;
+	
+
+		var get = '/DTR/admin/attendances/adjust/'+empno+'/'+empname+'/'+date;
+
+		if(empno && empname && date) {
+			return $('iframe')[0].src=get;
+		}
+	}
+	
 
 });
 
 $(document).ready(function(){
-	
 	
 	$('#GenerateReport').click(function(){
 		var date = $('#Month').val();
@@ -32,7 +45,6 @@ $(document).ready(function(){
 		var empname = $('#DateFilterModal .modal-title').attr('empname');
 			
 		var get = '/DTR/attendances/doc_report/'+empno+'/'+empname+'/'+date;
-		console.log(get);
 		
 		if(empno && empname && date) {
 			$('#DateFilterModal').modal('hide');
