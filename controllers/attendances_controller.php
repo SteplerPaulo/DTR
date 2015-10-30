@@ -7,7 +7,7 @@ class AttendancesController extends AppController {
 	
 	function beforeFilter(){ 
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','update'));	
+		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','update','admin_copy'));	
     } 
 
 	function index() {
@@ -52,8 +52,13 @@ class AttendancesController extends AppController {
 				$type = 'IN';
 			}
 			
+			//BUILD ATTENDANCE COPY
+			foreach($this->data['Attendance'] as $k =>$d){
+				$this->data['AttendanceCopy'][$k] = $d; 
+			}
+			
 			$this->Attendance->create();		
-			if ($this->Attendance->saveAll($this->data['Attendance'])) {
+			if ($this->Attendance->saveAll($this->data['Attendance']) && $this->AttendanceCopy->saveAll($this->data['AttendanceCopy'])) {
 				$response['status'] = 1;
 				$response['type'] = $type;
 				$response['data'] = $this->Attendance->find('all',array(
@@ -235,5 +240,28 @@ class AttendancesController extends AppController {
 			die('Something went wrong. Pls contact your system administrator');
 			exit;
 		}
+	}
+
+	function admin_copy(){
+		$data  = $this->Attendance->find('all');
+		$i = 0;
+		foreach($data as $d){
+			$this->data[$i]['AttendanceCopy']['id'] = $d['Attendance']['id'];
+			$this->data[$i]['AttendanceCopy']['employee_number'] = $d['Attendance']['employee_number'];
+			$this->data[$i]['AttendanceCopy']['date'] = $d['Attendance']['date'];
+			$this->data[$i]['AttendanceCopy']['timein'] = $d['Attendance']['timein'];
+			$this->data[$i]['AttendanceCopy']['timeout'] = $d['Attendance']['timeout'];
+			$this->data[$i]['AttendanceCopy']['rfid'] = $d['Attendance']['rfid'];
+			$this->data[$i]['AttendanceCopy']['remarks'] = $d['Attendance']['remarks'];
+			$this->data[$i]['AttendanceCopy']['created'] = $d['Attendance']['created'];
+			$i++;
+		}
+		
+		if ($this->AttendanceCopy->saveAll($this->data)) {
+			echo 'Attendance succesfully copied';
+		}else{
+			echo 'Something went wrong.Pls truncate attendace_copies table and try again';
+		}
+		exit;
 	}
 }
