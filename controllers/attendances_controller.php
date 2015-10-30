@@ -3,7 +3,7 @@ class AttendancesController extends AppController {
 
 	var $name = 'Attendances';
 	var $helpers = array('Access');
-	var $uses = array('Attendance','RfidStudent','SchoolYear','DeletedAttendance');
+	var $uses = array('Attendance','RfidStudent','SchoolYear','AttendanceCopy');
 	
 	function beforeFilter(){ 
 		$this->Auth->userModel = 'User'; 
@@ -228,21 +228,12 @@ class AttendancesController extends AppController {
 		$this->data['Attendance']['timeout'] = $this->data['attendances']['timeout'];
 		
 		if($this->Attendance->save($this->data['Attendance'])){
-			
 			$data =  $this->Attendance->per_employee($year,$month,$empno,$gatekeeper_db);
-			
-			//MOVE TO DELETED ATTENDANCE TABLE
-			//$this->data['DeletedAttendance']['employee_number'] =    $this->data['attendances']['employee_number'];
-			//$this->data['DeletedAttendance']['date'] =    $this->data['attendances']['date'];
-			//$this->data['DeletedAttendance']['timein'] =   $this->data['attendances']['timein'];
-			//$this->data['DeletedAttendance']['timeout'] =  $this->data['attendances']['timeout'];
-			//$this->data['DeletedAttendance']['timeout'] =    $this->data['attendances']['timeout'];
-			
-			//$this->DeletedAttendance->save($this->data['DeletedAttendance']);
-			
+			echo json_encode($data);
+			exit;
+		}else{
+			die('Something went wrong. Pls contact your system administrator');
+			exit;
 		}
-		echo json_encode($data);
-		exit;
-		
 	}
 }
