@@ -22,33 +22,9 @@ App.controller('ReportController',function($scope,$rootScope,$http,$filter){
 	
 	//PRINT ICON EVENT HANDLER
 	$scope.DateFilterModal = function(fromDate,toDate,empname,empno){
-			
 		var get = '/DTR/attendances/doc_report/'+fromDate+'/'+toDate+'/'+empno+'/'+empname;
-		
 		if(empno && empname && fromDate && toDate) {
 			return $('iframe')[0].src=get;
 		}
 	}
-	
-	
-	
-
-});
-
-$(document).ready(function(){
-	/*
-	$('#GenerateReport').click(function(){
-		var date = $('#Month').val();
-		var empno = $('#DateFilterModal .modal-title').attr('empno');
-		var empname = $('#DateFilterModal .modal-title').attr('empname');
-			
-		var get = '/DTR/attendances/doc_report/'+empno+'/'+empname+'/'+date;
-		
-		if(empno && empname && date) {
-			$('#DateFilterModal').modal('hide');
-			return $('iframe')[0].src=get;
-		}
-		
-	})
-	*/
 });
