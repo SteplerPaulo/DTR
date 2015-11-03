@@ -13,8 +13,8 @@ class Attendance extends AppModel {
 	
 
 	
-	public function per_employee($year,$month,$empno,$gatekeeper_db){
-		
+	public function per_employee($from,$to,$empno,$gatekeeper_db){
+		//pr($from);exit;
 		
 		return $this->query( 
 			"SELECT 
@@ -33,7 +33,10 @@ class Attendance extends AppModel {
 				ON (
 				  `rfid_students`.`employee_number` = `attendances`.`employee_number`
 				) 
-			WHERE `attendances`.`employee_number` = '$empno' AND MONTH(`date`)='$month' AND YEAR(`date`)='$year'"
+			WHERE `attendances`.`employee_number` = '$empno'
+				 AND `date` >= '$from' 
+				 AND `date` <= '$to' 
+			"
 		);
 	}
 

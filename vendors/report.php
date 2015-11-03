@@ -39,8 +39,8 @@ class DocRerpot extends Formsheet{
 		$this->leftText(0.3,$y++,'Name: '.$hdr['empname'],'','');
 		$this->leftText(0.3,$y,'Employee No: '.$hdr['empno'],'','');
 		$this->leftText(12,$y++,'Department:','','');
-		$this->leftText(0.3,$y,'Month: '. date("F", mktime($hdr['month'])),'','');
-		$this->leftText(12,$y++,'Year: '.$hdr['year'],'','');
+		$this->leftText(0.3,$y,'From: '.date("M d, Y", strtotime($hdr['fromDate'])),'','');
+		$this->leftText(12,$y++,'To: '.date("M d, Y", strtotime($hdr['toDate'])),'','');
 	}
 	
 	function table($x=0,$hdr,$data){
@@ -89,16 +89,14 @@ class DocRerpot extends Formsheet{
 			if ($d['attendances']['timeout'] < '13:00:00') {
 				$this->centerText(10,$y,$d['attendances']['timeout'],3,'');
 				$timeout_ctr++;
-			}
-			else if($d['attendances']['timeout'] > '13:00:00') {
+			}else if($d['attendances']['timeout'] > '13:00:00') {
 				$this->centerText(16,$y,$d['attendances']['timeout'],3,'');
 				$timeout_ctr++;
 			}
 			
-			
 			$curr_date = explode('-', $d['attendances']['date'])[2];
 			if($prev_date != $curr_date){
-				$this->centerText(0,$y,$curr_date,3,'');	
+				$this->centerText(0,$y,date("M d", strtotime($d['attendances']['date'])),3,'');	
 				$date = new DateTime($d['attendances']['date']);
 				$this->centerText(3,$y,$date->format('D'),4,'');
 				$y++;

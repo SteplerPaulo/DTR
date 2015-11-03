@@ -12,7 +12,7 @@
 	</div><br/>
 	
 	<table class="table table-bordered col-lg-12" id="AdjustmetTable">
-		<caption><h3 empno="<?php echo $empno; ?>" date="<?php echo $date; ?>"><?php echo $empname; ?></h3></caption>
+		<caption><h3 empno="<?php echo $empno; ?>" fromdate="<?php echo $fromDate; ?>" todate="<?php echo $toDate; ?>"><?php echo $empname; ?></h3></caption>
 		<thead>
 			<tr>
 				<th class="text-center" rowspan="2">Date</th>
@@ -24,7 +24,7 @@
 		</thead>
 		<tbody>
 			<tr pagination-id="AdjustmetTable" dir-paginate="d in data | filter:q | itemsPerPage: pageSize" current-page="currentPage">
-				<td class="text-center">{{d.attendances.date |  date:"dd"}}</td>
+				<td class="text-center">{{d.attendances.date |  date:"MMM. dd"}}</td>
 				<td class="text-center">{{d.attendances.date |  date:"EEE"}}</td>
 				<td class="text-center" rowspan="1">
 					<div ng-hide="editingData[d.attendances.id]">{{d[0].formated_timein | date:"mediumTime"}}</div>
@@ -50,6 +50,4 @@
 		</tfoot>
 	</table>
 </div>
-
-<?php echo $this->Html->script('controllers/attendance_adjustment',array('inline'=>false));
- ?>
+<?php echo $this->Html->script('controllers/attendance_adjustment',array('inline'=>false));?>

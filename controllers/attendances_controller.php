@@ -166,25 +166,19 @@ class AttendancesController extends AppController {
 		
 	}
 	
-	function doc_report($empno=null,$empname=null,$date=null){
-
-		if(!empty($empno) && !empty($empname) && !empty($date)){
+	function doc_report($fromDate=null,$toDate=null,$empno=null,$empname=null){
+		if(!empty($fromDate) && !empty($toDate) && !empty($empno) && !empty($empname)){
 			$fields = get_class_vars('DATABASE_CONFIG');
 			$gatekeeper_db  = $fields['gatekeeper']['database'];
-			$date = explode('-',$date);
 			
-			$year = $date[0];
-			$month = $date[1];
 			$empno = $empno;
 			$empname = $empname;
-			$data =  $this->Attendance->per_employee($year,$month,$empno,$gatekeeper_db);
+			$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
 			$hdr['empname'] = $empname;
 			$hdr['empno'] = $empno;
-			$hdr['month'] = $month;
-			$hdr['year'] = $year;
+			$hdr['fromDate'] = $fromDate;
+			$hdr['toDate'] = $toDate;
 			
-			
-			//pr($data);exit;
 			$this->set(compact('data','hdr'));
 			$this->layout='pdf';
 			$this->render();
@@ -195,45 +189,34 @@ class AttendancesController extends AppController {
 			$this->layout='pdf';
 			$this->render();
 		}
-		
-		
 	}
 	
-	function admin_adjust($empno=null,$empname=null,$date=null){
+	function admin_adjust($fromDate=null,$toDate=null,$empno=null,$empname=null){
 		$this->layout='clean';
-		$this->set(compact('empname','empno','date'));
+		$this->set(compact('fromDate','toDate','empname','empno'));
 	}
 	
-	function data($empno=null,$empname=null,$date=null){
+	function data($fromDate=null,$toDate=null,$empno=null,$empname=null){
 		$fields = get_class_vars('DATABASE_CONFIG');
 		$gatekeeper_db  = $fields['gatekeeper']['database'];
-		$date = explode('-',$date);
-		
-		$year = $date[0];
-		$month = $date[1];
-		$empno = $empno;
-		$empname = $empname;
-		$data =  $this->Attendance->per_employee($year,$month,$empno,$gatekeeper_db);
+
+		$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
 		echo json_encode($data);
 		exit;
 	}
 	
-	function update(){
+	function update($fromDate=null,$toDate=null){
 		$fields = get_class_vars('DATABASE_CONFIG');
 		$gatekeeper_db  = $fields['gatekeeper']['database'];
-		$date = explode('-',$this->data['attendances']['date']);
 		
-		$year = $date[0];
-		$month = $date[1];
-		$empno = $this->data['attendances']['employee_number'];;
-		
+		$empno = $this->data['attendances']['employee_number'];
 		//FIELDS DATA FOR EDITING 
 		$this->data['Attendance']['id'] = $this->data['attendances']['id'];
 		$this->data['Attendance']['timein'] = $this->data['attendances']['timein'];
 		$this->data['Attendance']['timeout'] = $this->data['attendances']['timeout'];
 		
 		if($this->Attendance->save($this->data['Attendance'])){
-			$data =  $this->Attendance->per_employee($year,$month,$empno,$gatekeeper_db);
+			$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
 			echo json_encode($data);
 			exit;
 		}else{
