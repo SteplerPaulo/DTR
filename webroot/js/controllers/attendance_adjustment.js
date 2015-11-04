@@ -27,7 +27,7 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
     $scope.update = function(data){
 		$http({
 			method: 'POST',
-			url: '/DTR/attendances/update/'+$scope.fromDate+'/'+$scope.toDate,
+			url: '/DTR/admin/attendances/update/'+$scope.fromDate+'/'+$scope.toDate,
 			data: $.param({data:data}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).then(function(response) {
@@ -38,7 +38,53 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
 			});
 		});
     };
+	
+	//DELETE BUTTON EVENT HANDLER
+	$scope.Delete = function(data){		
+		$http({
+			method: 'POST',
+			url: '/DTR/admin/attendances/delete/'+$scope.fromDate+'/'+$scope.toDate,
+			data: $.param({data:data}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).then(function(response) {
+			$scope.data = response.data;
+			$scope.editingData = [];
+			$.each($scope.data,function(i,o){
+				 $scope.editingData[$scope.data[i].attendances.id] = false;
+			});
+		});
+    };
+	
+
+	
+	
+	//POST BUTTON EVENT HANDLER
+	/*$scope.Post = function(data){		
+		$scope.editingData[data.attendances.id] = true;
+    };
+	*/
 });
+
+
+
+App.directive('ngConfirmClick', [
+	function(){
+		return {
+			link: function (scope, element, attr) {
+				var msg = attr.ngConfirmClick || "Are you sure?";
+				var clickAction = attr.confirmedClick;
+				element.bind('click',function (event) {
+					if ( window.confirm(msg) ) {
+						scope.$eval(clickAction)
+					}
+				});
+			}
+		};
+}])
 
 //REFERNCE FOR UPDATING TABLE DATA
 //http://plnkr.co/edit/Z0zNB1Dm04T4OnaouJYx?p=preview
+
+
+//DIALOG CONFIRMATION REFERENCE SITE
+//http://plnkr.co/edit/YWr6o2?p=preview

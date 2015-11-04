@@ -37,7 +37,7 @@
 				<td class="text-center">
 					<a data-toggle="tooltip" title="Modify" ng-hide="editingData[d.attendances.id]" ng-click="modify(d)"><i class="fa fa-edit"></i></a>
 					<a data-toggle="tooltip" title="Update" ng-show="editingData[d.attendances.id]" ng-click="update(d)"><i class="fa fa-save"></i></a>&nbsp;
-					<!--<a data-toggle="tooltip" title="Delete" ng-hide="viewField"><i disabled="disabled" class="fa fa-trash"></i></a>-->
+					<a data-toggle="tooltip" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
 				</td>
 			</tr>
 		</tbody>
@@ -49,5 +49,12 @@
 			</tr>
 		</tfoot>
 	</table>
+	<!--
+	<div class="row-fluid">
+		<div class="col-lg-12 pull-right">
+			<button class="btn btn-primary btn-sm" ng-click="Post()">Post</button>
+		</div>
+	</div>
+	-->
 </div>
 <?php echo $this->Html->script('controllers/attendance_adjustment',array('inline'=>false));?>

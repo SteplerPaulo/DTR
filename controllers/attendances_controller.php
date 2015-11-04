@@ -7,7 +7,7 @@ class AttendancesController extends AppController {
 	
 	function beforeFilter(){ 
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','update','admin_copy'));	
+		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy'));	
     } 
 
 	function index() {
@@ -205,7 +205,7 @@ class AttendancesController extends AppController {
 		exit;
 	}
 	
-	function update($fromDate=null,$toDate=null){
+	function admin_update($fromDate=null,$toDate=null){
 		$fields = get_class_vars('DATABASE_CONFIG');
 		$gatekeeper_db  = $fields['gatekeeper']['database'];
 		
@@ -221,6 +221,18 @@ class AttendancesController extends AppController {
 			exit;
 		}else{
 			die('Something went wrong. Pls contact your system administrator');
+			exit;
+		}
+	}
+	
+	function admin_delete($fromDate=null,$toDate=null){
+		$fields = get_class_vars('DATABASE_CONFIG');
+		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		$empno = $this->data['attendances']['employee_number'];
+		
+		if ($this->Attendance->delete($this->data['attendances']['id'])) {
+			$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
+			echo json_encode($data);
 			exit;
 		}
 	}
