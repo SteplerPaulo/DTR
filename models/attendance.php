@@ -6,6 +6,7 @@ class Attendance extends AppModel {
 		'remark_string' =>"CASE Attendance.remarks
 										WHEN '0' THEN 'Data Not Found'
 										WHEN '1' THEN 'Ok'
+										WHEN '2' THEN 'Admin Entry'
 									END ",
 		'formated_timein' =>"DATE_FORMAT(timein, '%h:%i:%s %p')",
 		'formated_timeout' =>"DATE_FORMAT(timeout, '%h:%i:%s %p')",

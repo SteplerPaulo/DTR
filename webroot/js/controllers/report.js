@@ -29,5 +29,3 @@ App.controller('ReportController',function($scope,$rootScope,$http,$filter){
 	}
 });
 
-
-

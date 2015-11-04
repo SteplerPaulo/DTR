@@ -18,7 +18,12 @@
 				</div>
 			</div>
 			<table class="table table-bordered">
-				<caption><h3>Employees<a class="btn btn-primary btn-sm pull-right" disabled="disabled"><i class="fa fa-print" ></i> All</a></h3></caption>	
+				<caption style="padding-bottom: 10px;">
+					<h3>
+						<span class="pull-left">Employees</span>
+						<a class="btn btn-primary pull-right" disabled="disabled"><i class="fa fa-print" > All</i></a>
+					</h3>
+				</caption>	
 				<thead>
 					<tr>
 						<th class="text-center">Employee No.</th>
@@ -31,7 +36,7 @@
 						<td class="text-center">{{d.RfidStudent.employee_number}}</td>
 						<td class="">{{d.RfidStudent.full_name}}</td>
 						<td class="text-center actions">
-							<a ng-click="AdjustButton(fromDate,toDate,d.RfidStudent.full_name,d.RfidStudent.employee_number)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
+							<a empno_adjust="{{d.RfidStudent.employee_number}}" ng-click="AdjustButton(fromDate,toDate,d.RfidStudent.full_name,d.RfidStudent.employee_number)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
 							<a ng-click="DateFilterModal(fromDate,toDate,d.RfidStudent.full_name,d.RfidStudent.employee_number)" data-toggle="tooltip" title="Print"><i class="fa fa-print"></a></i>
 						</td>
 					</tr>

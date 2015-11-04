@@ -1,5 +1,5 @@
 App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http){
-	
+
 	$scope.initializeController = function(){
 		$scope.currentPage = 1; 
 		$scope.pageSize = 5;
@@ -8,9 +8,11 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
 		$scope.fromDate = $('#AdjustmetTable caption h3').attr('fromdate');
 		$scope.toDate = $('#AdjustmetTable caption h3').attr('todate');
 		$scope.empno = $('#AdjustmetTable caption h3').attr('empno');
-		$scope.empname =  $('#AdjustmetTable caption h3').text();
+		$scope.empname =  $('#AdjustmetTable caption h3 #EmployeeName').text();
 		$http.get('/DTR/attendances/data/'+$scope.fromDate+'/'+$scope.toDate+'/'+$scope.empno+'/'+$scope.empname).success(function(response) {
 			$scope.data = response;
+			
+			console.log($scope.data);
 			$scope.editingData = [];
 			$.each($scope.data,function(i,o){
 				$scope.editingData[$scope.data[i].attendances.id] = false;
@@ -23,7 +25,7 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
 		$scope.editingData[data.attendances.id] = true;
     };
 
-	//SAVE BUTTON EVENT HANDLER
+	//UPDATE BUTTON EVENT HANDLER
     $scope.update = function(data){
 		$http({
 			method: 'POST',
@@ -55,15 +57,51 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
 		});
     };
 	
+	//ADD NEW ENTRY EVENT HANDLER
+	$scope.AddNewEntry = function(data){		
+		$('#AddNewEntryModal').modal();
+		$('#AddNewEntryModal .modal-title').attr('empno',$scope.empno);
+		$('#AddNewEntryModal .modal-title').text($scope.empname);
+		$('#NewEntryDate').attr('min',$scope.fromDate);
+		$('#NewEntryDate').attr('max',$scope.toDate);
+		
+		$('#SaveNewEntry').click(function(){
+			var from = $('#NewEntryDate').attr('min');
+			var to = $('#NewEntryDate').attr('max');
+			var empno = $('#AddNewEntryModal .modal-title').attr('empno');
+			var date = $('#NewEntryDate').val();
+			var timein = $('#NewEntryTimeIn').val();
+			var timeout = $('#NewEntryTimeOut').val();
+			
+		
+			$.ajax({
+				url: '/DTR/admin/attendances/add/'+from+'/'+to,
+				dataType:'json',
+				data:{'data':{'Attendance':{'employee_number':empno,'date':date,'timein':timein,'timeout':timeout}}},
+				type:'post',
+			}).done(function( response ) {
+				$rootScope.$broadcast('newEntry',response);
+			});	
+		});
+		
+		
+    }
+	
+	//New Entry
+	$scope.$on('newEntry',function(evt,args){
+		
+		$scope.data = args;
+		console.log($scope.data);
+		
+		$scope.editingData = [];
+		$.each($scope.data,function(i,o){
+			 $scope.editingData[$scope.data[i].attendances.id] = false;
+		});
+	});
+	
 
-	
-	
-	//POST BUTTON EVENT HANDLER
-	/*$scope.Post = function(data){		
-		$scope.editingData[data.attendances.id] = true;
-    };
-	*/
 });
+
 
 
 
@@ -80,11 +118,9 @@ App.directive('ngConfirmClick', [
 				});
 			}
 		};
-}])
+}]);
 
 //REFERNCE FOR UPDATING TABLE DATA
 //http://plnkr.co/edit/Z0zNB1Dm04T4OnaouJYx?p=preview
-
-
 //DIALOG CONFIRMATION REFERENCE SITE
 //http://plnkr.co/edit/YWr6o2?p=preview

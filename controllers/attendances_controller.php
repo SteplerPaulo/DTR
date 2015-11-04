@@ -7,7 +7,7 @@ class AttendancesController extends AppController {
 	
 	function beforeFilter(){ 
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy'));	
+		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy','admin_add','modal'));	
     } 
 
 	function index() {
@@ -236,6 +236,22 @@ class AttendancesController extends AppController {
 			exit;
 		}
 	}
+	
+	function admin_add($fromDate=null,$toDate=null){
+		$fields = get_class_vars('DATABASE_CONFIG');
+		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		$empno = $this->data['Attendance']['employee_number'];
+		$this->data['Attendance']['remarks'] = 2; //REMARK AS ADMIN FORCE ENTRY
+
+		if($this->Attendance->save($this->data['Attendance'])){
+			$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
+			echo json_encode($data);
+			exit;
+		}else{
+			die('Something went wrong. Pls contact your system administrator');
+			exit;
+		}
+	}
 
 	function admin_copy(){
 		$data  = $this->Attendance->find('all');
@@ -258,5 +274,10 @@ class AttendancesController extends AppController {
 			echo 'Something went wrong.Pls truncate attendace_copies table and try again';
 		}
 		exit;
+	}
+	
+	function modal(){
+		
+		
 	}
 }

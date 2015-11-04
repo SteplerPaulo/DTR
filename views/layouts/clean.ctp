@@ -67,6 +67,7 @@
 		echo $this->Html->script(array('biz/app'));
 		echo $this->Html->script(array('test/data'));
 		echo $this->Html->script(array('angularUtils/directives/dirPagination'));
+		echo $this->Html->script(array('angularUtils/directives/ui-bootstrap-tpls-0.14.3.min'));
 		//echo $this->Html->script(array('template/plugins/dataTables/jquery.dataTables'));
 		//echo $this->Html->script(array('template/plugins/dataTables/dataTables.bootstrap'));
 	?> 
