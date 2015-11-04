@@ -64,60 +64,69 @@
 <body id="">
 	<div ng-app="App">
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-		<div class=" col-md-3 col-sm-5 col-xs-8">
-		<!--<div class="navmenu navmenu-inverse navmenu-fixed-left col-md-3 col-sm-5 col-xs-8">-->
-			<!--<a class="navmenu-brand" href="#">Menu</a>
-			 <ul class="nav navmenu-nav side-nav">
-			   <li>
-					<?php /* echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-home fa-fw')).' '.
-								$this->Html->tag('span', 'Home'),
-								array('controller'=>'pages','action'=>'/'),
-								array('escape' => false)
-								);  ?>
-				</li>
-				<li>
-					<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Daily Time Record',
-								array('controller'=>'attendances','action'=>'/'),
-								array('escape'=>false )
-							);?>
-				</li>
-				<?php if($this->Access->check('User','create','read','update','delete')): ?><li>
-					<?php  echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-gears fa-fw')).' '.
-									$this->Html->tag('span', 'Access Control', array('class' => 'module-label')),
-									array('controller'=>'pages','plugin'=>null,'action'=>'access_control'), array('escape' => false)
-									);  ?>	
-				</li>
-				<?php endif; */ ?>
-				<li>
-					<a href="javascript:void(0)" data-toggle="collapse" data-target="#demo"><i class="fa fa-archive fa-fw "></i> UI Elements <i class="fa fa-fw fa-caret-down"></i></a>
-					<ul id="demo" class="collapse">
-						<li>
-							<a href="forms">Forms</a>
-						</li>
-						<li>
-							<a href="panels-wells">Panels and Wells</a>
-						</li>
-						<li>
-							<a href="buttons">Buttons</a>
-						</li>
-						<li>
-							<a href="notifications">Notifications</a>
-						</li>
-						<li>
-							<a href="typography">Typography</a>
-						</li>
-						<li>
-							<a href="grid">Grid</a>
-						</li>
-						<li>
-							<a href="http://fortawesome.github.io/Font-Awesome/icons/"><i class="fa fa-flag fw"></i> Font Awesome</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="theme-color"><i class="fa fa-paint-brush"></i> Theme Color</a>
-				</li>
-			</ul>-->
+		<!--<div class=" col-md-3 col-sm-5 col-xs-8">-->
+		<?php
+			$localIP = getHostByName(getHostName()); 
+			$myclass='';
+			if($localIP=='192.168.0.14'||$localIP=='192.168.0.13'){
+				$myclass="hidden";
+			}
+		?>
+		<div id="eto" class="<?php echo $myclass?>">
+			<div class="navmenu navmenu-inverse navmenu-fixed-left col-md-3 col-sm-5 col-xs-8">
+				<a class="navmenu-brand" href="#">Menu</a>
+				 <ul class="nav navmenu-nav side-nav">
+				   <li>
+						<?php  echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-home fa-fw')).' '.
+									$this->Html->tag('span', 'Home'),
+									array('controller'=>'pages','action'=>'/'),
+									array('escape' => false)
+									);  ?>
+					</li>
+					<li>
+						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Daily Time Record',
+									array('controller'=>'attendances','action'=>'/'),
+									array('escape'=>false )
+								);?>
+					</li>
+					<?php if($this->Access->check('User','create','read','update','delete')): ?><li>
+						<?php  echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-gears fa-fw')).' '.
+										$this->Html->tag('span', 'Access Control', array('class' => 'module-label')),
+										array('controller'=>'pages','plugin'=>null,'action'=>'access_control'), array('escape' => false)
+										);  ?>	
+					</li>
+					<?php endif;  ?>
+					<li>
+						<a href="javascript:void(0)" data-toggle="collapse" data-target="#demo"><i class="fa fa-archive fa-fw "></i> UI Elements <i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="demo" class="collapse">
+							<li>
+								<a href="forms">Forms</a>
+							</li>
+							<li>
+								<a href="panels-wells">Panels and Wells</a>
+							</li>
+							<li>
+								<a href="buttons">Buttons</a>
+							</li>
+							<li>
+								<a href="notifications">Notifications</a>
+							</li>
+							<li>
+								<a href="typography">Typography</a>
+							</li>
+							<li>
+								<a href="grid">Grid</a>
+							</li>
+							<li>
+								<a href="http://fortawesome.github.io/Font-Awesome/icons/"><i class="fa fa-flag fw"></i> Font Awesome</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="theme-color"><i class="fa fa-paint-brush"></i> Theme Color</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 		<div class="canvas">
 			<!-- Navigation -->
@@ -139,7 +148,7 @@
 					</li>
 					-->
 					<li  >
-						<a>JUAN SUMULONG MEMORIAL JUNIOR COLLEGE</a>
+						<a>JUAN SUMULONG MEMORIAL JUNIOR COLLEGE </a>
 					</li>
 					<li class="dropdown" ng-hide="true">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <b class="caret"></b></a>
