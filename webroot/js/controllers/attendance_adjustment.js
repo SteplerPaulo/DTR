@@ -82,7 +82,6 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
 		var timeout = $('#NewEntryTimeOut').val();
 		
 		if(date.length && timein.length && timeout.length){
-			console.log('wew');
 			$.ajax({
 				url: '/DTR/admin/attendances/add/'+from+'/'+to,
 				dataType:'json',
@@ -115,6 +114,21 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
 		});
 	});
 
+	$scope.Post = function(data){
+		console.log(data);
+		$http({
+			method: 'POST',
+			url: '/DTR/admin/attendances/posting/'+$scope.fromDate+'/'+$scope.toDate,
+			data: $.param({data:data}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).then(function(response) {
+			$scope.data = response.data;
+			$scope.editingData = [];
+			$.each($scope.data,function(i,o){
+				 $scope.editingData[$scope.data[i].attendances.id] = false;
+			});
+		});
+	}
 });
 
 App.directive('ngConfirmClick', [

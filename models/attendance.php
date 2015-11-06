@@ -26,6 +26,7 @@ class Attendance extends AppModel {
 				timein,
 				timeout,
 				remarks,
+				is_posted,
 				DATE_FORMAT(timein, '%h:%i:%s %p') AS formated_timein,
 				DATE_FORMAT(timeout, '%h:%i:%s %p') AS formated_timeout
 			FROM

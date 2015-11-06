@@ -7,7 +7,7 @@ class AttendancesController extends AppController {
 	
 	function beforeFilter(){ 
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy','admin_add','modal'));	
+		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy','admin_add','modal','admin_posting'));	
     } 
 
 	function index() {
@@ -280,5 +280,27 @@ class AttendancesController extends AppController {
 	function modal(){
 		
 		
+	}
+	
+	function admin_posting($fromDate=null,$toDate=null){
+		$fields = get_class_vars('DATABASE_CONFIG');
+		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		$empno = $this->data[0]['attendances']['employee_number'];
+		
+		//FIELDS DATA FOR EDITING 
+		foreach($this->data as $k =>$d){
+			$this->data[$k]['Attendance']['id'] = $d['attendances']['id'];
+			$this->data[$k]['Attendance']['is_posted'] = 'true';
+		}
+		
+		
+		if($this->Attendance->saveAll($this->data)){
+			$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
+			echo json_encode($data);
+			exit;
+		}else{
+			die('Something went wrong. Pls contact your system administrator');
+			exit;
+		}
 	}
 }

@@ -27,6 +27,7 @@
 						<th class="text-center" rowspan="2">Day</th>
 						<th class="text-center" rowspan="2">In</th>
 						<th class="text-center" rowspan="2">Out</th>
+						<th class="text-center" rowspan="2">Is Posted</th>
 						<th class="text-center" rowspan="2">Actions</th>
 					</tr>
 				</thead>
@@ -42,6 +43,7 @@
 							<div ng-hide="editingData[d.attendances.id]">{{d[0].formated_timeout}}</div>
 							<div ng-show="editingData[d.attendances.id]"><input type="time" step="any" class="form-control input-sm" ng-model="d.attendances.timeout" /></div>
 						</td>
+						<td class="text-center">{{d.attendances.is_posted | uppercase}}</td>
 						<td class="text-center">
 							<a data-toggle="tooltip" title="Modify" ng-hide="editingData[d.attendances.id]" ng-click="modify(d)"><i class="fa fa-edit"></i></a>
 							<a data-toggle="tooltip" title="Update" ng-show="editingData[d.attendances.id]" ng-click="update(d)"><i class="fa fa-save"></i></a>&nbsp;
@@ -60,14 +62,11 @@
 		
 		</div>
 	</div>
-	<!--
 	<div class="row-fluid">
 		<div class="col-lg-12 pull-right">
-			<button class="btn btn-primary btn-sm" ng-click="Post()">Post</button>
+			<button class="btn btn-warning btn-md" ng-click="Post(data)"><i class="fa fa-check-square-o"> Post</i> </button>
 		</div>
-	</div>
-	-->
-	
+	</div><br/><br/>
 	
 	<!-- Modal -->
 	<div class="modal fade" id="AddNewEntryModal" tabindex="-1" role="dialog">

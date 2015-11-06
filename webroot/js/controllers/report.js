@@ -2,7 +2,7 @@ App.controller('ReportController',function($scope,$rootScope,$http,$filter){
 	
 	$scope.initializeController = function(){
 		$scope.currentPage = 1; 
-		$scope.pageSize = 5;
+		$scope.pageSize = 7;
 		$scope.fromDate =  $filter("date")(Date.now(), 'yyyy-MM-dd');
 		$scope.toDate = $filter("date")(Date.now(), 'yyyy-MM-dd');
 		
