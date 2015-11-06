@@ -238,6 +238,7 @@ class AttendancesController extends AppController {
 	}
 	
 	function admin_add($fromDate=null,$toDate=null){
+		
 		$fields = get_class_vars('DATABASE_CONFIG');
 		$gatekeeper_db  = $fields['gatekeeper']['database'];
 		$empno = $this->data['Attendance']['employee_number'];

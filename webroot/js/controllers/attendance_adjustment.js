@@ -2,7 +2,7 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
 
 	$scope.initializeController = function(){
 		$scope.currentPage = 1; 
-		$scope.pageSize = 5;
+		$scope.pageSize = 15;
 		
 		//TRANSLATE DATA FROM MAIN PAGE
 		$scope.fromDate = $('#AdjustmetTable caption h3').attr('fromdate');
@@ -65,45 +65,57 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
 		$('#NewEntryDate').attr('min',$scope.fromDate);
 		$('#NewEntryDate').attr('max',$scope.toDate);
 		
-		$('#SaveNewEntry').click(function(){
-			var from = $('#NewEntryDate').attr('min');
-			var to = $('#NewEntryDate').attr('max');
-			var empno = $('#AddNewEntryModal .modal-title').attr('empno');
-			var date = $('#NewEntryDate').val();
-			var timein = $('#NewEntryTimeIn').val();
-			var timeout = $('#NewEntryTimeOut').val();
-			
+		//SET MODAL TO DEFAULT MODE
+		$('#Notification').html('');
+		$('#SaveNewEntry').removeAttr('disabled');
+		$('#NewEntryDate').val('').parents('.form-group:first').removeClass('has-error');
+		$('#NewEntryTimeIn').val('').parents('.form-group:first').removeClass('has-error');
+		$('#NewEntryTimeOut').val('').parents('.form-group:first').removeClass('has-error');
+    }
+	
+	$('#SaveNewEntry').click(function(){
+		var from = $('#NewEntryDate').attr('min');
+		var to = $('#NewEntryDate').attr('max');
+		var empno = $('#AddNewEntryModal .modal-title').attr('empno');
+		var date = $('#NewEntryDate').val();
+		var timein = $('#NewEntryTimeIn').val();
+		var timeout = $('#NewEntryTimeOut').val();
 		
+		if(date.length && timein.length && timeout.length){
+			console.log('wew');
 			$.ajax({
 				url: '/DTR/admin/attendances/add/'+from+'/'+to,
 				dataType:'json',
 				data:{'data':{'Attendance':{'employee_number':empno,'date':date,'timein':timein,'timeout':timeout}}},
 				type:'post',
 			}).done(function( response ) {
-				$rootScope.$broadcast('newEntry',response);
-			});	
-		});
-		
-		
-    }
+				$rootScope.$broadcast('RefreshAttendance',response);
+			});		
+		}else{
+			//VALIDATE MODAL INPUTS
+			if(!date.length) $('#NewEntryDate').parents('.form-group:first').addClass('has-error');
+			if(!timein.length) $('#NewEntryTimeIn').parents('.form-group:first').addClass('has-error');
+			if(!timeout.length) $('#NewEntryTimeOut').parents('.form-group:first').addClass('has-error');
+			$('#SaveNewEntry').attr('disabled','disabled');
+		}
+	});
 	
-	//New Entry
-	$scope.$on('newEntry',function(evt,args){
-		
+	//VALIDATE MODAL INPUTS
+	$('#NewEntryDate,#NewEntryTimeIn,#NewEntryTimeOut').blur(function(){
+		$(this).parents('.form-group:first').removeClass('has-error');
+		$('#SaveNewEntry').removeAttr('disabled');
+	});
+	
+	//REFRESH ATTENDANCE TABLE
+	$scope.$on('RefreshAttendance',function(evt,args){
 		$scope.data = args;
-		console.log($scope.data);
-		
 		$scope.editingData = [];
 		$.each($scope.data,function(i,o){
 			 $scope.editingData[$scope.data[i].attendances.id] = false;
 		});
 	});
-	
 
 });
-
-
-
 
 App.directive('ngConfirmClick', [
 	function(){

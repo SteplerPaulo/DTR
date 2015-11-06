@@ -12,13 +12,15 @@
 	<div class="row-fluid">
 		<div class="col-lg-12">
 			<table class="table table-bordered" id="AdjustmetTable">
-				<caption style="padding-bottom: 10px;">
+				<caption style="padding-bottom:10px;">
 					<h3 empno="<?php echo $empno; ?>" fromdate="<?php echo $fromDate; ?>" todate="<?php echo $toDate; ?>">
-						<span class="pull-left" id="EmployeeName"><?php echo $empname; ?></span>
-						<a class="btn btn-primary pull-right" ng-click="AddNewEntry()"><i class="fa fa-plus-circle"> Add New Entry</i></a>
+						<span class="pull-left" id="EmployeeName"><?php echo $empname; ?></span>				
+						<div class="btn-group pull-right" role="group"> 
+							<a class="btn btn-primary" ng-click="AddNewEntry()" data-toggle="tooltip" title="Click refresh button after saving new entry"><i class="fa fa-plus-circle"> Add New Entry</i></a>
+							<a class="btn btn-default" ng-click="RefreshAttendance"><i class="fa fa-refresh"> </i></a>			
+						</div>
 					</h3><br/>
 				</caption>
-				
 				<thead>
 					<tr>
 						<th class="text-center" rowspan="2">Date</th>
@@ -85,23 +87,28 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-4 col-md-4 col-xs-4">
-							<label>Date</label>
-							<input id="NewEntryDate" type="date" min="2013-10-01" max="" class="form-control input-sm"></input>
+							<div class="form-group">
+								<label class="control-label">Date</label>
+								<input id="NewEntryDate" type="date" min="2013-10-01" max="" class="form-control input-sm" required="required"></input>
+							</div>
 						</div>
 						<div class="col-lg-4 col-md-4 col-xs-4">
-							<label>Time In</label>
-							<input id="NewEntryTimeIn" type="time"  class="form-control input-sm"></input>
+							<div class="form-group">
+								<label class="control-label">Time In</label>
+								<input id="NewEntryTimeIn" type="time"  class="form-control input-sm" required="required"></input>
+							</div>
 						</div>
 						<div class="col-lg-4 col-md-4 col-xs-4">
-							<label>Time Out</label>
-							<input id="NewEntryTimeOut" type="time" class="form-control input-sm"></input>
+							<div class="form-group">
+								<label class="control-label">Time Out</label>
+								<input id="NewEntryTimeOut" type="time" class="form-control input-sm" required="required"></input>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 					<button type="button" class="btn btn-primary" data-dismiss="modal" id="SaveNewEntry">Save</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="SaveNewEntry">Test</button>
 				</div>
 			</div>
 		</div>
