@@ -78,18 +78,18 @@ class DocRerpot extends Formsheet{
 		foreach($data as $d){
 			
 			//FILTER TIMEIN AM OR PM
-			if ($d['attendances']['timein'] < '13:00:00') {
+			if ($d['attendances']['timein'] < '12:00:00') {
 				$this->centerText(7,$y,$d['attendances']['timein'],3,'');
 				$timein_ctr++;
-			}else if($d['attendances']['timein'] > '13:00:00'){
+			}else if($d['attendances']['timein'] >= '12:00:00'){
 				$this->centerText(13,$y,$d['attendances']['timein'],3,'');
 				$timein_ctr++;
 			} 
 			//FILTER TIMEOUT AM OR PM
-			if ($d['attendances']['timeout'] < '13:00:00') {
+			if ($d['attendances']['timeout'] < '12:00:00') {
 				$this->centerText(10,$y,$d['attendances']['timeout'],3,'');
 				$timeout_ctr++;
-			}else if($d['attendances']['timeout'] > '13:00:00') {
+			}else if($d['attendances']['timeout'] >= '12:00:00') {
 				$this->centerText(16,$y,$d['attendances']['timeout'],3,'');
 				$timeout_ctr++;
 			}
