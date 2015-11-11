@@ -214,6 +214,7 @@ class AttendancesController extends AppController {
 		$this->data['Attendance']['id'] = $this->data['attendances']['id'];
 		$this->data['Attendance']['timein'] = $this->data['attendances']['timein'];
 		$this->data['Attendance']['timeout'] = $this->data['attendances']['timeout'];
+		$this->data['Attendance']['status'] = 'Saved';
 		
 		if($this->Attendance->save($this->data['Attendance'])){
 			$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
@@ -243,6 +244,7 @@ class AttendancesController extends AppController {
 		$gatekeeper_db  = $fields['gatekeeper']['database'];
 		$empno = $this->data['Attendance']['employee_number'];
 		$this->data['Attendance']['remarks'] = 2; //REMARK AS ADMIN FORCE ENTRY
+		$this->data['Attendance']['status'] = 'Saved';
 
 		if($this->Attendance->save($this->data['Attendance'])){
 			$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
@@ -290,7 +292,7 @@ class AttendancesController extends AppController {
 		//FIELDS DATA FOR EDITING 
 		foreach($this->data as $k =>$d){
 			$this->data[$k]['Attendance']['id'] = $d['attendances']['id'];
-			$this->data[$k]['Attendance']['is_posted'] = 'true';
+			$this->data[$k]['Attendance']['status'] = 'Posted';
 		}
 		
 		

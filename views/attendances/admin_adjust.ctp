@@ -27,7 +27,7 @@
 						<th class="text-center" rowspan="2">Day</th>
 						<th class="text-center" rowspan="2">In</th>
 						<th class="text-center" rowspan="2">Out</th>
-						<th class="text-center" rowspan="2">Is Posted</th>
+						<th class="text-center" rowspan="2">Status</th>
 						<th class="text-center" rowspan="2">Actions</th>
 					</tr>
 				</thead>
@@ -43,11 +43,11 @@
 							<div ng-hide="editingData[d.attendances.id]">{{d[0].formated_timeout}}</div>
 							<div ng-show="editingData[d.attendances.id]"><input type="time" step="any" class="form-control input-sm" ng-model="d.attendances.timeout" /></div>
 						</td>
-						<td class="text-center">{{d.attendances.is_posted | uppercase}}</td>
-						<td class="text-center">
-							<a ng-if="!{{d.attendances.is_posted}}" data-toggle="tooltip" title="Modify" ng-hide="editingData[d.attendances.id]" ng-click="modify(d)"><i class="fa fa-edit"></i></a>
+						<td class="text-center">{{d.attendances.status}}</td>
+						<td class="text-center" ng-hide="{{d.attendances.status == posted}}" >
+							<a data-toggle="tooltip" title="Modify" ng-hide="editingData[d.attendances.id]" ng-click="modify(d)"><i class="fa fa-edit"></i></a>
 							<a data-toggle="tooltip" title="Update" ng-show="editingData[d.attendances.id]" ng-click="update(d)"><i class="fa fa-save"></i></a>&nbsp;
-							<a ng-if="!{{d.attendances.is_posted}}" data-toggle="tooltip" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
+							<a data-toggle="tooltip" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
 						</td>
 					</tr>
 				</tbody>

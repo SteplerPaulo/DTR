@@ -114,6 +114,7 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
 		});
 	});
 
+	//POST BUTTON EVENT HANDLER
 	$scope.Post = function(data){
 		console.log(data);
 		$http({
