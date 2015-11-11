@@ -45,9 +45,9 @@
 						</td>
 						<td class="text-center">{{d.attendances.is_posted | uppercase}}</td>
 						<td class="text-center">
-							<a data-toggle="tooltip" title="Modify" ng-hide="editingData[d.attendances.id]" ng-click="modify(d)"><i class="fa fa-edit"></i></a>
+							<a ng-if="!{{d.attendances.is_posted}}" data-toggle="tooltip" title="Modify" ng-hide="editingData[d.attendances.id]" ng-click="modify(d)"><i class="fa fa-edit"></i></a>
 							<a data-toggle="tooltip" title="Update" ng-show="editingData[d.attendances.id]" ng-click="update(d)"><i class="fa fa-save"></i></a>&nbsp;
-							<a data-toggle="tooltip" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
+							<a ng-if="!{{d.attendances.is_posted}}" data-toggle="tooltip" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
 						</td>
 					</tr>
 				</tbody>
