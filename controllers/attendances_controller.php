@@ -168,17 +168,19 @@ class AttendancesController extends AppController {
 	
 	function doc_report($fromDate=null,$toDate=null,$empno=null,$empname=null){
 		if(!empty($fromDate) && !empty($toDate) && !empty($empno) && !empty($empname)){
-			$fields = get_class_vars('DATABASE_CONFIG');
-			$gatekeeper_db  = $fields['gatekeeper']['database'];
+			//GET DATE BETWEEN TWO DATES
+			$dates = $this->get_dates_between_two_dates($fromDate,$toDate);
+			//SET GATEKEEPER DATABASE
+			$gatekeeper_db  = $this->set_gatekeeper_db();
+			//INCLUSIVE DATE FORCE ENTRY
+			$this->inclusive_dates_force_entry($dates,$empno,$gatekeeper_db);
 			
-			$empno = $empno;
-			$empname = $empname;
-			$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
+			//CALL UPDATED ATTENDANCE ENTRY
+			$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);	
 			$hdr['empname'] = $empname;
 			$hdr['empno'] = $empno;
 			$hdr['fromDate'] = $fromDate;
 			$hdr['toDate'] = $toDate;
-			
 			$this->set(compact('data','hdr'));
 			$this->layout='pdf';
 			$this->render();
@@ -197,18 +199,20 @@ class AttendancesController extends AppController {
 	}
 	
 	function data($fromDate=null,$toDate=null,$empno=null,$empname=null){
-		$fields = get_class_vars('DATABASE_CONFIG');
-		$gatekeeper_db  = $fields['gatekeeper']['database'];
-
+		//GET DATE BETWEEN TWO DATES
+		$dates = $this->get_dates_between_two_dates($fromDate,$toDate);
+		//SET GATEKEEPER DATABASE
+		$gatekeeper_db  = $this->set_gatekeeper_db();
+		//INCLUSIVE DATE FORCE ENTRY
+		$this->inclusive_dates_force_entry($dates,$empno,$gatekeeper_db);
+			
 		$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
 		echo json_encode($data);
 		exit;
 	}
 	
 	function admin_update($fromDate=null,$toDate=null){
-		$fields = get_class_vars('DATABASE_CONFIG');
-		$gatekeeper_db  = $fields['gatekeeper']['database'];
-		
+		$gatekeeper_db  = $this->set_gatekeeper_db();
 		$empno = $this->data['attendances']['employee_number'];
 		//FIELDS DATA FOR EDITING 
 		$this->data['Attendance']['id'] = $this->data['attendances']['id'];
@@ -227,8 +231,7 @@ class AttendancesController extends AppController {
 	}
 	
 	function admin_delete($fromDate=null,$toDate=null){
-		$fields = get_class_vars('DATABASE_CONFIG');
-		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		$gatekeeper_db  = $this->set_gatekeeper_db();
 		$empno = $this->data['attendances']['employee_number'];
 		
 		if ($this->Attendance->delete($this->data['attendances']['id'])) {
@@ -239,9 +242,7 @@ class AttendancesController extends AppController {
 	}
 	
 	function admin_add($fromDate=null,$toDate=null){
-		
-		$fields = get_class_vars('DATABASE_CONFIG');
-		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		$gatekeeper_db  = $this->set_gatekeeper_db();
 		$empno = $this->data['Attendance']['employee_number'];
 		$this->data['Attendance']['remarks'] = 2; //REMARK AS ADMIN FORCE ENTRY
 		$this->data['Attendance']['status'] = 'Saved';
@@ -285,8 +286,7 @@ class AttendancesController extends AppController {
 	}
 	
 	function admin_posting($fromDate=null,$toDate=null){
-		$fields = get_class_vars('DATABASE_CONFIG');
-		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		$gatekeeper_db  = $this->set_gatekeeper_db();
 		$empno = $this->data[0]['attendances']['employee_number'];
 		
 		//FIELDS DATA FOR EDITING 
@@ -304,5 +304,46 @@ class AttendancesController extends AppController {
 			die('Something went wrong. Pls contact your system administrator');
 			exit;
 		}
+	}
+	
+	function get_dates_between_two_dates($fromDate,$toDate){
+		//GET DATE BETWEEN TWO DATES
+		$dates=array();
+		$iDateFrom=mktime(1,0,0,substr($fromDate,5,2),     substr($fromDate,8,2),substr($fromDate,0,4));
+		$iDateTo=mktime(1,0,0,substr($toDate,5,2),     substr($toDate,8,2),substr($toDate,0,4));
+
+		if ($iDateTo>=$iDateFrom){
+			array_push($dates,date('Y-m-d',$iDateFrom)); // first entry
+			while ($iDateFrom<$iDateTo){
+				$iDateFrom+=86400; // add 24 hours
+				array_push($dates,date('Y-m-d',$iDateFrom));
+			}
+		}
+		
+		return $dates;
+	}
+	
+	function set_gatekeeper_db(){
+		$fields = get_class_vars('DATABASE_CONFIG');
+		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		return $gatekeeper_db;
+	}
+
+	function inclusive_dates_force_entry($dates,$empno,$gatekeeper_db){
+		
+		foreach($dates as $k => $dts){
+			$data[$k] =  $this->Attendance->per_employee($dts,$dts,$empno,$gatekeeper_db);
+			if(empty($data[$k])){
+				$this->data[$k]['Attendance']['date'] = $dts;
+				$this->data[$k]['Attendance']['employee_number'] = $empno;
+				$this->data[$k]['Attendance']['status'] = 'Saved';
+			}
+		}
+		
+		if(!empty($this->data)){
+			$this->Attendance->saveAll($this->data);
+		
+		}
+		
 	}
 }

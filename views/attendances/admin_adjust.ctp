@@ -59,7 +59,6 @@
 					</tr>
 				</tfoot>
 			</table>
-		
 		</div>
 	</div>
 	<div class="row-fluid">
