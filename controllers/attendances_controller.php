@@ -216,8 +216,8 @@ class AttendancesController extends AppController {
 		$empno = $this->data['attendances']['employee_number'];
 		//FIELDS DATA FOR EDITING 
 		$this->data['Attendance']['id'] = $this->data['attendances']['id'];
-		$this->data['Attendance']['timein'] = $this->data['attendances']['timein'];
-		$this->data['Attendance']['timeout'] = $this->data['attendances']['timeout'];
+		$this->data['Attendance']['timein'] = (!empty($this->data['attendances']['timein']))?$this->data['attendances']['timein']:null;
+		$this->data['Attendance']['timeout'] = (!empty($this->data['attendances']['timeout']))?$this->data['attendances']['timeout']:null;;
 		$this->data['Attendance']['status'] = 'Saved';
 		
 		if($this->Attendance->save($this->data['Attendance'])){
