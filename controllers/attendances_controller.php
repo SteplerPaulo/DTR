@@ -218,7 +218,7 @@ class AttendancesController extends AppController {
 		$this->data['Attendance']['id'] = $this->data['attendances']['id'];
 		$this->data['Attendance']['timein'] = (!empty($this->data['attendances']['timein']))?$this->data['attendances']['timein']:null;
 		$this->data['Attendance']['timeout'] = (!empty($this->data['attendances']['timeout']))?$this->data['attendances']['timeout']:null;;
-		$this->data['Attendance']['status'] = 'Saved';
+		$this->data['Attendance']['status'] = (!empty($this->data['attendances']['timeout']) && !empty($this->data['attendances']['timeout']))?'Saved':'Raw';
 		
 		if($this->Attendance->save($this->data['Attendance'])){
 			$data =  $this->Attendance->per_employee($fromDate,$toDate,$empno,$gatekeeper_db);
