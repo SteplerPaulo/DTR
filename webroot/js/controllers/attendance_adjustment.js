@@ -11,8 +11,6 @@ App.controller('AttendanceAdjustmentController',function($scope,$rootScope,$http
 		$scope.empname =  $('#AdjustmetTable caption h3 #EmployeeName').text();
 		$http.get('/DTR/attendances/data/'+$scope.fromDate+'/'+$scope.toDate+'/'+$scope.empno+'/'+$scope.empname).success(function(response) {
 			$scope.data = response;
-			
-			console.log($scope.data);
 			$scope.editingData = [];
 			$.each($scope.data,function(i,o){
 				$scope.editingData[$scope.data[i].attendances.id] = false;

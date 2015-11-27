@@ -38,6 +38,7 @@ class Attendance extends AppModel {
 			WHERE `attendances`.`employee_number` = '$empno'
 				 AND `date` >= '$from' 
 				 AND `date` <= '$to' 
+			ORDER BY `date`
 			"
 		);
 	}

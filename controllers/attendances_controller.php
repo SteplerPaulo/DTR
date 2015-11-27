@@ -339,7 +339,6 @@ class AttendancesController extends AppController {
 				$this->data[$k]['Attendance']['status'] = 'Saved';
 			}
 		}
-		
 		if(!empty($this->data)){
 			$this->Attendance->saveAll($this->data);
 		
