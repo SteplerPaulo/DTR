@@ -43,7 +43,7 @@
 			'action' => 'display' 
 		),  
 		array( 
-			'pagename' => 'forms|typography|buttons|grid|notifications|panels-wells|typeahead|theme-color|main',  
+			'pagename' => 'forms|typography|buttons|grid|notifications|panels-wells|typeahead|theme-color|main|',  
 			'pass' => array( 
 				'pagename' 
 			) 

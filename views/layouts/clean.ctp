@@ -72,6 +72,7 @@
 		//echo $this->Html->script(array('template/plugins/dataTables/dataTables.bootstrap'));
 	?> 
 	<script type="text/javascript">(function(){window.App = angular.module('App',['angularUtils.directives.dirPagination'])})();</script>
+
 	<?php  echo $scripts_for_layout; ?>
 </body>
 </html>
