@@ -75,7 +75,8 @@ class StudDocRerpot extends Formsheet{
 		$y=2.8;
 		$prev_date = $data[0]['rfid_studattendance']['date'];
 		$timein_ctr = $timeout_ctr = 0;
-		foreach($data as $d){
+		//pr($data);exit;
+		foreach($data as $k => $d){
 			
 			//FILTER TIME IN AM OR PM
 			if ($d['rfid_studattendance']['time_in'] < '12:00:00') {
@@ -85,7 +86,7 @@ class StudDocRerpot extends Formsheet{
 				$this->centerText(13,$y,$d['rfid_studattendance']['time_in'],3,'');
 				$timein_ctr++;
 			} 
-			//FILTER time_out AM OR PM
+			//FILTER TIME OUT AM OR PM
 			if ($d['rfid_studattendance']['time_out'] < '12:00:00') {
 				$this->centerText(10,$y,$d['rfid_studattendance']['time_out'],3,'');
 				$timeout_ctr++;
@@ -94,12 +95,15 @@ class StudDocRerpot extends Formsheet{
 				$timeout_ctr++;
 			}
 			
-			$curr_date = explode('-', $d['attendances']['date'])[2];
+			$curr_date = explode('-', $d['rfid_studattendance']['date'])[2];
+			
 			if($prev_date != $curr_date){
 				$this->centerText(0,$y,date("M d", strtotime($d['rfid_studattendance']['date'])),3,'');	
 				$date = new DateTime($d['rfid_studattendance']['date']);
 				$this->centerText(3,$y,$date->format('D'),4,'');
-				//$y++;
+				if($k != 0){
+					$y++;
+				}
 				$timein_ctr = $timeout_ctr = 0;
 			}else if($timein_ctr > 0 ){
 				$y++;
