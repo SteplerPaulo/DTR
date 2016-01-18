@@ -14,28 +14,29 @@ App.controller('StudentAttendanceAdjustmentController',function($scope,$rootScop
 			$scope.data = response;
 			$scope.editingData = [];
 			$.each($scope.data,function(i,o){
-				$scope.editingData[$scope.data[i].attendances.id] = false;
+				$scope.editingData[$scope.data[i].rfid_studattendance.id] = false;
 			});
+			console.log($scope.editingData);
 		});	
 	}
 	
 	//MODIFY BUTTON EVENT HANDLER
 	$scope.modify = function(data){		
-		$scope.editingData[data.attendances.id] = true;
+		$scope.editingData[data.rfid_studattendance.id] = true;
     };
-
+	
 	//UPDATE BUTTON EVENT HANDLER
     $scope.update = function(data){
 		$http({
 			method: 'POST',
-			url: '/DTR/admin/attendances/update/'+$scope.fromDate+'/'+$scope.toDate,
+			url: '/DTR/admin/rfid_studattendances/update/'+$scope.fromDate+'/'+$scope.toDate,
 			data: $.param({data:data}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).then(function(response) {
 			$scope.data = response.data;
 			$scope.editingData = [];
 			$.each($scope.data,function(i,o){
-				 $scope.editingData[$scope.data[i].attendances.id] = false;
+				 $scope.editingData[$scope.data[i].rfid_studattendance.id] = false;
 			});
 		});
     };
@@ -44,23 +45,24 @@ App.controller('StudentAttendanceAdjustmentController',function($scope,$rootScop
 	$scope.Delete = function(data){		
 		$http({
 			method: 'POST',
-			url: '/DTR/admin/attendances/delete/'+$scope.fromDate+'/'+$scope.toDate,
+			url: '/DTR/admin/rfid_studattendances/delete/'+$scope.fromDate+'/'+$scope.toDate,
 			data: $.param({data:data}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).then(function(response) {
 			$scope.data = response.data;
 			$scope.editingData = [];
 			$.each($scope.data,function(i,o){
-				 $scope.editingData[$scope.data[i].attendances.id] = false;
+				 $scope.editingData[$scope.data[i].rfid_studattendance.id] = false;
 			});
 		});
     };
 	
 	//ADD NEW ENTRY EVENT HANDLER
 	$scope.AddNewEntry = function(data){		
+		console.log($scope);
 		$('#AddNewEntryModal').modal();
-		$('#AddNewEntryModal .modal-title').attr('empno',$scope.empno);
-		$('#AddNewEntryModal .modal-title').text($scope.empname);
+		$('#AddNewEntryModal .modal-title').attr('sno',$scope.sno);
+		$('#AddNewEntryModal .modal-title').text($scope.sname);
 		$('#NewEntryDate').attr('min',$scope.fromDate);
 		$('#NewEntryDate').attr('max',$scope.toDate);
 		
@@ -72,19 +74,20 @@ App.controller('StudentAttendanceAdjustmentController',function($scope,$rootScop
 		$('#NewEntryTimeOut').val('').parents('.form-group:first').removeClass('has-error');
     }
 	
+	
 	$('#SaveNewEntry').click(function(){
-		var from = $('#NewEntryDate').attr('min');
+		var _from = $('#NewEntryDate').attr('min');
 		var to = $('#NewEntryDate').attr('max');
-		var empno = $('#AddNewEntryModal .modal-title').attr('empno');
+		var sno = $('#AddNewEntryModal .modal-title').attr('sno');
 		var date = $('#NewEntryDate').val();
 		var timein = $('#NewEntryTimeIn').val();
 		var timeout = $('#NewEntryTimeOut').val();
 		
 		if(date.length && timein.length && timeout.length){
 			$.ajax({
-				url: '/DTR/admin/attendances/add/'+from+'/'+to,
+				url: '/DTR/admin/rfid_studattendances/add/'+_from+'/'+to,
 				dataType:'json',
-				data:{'data':{'Attendance':{'employee_number':empno,'date':date,'timein':timein,'timeout':timeout}}},
+				data:{'data':{'RfidStudattendance':{'student_number':sno,'date':date,'time_in':timein,'time_out':timeout}}},
 				type:'post',
 			}).done(function( response ) {
 				$rootScope.$broadcast('RefreshAttendance',response);
@@ -104,12 +107,13 @@ App.controller('StudentAttendanceAdjustmentController',function($scope,$rootScop
 		$('#SaveNewEntry').removeAttr('disabled');
 	});
 	
+	
 	//REFRESH ATTENDANCE TABLE
 	$scope.$on('RefreshAttendance',function(evt,args){
 		$scope.data = args;
 		$scope.editingData = [];
 		$.each($scope.data,function(i,o){
-			 $scope.editingData[$scope.data[i].attendances.id] = false;
+			 $scope.editingData[$scope.data[i].rfid_studattendance.id] = false;
 		});
 	});
 
@@ -118,14 +122,14 @@ App.controller('StudentAttendanceAdjustmentController',function($scope,$rootScop
 		console.log(data);
 		$http({
 			method: 'POST',
-			url: '/DTR/admin/attendances/posting/'+$scope.fromDate+'/'+$scope.toDate,
+			url: '/DTR/admin/rfid_studattendances/posting/'+$scope.fromDate+'/'+$scope.toDate,
 			data: $.param({data:data}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).then(function(response) {
 			$scope.data = response.data;
 			$scope.editingData = [];
 			$.each($scope.data,function(i,o){
-				 $scope.editingData[$scope.data[i].attendances.id] = false;
+				 $scope.editingData[$scope.data[i].rfid_studattendance.id] = false;
 			});
 		});
 	}

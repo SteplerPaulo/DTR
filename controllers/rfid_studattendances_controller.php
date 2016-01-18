@@ -80,15 +80,19 @@ class RfidStudattendancesController extends AppController {
 		$this->set('rfidStudattendance', $this->RfidStudattendance->read(null, $id));
 	}
 
-	function admin_add() {
-		if (!empty($this->data)) {
-			$this->RfidStudattendance->create();
-			if ($this->RfidStudattendance->save($this->data)) {
-				$this->Session->setFlash(__('The rfid studattendance has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The rfid studattendance could not be saved. Please, try again.', true));
-			}
+	function admin_add($fromDate=null,$toDate=null){
+		$gatekeeper_db  = $this->set_gatekeeper_db();
+		$sno = $this->data['RfidStudattendance']['student_number'];
+		$this->data['RfidStudattendance']['remarks'] = 2; //REMARK AS ADMIN FORCE ENTRY
+		$this->data['RfidStudattendance']['status'] = 'Saved';
+
+		if($this->RfidStudattendance->save($this->data['RfidStudattendance'])){
+			$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$sno,$gatekeeper_db);
+			echo json_encode($data);
+			exit;
+		}else{
+			die('Something went wrong. Pls contact your system administrator');
+			exit;
 		}
 	}
 
@@ -110,19 +114,17 @@ class RfidStudattendancesController extends AppController {
 		}
 	}
 
-	function admin_delete($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for rfid studattendance', true));
-			$this->redirect(array('action'=>'index'));
+	function admin_delete($fromDate=null,$toDate=null){
+		$gatekeeper_db  = $this->set_gatekeeper_db();
+		$sno = $this->data['rfid_studattendance']['student_number'];
+		
+		
+		if ($this->RfidStudattendance->delete($this->data['rfid_studattendance']['id'])) {
+			$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$sno,$gatekeeper_db);
+			echo json_encode($data);
+			exit;
 		}
-		if ($this->RfidStudattendance->delete($id)) {
-			$this->Session->setFlash(__('Rfid studattendance deleted', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->Session->setFlash(__('Rfid studattendance was not deleted', true));
-		$this->redirect(array('action' => 'index'));
 	}
-
 	function admin_report(){
 		
 		
@@ -219,5 +221,45 @@ class RfidStudattendancesController extends AppController {
 		$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$sno,$gatekeeper_db);
 		echo json_encode($data);
 		exit;
+	}
+	
+	function admin_update($fromDate=null,$toDate=null){
+		$gatekeeper_db  = $this->set_gatekeeper_db();
+		$empno = $this->data['rfid_studattendance']['student_number'];
+		//FIELDS DATA FOR EDITING 
+		$this->data['RfidStudattendance']['id'] = $this->data['rfid_studattendance']['id'];
+		$this->data['RfidStudattendance']['time_in'] = (!empty($this->data['rfid_studattendance']['time_in']))?$this->data['rfid_studattendance']['time_in']:null;
+		$this->data['RfidStudattendance']['time_out'] = (!empty($this->data['rfid_studattendance']['time_out']))?$this->data['rfid_studattendance']['time_out']:null;;
+		$this->data['RfidStudattendance']['status'] = (!empty($this->data['rfid_studattendance']['time_out']) && !empty($this->data['rfid_studattendance']['time_out']))?'Saved':'Raw';
+		
+		if($this->RfidStudattendance->save($this->data['RfidStudattendance'])){
+			$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$empno,$gatekeeper_db);
+			echo json_encode($data);
+			exit;
+		}else{
+			die('Something went wrong. Pls contact your system administrator');
+			exit;
+		}
+	}
+	
+	function admin_posting($fromDate=null,$toDate=null){
+		$gatekeeper_db  = $this->set_gatekeeper_db();
+		$sno = $this->data[0]['rfid_studattendance']['student_number'];
+		
+		//FIELDS DATA FOR EDITING 
+		foreach($this->data as $k =>$d){
+			$this->data[$k]['RfidStudattendance']['id'] = $d['rfid_studattendance']['id'];
+			$this->data[$k]['RfidStudattendance']['status'] = 'P';
+		}
+		
+		
+		if($this->RfidStudattendance->saveAll($this->data)){
+			$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$sno,$gatekeeper_db);
+			echo json_encode($data);
+			exit;
+		}else{
+			die('Something went wrong. Pls contact your system administrator');
+			exit;
+		}
 	}
 }

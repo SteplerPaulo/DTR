@@ -36,12 +36,12 @@
 						<td class="text-center">{{d.rfid_studattendance.date |  date:"MMM. dd"}}</td>
 						<td class="text-center">{{d.rfid_studattendance.date |  date:"EEE"}}</td>
 						<td class="text-center" rowspan="1">
-							<div ng-hide="editingData[d.rfid_studattendance.id]">{{d[0].formated_time | date:"mediumTime"}}</div>
-							<div ng-show="editingData[d.rfid_studattendance.id]"><input type="time" step="any" class="form-control input-sm" ng-model="d.rfid_studattendance.timein" /></div>
+							<div ng-hide="editingData[d.rfid_studattendance.id]">{{d[0].formated_timein | date:"mediumTime"}}</div>
+							<div ng-show="editingData[d.rfid_studattendance.id]"><input type="time" step="any" class="form-control input-sm" ng-model="d.rfid_studattendance.time_in" /></div>
 						</td>
 						<td class="text-center">
-							<div ng-hide="editingData[d.rfid_studattendance.id]">{{d[0].formated_time}}</div>
-							<div ng-show="editingData[d.rfid_studattendance.id]"><input type="time" step="any" class="form-control input-sm" ng-model="d.rfid_studattendance.timeout" /></div>
+							<div ng-hide="editingData[d.rfid_studattendance.id]">{{d[0].formated_timeout}}</div>
+							<div ng-show="editingData[d.rfid_studattendance.id]"><input type="time" step="any" class="form-control input-sm" ng-model="d.rfid_studattendance.time_out" /></div>
 						</td>
 						<td class="text-center">{{d.rfid_studattendance.status}}</td>
 						<td class="text-center" ng-hide="{{d.rfid_studattendance.status == posted}}" >
