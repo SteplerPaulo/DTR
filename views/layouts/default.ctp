@@ -89,6 +89,12 @@
 									array('escape'=>false )
 								);?>
 					</li>
+					<li>
+						<?php echo $this->Html->link("<i class='fa fa-mobile fa-fw'></i> Set Student's Mobile No",
+									array('controller'=>'rfid_students','action'=>'/'),
+									array('escape'=>false )
+								);?>
+					</li>
 					<?php if($this->Access->check('User','create','read','update','delete')): ?><li>
 						<?php  echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-gears fa-fw')).' '.
 										$this->Html->tag('span', 'Access Control', array('class' => 'module-label')),

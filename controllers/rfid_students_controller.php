@@ -5,9 +5,12 @@ class RfidStudentsController extends AppController {
 	var $helpers = array('Access');
 
 	function index() {
-		
-		$this->RfidStudent->recursive = 0;
-		$this->set('rfidStudents', $this->paginate());
+		$this->paginate = array(
+			'conditions' => array('RfidStudent.type' => '1'),
+			'recursive' => 0,
+			'limit' => 8,
+		);
+		$this->set('rfidStudents', $this->paginate('RfidStudent'));
 	}
 
 	function view($id = null) {
@@ -48,8 +51,8 @@ class RfidStudentsController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->RfidStudent->read(null, $id);
 		}
-		$employees = $this->RfidStudent->Employee->find('list');
-		$this->set(compact('employees'));
+		//$employees = $this->RfidStudent->Employee->find('list');
+		//$this->set(compact('employees'));
 	}
 
 	function delete($id = null) {
