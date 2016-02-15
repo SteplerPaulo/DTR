@@ -71,7 +71,7 @@
 		</thead>
 		<tbody>
 			<tr pagination-id="StudentListTable" dir-paginate="stud in students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
-				<td>{{stud.RfidStudent.student_mobile_no}}</td>
+				<td>{{stud.RfidStudent.student_number}}</td>
 				<td>{{stud.RfidStudent.full_name}}</td>
 				<td>{{stud.RfidStudent.student_mobile_no}}</td>
 				<td>{{stud.RfidStudent.guardian_mobile_no}}</td>
@@ -82,6 +82,13 @@
 		
 			</tr>
 		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="9" class="text-center">
+					<dir-pagination-controls pagination-id="StudentListTable"></dir-pagination-controls>
+				</td>
+			</tr>
+		</tfoot>
 	</table>	
 </div>
 <?php echo $this->Html->script('controllers/students',array('inline'=>false));?>
