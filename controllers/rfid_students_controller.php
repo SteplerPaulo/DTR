@@ -12,6 +12,18 @@ class RfidStudentsController extends AppController {
 		);
 		$this->set('rfidStudents', $this->paginate('RfidStudent'));
 	}
+	
+	function students(){
+		$students = $this->RfidStudent->find('all',
+				array(
+					'conditions'=>array('RfidStudent.type' => '1'),
+					'recursive' => 0,
+				
+				));
+				
+		echo json_encode($students);
+		exit;
+	}
 
 	function view($id = null) {
 		if (!$id) {
