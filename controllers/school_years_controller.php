@@ -59,4 +59,10 @@ class SchoolYearsController extends AppController {
 		$this->Session->setFlash(__('School year was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+	function active(){
+		$sy = $this->SchoolYear->find('all',array('conditions'=>array('SchoolYear.is_default'=>1)));
+		echo json_encode($sy);
+		exit;
+	}
 }

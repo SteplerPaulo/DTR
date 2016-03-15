@@ -3,6 +3,7 @@ class RfidStudentsController extends AppController {
 
 	var $name = 'RfidStudents';
 	var $helpers = array('Access');
+	var $uses = array('RfidStudent','SchoolYear');
 
 	function index() {
 		$this->paginate = array(
@@ -79,4 +80,76 @@ class RfidStudentsController extends AppController {
 		$this->Session->setFlash(__('Rfid student was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+	function assign(){
+		
+		$relationships = array('Parent'=>'Parent','Guardian'=>'Guardian');
+
+		$this->set(compact('sy','relationships'));
+		
+		
+	}
+	
+	function save(){
+		
+		
+		$rfid = $this->data['RfidStudent']['source_rfid'];
+		if(strlen($rfid) <= 8){
+			$dec = hexdec ($rfid);
+			$octal = decoct($dec);
+			
+			if(strlen($dec) == 7){
+				$dec = '000'.$dec;
+			}else if(strlen($dec) == 8){
+				$dec = '00'.$dec;
+			}else if(strlen($dec) == 9){
+				$dec = '0'.$dec;
+			}
+		
+			
+		}else{
+			$octal = decoct($rfid);
+			$dec = $rfid;
+			if(strlen($dec) == 7){
+				$dec = '000'.$dec;
+			}else if(strlen($dec) == 8){
+				$dec = '00'.$dec;
+			}else if(strlen($dec) == 9){
+				$dec = '0'.$dec;
+			}
+		}
+		$this->data['RfidStudent']['rfid']= $octal;
+		$this->data['RfidStudent']['dec_rfid']= $dec;
+		
+		
+		if($this->RfidStudent->save($this->data)){
+			echo json_encode($this->data);
+			exit;
+			
+		}
+		
+	}
+
+	function check_rfid(){
+		/*
+		if(isset($this->data['source_rfid'])){
+			$conditions = array('RfidStudent.source_rfid'=>$this->data['source_rfid']);
+		}else if(isset($this->data['student_number'])){
+			$conditions = array('RfidStudent.student_number'=>$this->data['student_number']);
+		}else if(isset($this->data['user_id'])){
+			$conditions = array('RfidStudent.employee_number'=>$this->data['user_id']);
+		}else if(isset($this->data['employee_no'])){
+			$conditions = array('RfidStudent.employee_number'=>$this->data['employee_no']);
+		}else if(isset($this->data['new_rfid'])){
+			$conditions = array('RfidStudent.source_rfid'=>$this->data['new_rfid']);
+		}
+		*/
+		
+		$conditions = array('RfidStudent.source_rfid'=>$this->data['RfidStudent']['source_rfid']);
+		
+		$response = $this->RfidStudent->find('first',array('conditions'=>$conditions));
+		echo json_encode($response);
+		exit();
+	}	
+
 }
