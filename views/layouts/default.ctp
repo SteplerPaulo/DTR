@@ -79,19 +79,37 @@
 				   <li>
 						<?php  echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-home fa-fw')).' '.
 									$this->Html->tag('span', 'Home'),
-									array('controller'=>'pages','action'=>'/'),
+									array('admin' => false,'controller'=>'pages','action'=>'/'),
 									array('escape' => false)
 									);  ?>
 					</li>
 					<li>
 						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Daily Time Record',
-									array('controller'=>'attendances','action'=>'/'),
+									array('admin' => false,'controller'=>'attendances','action'=>'/'),
+									array('escape'=>false )
+								);?>
+					</li>
+					<li>
+						<?php echo $this->Html->link("<i class='fa fa-tags'></i> Assign RFID",
+									array('admin' => false,'controller'=>'rfid_students','action'=>'assign'),
 									array('escape'=>false )
 								);?>
 					</li>
 					<li>
 						<?php echo $this->Html->link("<i class='fa fa-mobile fa-fw'></i> Set Student's Mobile No",
-									array('controller'=>'rfid_students','action'=>'/'),
+									array('admin' => false,'controller'=>'rfid_students','action'=>'/'),
+									array('escape'=>false )
+								);?>
+					</li>
+					<li>
+						<?php echo $this->Html->link("<i class='fa fa-file-text-o'></i> Student Attendance Report",
+									array('admin' => true,'controller'=>'rfid_studattendances','action'=>'report'),
+									array('escape'=>false )
+								);?>
+					</li>
+					<li>
+						<?php echo $this->Html->link("<i class='fa fa-file-archive-o'></i> Employee Attendance Report",
+									array('admin' => true,'controller'=>'attendances','action'=>'report'),
 									array('escape'=>false )
 								);?>
 					</li>

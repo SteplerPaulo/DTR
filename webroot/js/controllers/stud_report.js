@@ -3,27 +3,36 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 	$scope.initializeController = function(){
 		$scope.currentPage = 1; 
 		$scope.pageSize = 7;
-		$scope.fromDate =  $filter("date")(Date.now(), 'yyyy-MM-dd');
-		$scope.toDate = $filter("date")(Date.now(), 'yyyy-MM-dd');
+		$scope.types = [{id:1,name:"Daily Report"},{id:2,name:"Monthly Report"}];
+		$scope.DailyReport =  true;
+		$scope.ReportURL =  '/DTR/rfid_studattendances/daily_report/';
+		$scope.Daily =  $filter("date")(Date.now(), 'yyyy-MM-dd');
+		$scope.Monthly = $filter("date")(Date.now(), 'yyyy-MM');
 		
-		//GET ALL CATEGORIES
-		$http.get("/DTR/rfid_studattendances/students").success(function(response) {
+		
+		//SECTIONS
+		$http.get("/DTR/sections/all").success(function(response) {
 			$scope.data = response;
 		});
 	}
 	
-	//INTENT TO ADJUST EVENT HANDLER 
-	$scope.AdjustButton = function(fromDate,toDate,sname,sno){
-		var get = '/DTR/admin/rfid_studattendances/adjust/'+fromDate+'/'+toDate+'/'+sno+'/'+sname;
-		if(sno && sname && fromDate && toDate) {
-			return $('iframe')[0].src=get;
+	
+	$scope.changedType = function(type){
+		if(type['id'] == 1){
+			$scope.DailyReport =  true;
+			$scope.ReportURL =  '/DTR/rfid_studattendances/daily_report/';
+		}else{
+			$scope.DailyReport =  false;
+			$scope.ReportURL =  '/DTR/rfid_studattendances/monthly_report/';
 		}
-	}
+	}     
+	
 	
 	//PRINT ICON EVENT HANDLER
-	$scope.DateFilterModal = function(fromDate,toDate,sname,dec_rfid){
-		var get = '/DTR/rfid_studattendances/doc_report/'+fromDate+'/'+toDate+'/'+dec_rfid+'/'+sname;
-		if(dec_rfid && sname && fromDate && toDate) {
+	$scope.printReport = function(section_id,section_name,date){
+		
+		var get = $scope.ReportURL+section_id+'/'+section_name+'/'+date;
+		if(section_id && section_name && date) {
 			return $('iframe')[0].src=get;
 		}
 	}

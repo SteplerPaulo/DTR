@@ -36,5 +36,33 @@ class RfidStudattendance extends AppModel {
 				ORDER BY `date`"
 		);
 	}
+	
+	function daily_report($sectionId,$date){
+		return $this->query( 
+			"SELECT 
+			  `rfid_students`.`section_id`,
+			  `sections`.`name`,
+			  CONCAT(`rfid_students`.`first_name`,' ',`rfid_students`.`middle_name`,' ',`rfid_students`.`last_name`) AS full_name,
+			  `rfid_students`.`student_number`,
+			  `rfid_studattendance`.`date`,
+			  `rfid_studattendance`.`time_in`,
+			  `rfid_studattendance`.`time_out` 
+			FROM
+			  `gatekeeper_2015`.`rfid_students` 
+			  INNER JOIN `gatekeeper_2015`.`sections` 
+				ON (
+				  `rfid_students`.`section_id` = `sections`.`id`
+				) 
+			  INNER JOIN `gatekeeper_2015`.`rfid_studattendance` 
+				ON (
+				  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
+				) 
+			WHERE (
+				`rfid_students`.`section_id` = '$sectionId'
+				 AND `rfid_studattendance`.`date` = '$date'
+			  ) ;
+			"
+		);
+	}
 
 }

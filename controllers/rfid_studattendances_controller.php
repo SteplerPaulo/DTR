@@ -7,7 +7,7 @@ class RfidStudattendancesController extends AppController {
 	
 	function beforeFilter(){ 
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','students','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy','admin_add','admin_posting'));	
+		$this->Auth->allow(array('index','students','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy','admin_add','admin_posting','daily_report','monthly_report'));	
     } 
 
 
@@ -169,6 +169,47 @@ class RfidStudattendancesController extends AppController {
 			$this->render();
 		}
 	}
+	
+	function daily_report($sectionId = '', $sectionName = '', $date = ''){
+		
+		if(!empty($sectionId) && !empty($sectionName) &&!empty($date)){
+			$data = $this->RfidStudattendance->daily_report($sectionId,$date);
+		
+			$hdr = array();
+			$hdr['section_id'] = $sectionId;
+			$hdr['section_name'] = $sectionName;
+			$hdr['date'] = $date;
+			
+			$this->set(compact('data','hdr'));
+			$this->layout='pdf';
+			$this->render();
+		}else{
+			$data = array();
+			$hdr = array();
+			$this->set(compact('data','hdr'));
+			$this->layout='pdf';
+			$this->render();
+		}
+	
+		
+	}
+	function monthly_report($sectionId = ""){
+		if(!empty($sectionId)){
+			$data = array();
+			$hdr = array();
+			$this->set(compact('data','hdr'));
+			$this->layout='pdf';
+			$this->render();
+		}else{
+			$data = array();
+			$hdr = array();
+			$this->set(compact('data','hdr'));
+			$this->layout='pdf';
+			$this->render();
+		}
+	}
+	
+	
 	
 	function get_dates_between_two_dates($fromDate,$toDate){
 		//GET DATE BETWEEN TWO DATES
