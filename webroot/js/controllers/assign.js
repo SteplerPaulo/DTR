@@ -7,16 +7,13 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 		$scope.EmployeeMode = false;
 		$scope.SavingStatus = false; 
 		$scope.types = [{id:1,name:"Student"},{id:2,name:"Employee"}];
-		
-		
+		$scope.typeSelected = $scope.types[0];
 		
 		$http.get("/DTR/school_years/active").success(function (response) {
-			
 			$scope.school_years = response;
 			console.log($scope.school_years);
+			$scope.sy = $scope.school_years[0];
 		});
-		
-		
 		
 	}
 	
@@ -36,7 +33,7 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 	$scope.save = function(){
 		var data = {};
 		data['RfidStudent'] = {};
-		data['RfidStudent']['sy'] = $scope.sy;
+		data['RfidStudent']['sy'] = $scope.sy.SchoolYear.id;
 		data['RfidStudent']['type'] = $scope.typeSelected.id;
 		data['RfidStudent']['last_name'] = $scope.last_name;
 		data['RfidStudent']['first_name'] = $scope.first_name;
@@ -47,7 +44,7 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 		data['RfidStudent']['guardian_mobile_no'] = $scope.guardian_mobile_no;
 		data['RfidStudent']['relationship'] = $scope.relationship;
 		data['RfidStudent']['source_rfid'] = $scope.source_rfid;
-		console.log(data);
+		data['RfidStudent']['section_id'] = $scope.section_id;
 		
 		$http({
 			method: 'POST',
@@ -55,8 +52,6 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 			data: $.param({data:data}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).then(function(response) {
-			$scope.sy = "";
-			$scope.typeSelected.id  = "";
 			$scope.last_name = "";
 			$scope.first_name = "";
 			$scope.middle_name = "";
@@ -65,7 +60,8 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 			$scope.student_mobile_no = "";
 			$scope.guardian_mobile_no = "";
 			$scope.relationship = "";
-			$scope.rfid = "";
+			$scope.source_rfid = "";
+			$scope.section_id = "";
 			$scope.SavingStatus = true; 
 		});
 	}

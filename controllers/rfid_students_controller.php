@@ -3,7 +3,7 @@ class RfidStudentsController extends AppController {
 
 	var $name = 'RfidStudents';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudent','SchoolYear');
+	var $uses = array('RfidStudent','Section');
 
 	function index() {
 		$this->paginate = array(
@@ -84,8 +84,9 @@ class RfidStudentsController extends AppController {
 	function assign(){
 		
 		$relationships = array('Parent'=>'Parent','Guardian'=>'Guardian');
+		$sections = $this->Section->find('list');
 
-		$this->set(compact('sy','relationships'));
+		$this->set(compact('relationships','sections'));
 		
 		
 	}

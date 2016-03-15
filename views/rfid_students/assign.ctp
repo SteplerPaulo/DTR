@@ -7,25 +7,32 @@
 					<h3>Assign RFID No.</h3>
 				</h3>
 			</div>
-			<div class="panel-body" ng-if="!SavingStatus">
+			<div class="panel-body" ng-show="!SavingStatus">
 				<div class="row">
 					<div class="col-lg-4">
 						<label for="type">SY</label>
+						<!--
 						<select class="form-control">
-							<option ng-repeat="year in school_years" value="{{year.SchoolYear.id}}">
+							<option ng-repeat="year in school_years" ng-model="sy" ng-init="year.SchoolYear.id">
 								{{year.SchoolYear.name}}
 							</option>
+						</select>
+						-->
+						<select class="form-control" ng-model="sy" ng-change="changedValue(sy)"  data-ng-options="year as year.SchoolYear.name for year in school_years">
 						</select>
 					</div>
 					<div class="col-lg-4">
 						<label for="type">Type</label>
-						<select class="form-control" ng-model="typeSelected" ng-change="changedValue(typeSelected)" ng-init="typeSelected = types[0]"  data-ng-options="type as type.name for type in types">
+						<select class="form-control" ng-model="typeSelected" ng-change="changedValue(typeSelected)"  data-ng-options="type as type.name for type in types">
 						</select>
 					</div>
 				</div><hr/>
 				<div class="row" ng-show="StudentMode">
 					<div class="col-lg-4">
 						<?php echo $this->Form->input('student_number',array('label'=>'Student No','class'=>'form-control','ng-model'=>'student_number'));?>
+					</div>
+					<div class="col-lg-4">
+						<?php echo $this->Form->input('section_id',array('options'=>$sections,'empty'=>'Select','class'=>'form-control','ng-model'=>'section_id'));?>
 					</div>
 				</div>
 				<div class="row" ng-show="EmployeeMode">
@@ -58,6 +65,9 @@
 						<?php echo $this->Form->input('relationship',array('options'=>$relationships,'empty'=>'Select','class'=>'form-control','ng-model'=>'relationship'));?>
 					</div>	
 				</div>
+				
+			
+				
 				<div class="row"><br/>
 					<div class="col-lg-4">
 						<?php echo $this->Form->input('source_rfid',array('required'=>'required','label'=>'RFID','class'=>'form-control','ng-model'=>'source_rfid','my-enter'=>'CheckRFID(source_rfid)'));?>
@@ -71,18 +81,18 @@
 					
 				</div>
 			</div>
-			<div class="panel-body" ng-if="SavingStatus">
+			<div class="panel-body" ng-show="SavingStatus">
 					<div class="alert alert-success" >
 						Saving successful! 
 					</div>
 				</div>
-			<div class="panel-footer" ng-if="!SavingStatus">	
+			<div class="panel-footer" ng-show="!SavingStatus">	
 				<div class="text-right">
 					<a href="/DTR/rfid_students/" class="btn btn-default">Cancel</a>
 					<button class="btn btn-primary" ng-click="save()" ng-disabled="DuplicatedRFID">Save</button>
 				</div>
 			</div>
-			<div class="panel-footer" ng-if="SavingStatus">	
+			<div class="panel-footer" ng-show="SavingStatus">	
 				<div class="text-right">
 					<button class="btn btn-primary" ng-click="AssignNewRFID()">	
 						<i class="fa fa-pencil"></i>
