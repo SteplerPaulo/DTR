@@ -48,12 +48,12 @@ class RfidStudattendance extends AppModel {
 			  `rfid_studattendance`.`time_in`,
 			  `rfid_studattendance`.`time_out` 
 			FROM
-			  `gatekeeper_2015`.`rfid_students` 
-			  INNER JOIN `gatekeeper_2015`.`sections` 
+			 `rfid_students` 
+			  INNER JOIN `sections` 
 				ON (
 				  `rfid_students`.`section_id` = `sections`.`id`
 				) 
-			  INNER JOIN `gatekeeper_2015`.`rfid_studattendance` 
+			  INNER JOIN `rfid_studattendance` 
 				ON (
 				  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
 				) 

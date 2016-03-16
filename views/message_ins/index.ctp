@@ -24,12 +24,12 @@
 		</thead>
 		<tbody>
 			<tr pagination-id="MessageInTable" dir-paginate="ib in inbox | filter:q | itemsPerPage: pageSize" current-page="currentPage">
-				<td>{{ib.MessageOut.Id}}</td>
-				<td>{{ib.MessageOut.MessageFrom}}</td>
-				<td>{{ib.MessageOut.MessageTo}}</td>
+				<td>{{ib.MessageIn.Id}}</td>
+				<td>{{ib.MessageIn.MessageFrom}}</td>
+				<td>{{ib.MessageIn.MessageTo}}</td>
 				<td>~</td>
-				<td>{{ib.MessageOut.SendDate}} {{ib.MessageOut.SendTime}}</td>
-				<td>{{ib.MessageOut.MessageText}}</td>
+				<td>{{ib.MessageIn.SendDate}} {{ib.MessageIn.SendTime}}</td>
+				<td>{{ib.MessageIn.MessageText}}</td>
 				<td class="actions text-center">
 					<a data-toggle="tooltip" title="Forward" href="#"><i class="fa fa-share"> </i></a> 
 					<a data-toggle="tooltip" title="Move to Archive" href="#"><i class="fa fa-archive"> </i></a> 
