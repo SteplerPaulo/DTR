@@ -113,25 +113,31 @@
 									array('escape'=>false )
 								);?>
 					</li>
+					<li>
+						<?php echo $this->Html->link("<i class='fa fa-key'></i> Keywords",
+									array('admin' => false,'controller'=>'keywords','action'=>'/'),
+									array('escape'=>false )
+								);?>
+					</li>
 			
 					<li>
 						<a href="javascript:void(0)" data-toggle="collapse" data-target="#MessagesLinks"><i class="fa fa-folder-open fa-fw "></i> Messages <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="MessagesLinks" class="collapse">
 							<li>
 								<?php echo $this->Html->link("<i class='fa fa-edit fa-fw'></i> Create",
-											array('controller'=>'message_outs','action'=>'create_message'),
+											array('admin' => false,'controller'=>'message_outs','action'=>'create_message'),
 											array('escape'=>false )
 										);?>
 							</li>
 							<li>
 								<?php echo $this->Html->link("<i class='fa fa-envelope-o fa-fw'></i> Inbox",
-											array('controller'=>'message_ins','action'=>'/'),
+											array('admin' => false,'controller'=>'message_ins','action'=>'/'),
 											array('escape'=>false )
 										);?>
 							</li>
 							<li>
 								<?php echo $this->Html->link("<i class='fa fa-envelope fa-fw'></i> Outbox",
-											array('controller'=>'message_outs','action'=>'/'),
+											array('admin' => false,'controller'=>'message_outs','action'=>'/'),
 											array('escape'=>false )
 										);?>
 							</li>
