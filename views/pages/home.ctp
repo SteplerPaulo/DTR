@@ -10,7 +10,9 @@
 		</div>
 		<div class="row">
 			<div class="col-md-4">
+			<!--
 				<center><img width="75" height="100" src="img/school_logo.png" /></center>
+			-->
 			</div>
 			<div class="col-md-8">
 				<p>Lots of text here...With the four tiers of grids available you're bound to run into issues where, at certain breakpoints, your columns don't clear quite right as one is taller than the other. To fix that, use a combination of a .clearfix and o</p>
