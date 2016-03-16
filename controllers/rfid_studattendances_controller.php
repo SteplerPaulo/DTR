@@ -303,4 +303,9 @@ class RfidStudattendancesController extends AppController {
 			exit;
 		}
 	}
+
+	function record(){
+		
+		
+	}
 }
