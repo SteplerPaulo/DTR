@@ -76,7 +76,7 @@
 						</h3>
 					</h3>
 				</div>
-				<div class="panel-body" ng-if="!SendingStatus">
+				<div class="panel-body" ng-show="!SendingStatus">
 					<?php echo $this->Form->create('MessageOut',array('inputDefaults' => array('class'=>'form-control','between'=>'<div class="form-group">','after'=>'</div>')));?>
 					
 
@@ -96,18 +96,18 @@
 					
 					<?php echo $this->Form->input('MessageText',array('class'=>'form-control','type'=>'textarea','placeholder'=>'Type your message here','ng-model'=>'MessageText'));?>
 				</div>
-				<div class="panel-body" ng-if="SendingStatus">
+				<div class="panel-body" ng-show="SendingStatus">
 					<div class="alert alert-success" >
 						Message Sent! 
 					</div>
 				</div>
 				
-				<div class="panel-footer" ng-if="!SendingStatus">	
+				<div class="panel-footer" ng-show="!SendingStatus">	
 					<div class="text-right">
 						<button class="btn btn-primary" type="button" ng-click="Send()"><i class="fa fa-paper-plane"></i></button>
 					</div>
 				</div>
-				<div class="panel-footer" ng-if="SendingStatus">	
+				<div class="panel-footer" ng-show="SendingStatus">	
 					<div class="text-right">
 						<button class="btn btn-primary" ng-click="CreateNewMessage()">	
 							<i class="fa fa-envelope-o"></i>
