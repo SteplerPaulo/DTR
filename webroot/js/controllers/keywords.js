@@ -12,4 +12,4 @@ App.controller('KeywordListController',function($scope,$rootScope,$http,$filter)
 			console.log(response)
 		});
 	}
-});2
+});
