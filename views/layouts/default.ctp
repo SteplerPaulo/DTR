@@ -141,6 +141,13 @@
 											array('escape'=>false )
 										);?>
 							</li>
+							
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-book'></i> Contacts",
+											array('admin' => false,'controller'=>'contacts','action'=>'/'),
+											array('escape'=>false )
+										);?>
+							</li>
 						</ul>
 					</li>
 					
