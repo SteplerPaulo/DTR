@@ -77,15 +77,20 @@ class MessageOutsController extends AppController {
 	}
 	
 	function send_message(){
-		
 		if(!empty($this->data)){
-			$this->data['MessageOut']['MessageFrom'] = '09181234567';
+			foreach($this->data['MessageOut']['MessageTo'] as $k => $d){
 				
-			if($this->MessageOut->save($this->data)){
-				echo json_encode($this->data);
-				exit;
+				$data[$k]['MessageOut'] = array(
+					'MessageTo' => $d,
+					'MessageFrom' =>$this->data['MessageOut']['MessageFrom'],
+					'MessageText' => $this->data['MessageOut']['MessageText']
+				);
 			}
 			
+			if($this->MessageOut->saveAll($data)){
+				echo json_encode($data);
+				exit;
+			}
 		}
 	}
 }
