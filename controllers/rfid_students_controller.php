@@ -3,7 +3,7 @@ class RfidStudentsController extends AppController {
 
 	var $name = 'RfidStudents';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudent','Section');
+	var $uses = array('RfidStudent','Section','SchoolYear','Level','Student201','Employee');
 
 	function index() {
 		$this->paginate = array(
@@ -82,18 +82,15 @@ class RfidStudentsController extends AppController {
 	}
 	
 	function assign(){
-		
 		$relationships = array('Parent'=>'Parent','Guardian'=>'Guardian');
+		$levels = $this->Level->find('list');
 		$sections = $this->Section->find('list');
-
-		$this->set(compact('relationships','sections'));
+		$sy = $this->SchoolYear->find('list',array('conditions'=>array('SchoolYear.is_default'=>1)));
 		
-		
+		$this->set(compact('relationships','sections','sy','levels'));
 	}
 	
 	function save(){
-		
-		
 		$rfid = $this->data['RfidStudent']['source_rfid'];
 		if(strlen($rfid) <= 8){
 			$dec = hexdec ($rfid);
@@ -123,10 +120,20 @@ class RfidStudentsController extends AppController {
 		$this->data['RfidStudent']['dec_rfid']= $dec;
 		
 		
+		
 		if($this->RfidStudent->save($this->data)){
-			echo json_encode($this->data);
-			exit;
-			
+			//UPDATE EMPLOYEE 201
+			if(isset($this->data['Employee'])){
+				$this->data['Employee']['has_rfid'] = 1;
+				$this->Employee->save($this->data['Employee']);
+			}
+			//UPDATE STUDENT 201
+			if(isset($this->data['Student201'])){
+				$this->data['Student201']['has_rfid'] = 1;
+				$this->Student201->save($this->data['Student201']);
+			}
+			//REDIRECT PAGE
+			$this->redirect(array('action' => 'success'));
 		}
 		
 	}
@@ -152,5 +159,28 @@ class RfidStudentsController extends AppController {
 		echo json_encode($response);
 		exit();
 	}	
+	
+	function success(){
+		
+		$relationships = array('Parent'=>'Parent','Guardian'=>'Guardian');
+		$sections = $this->Section->find('list');
 
+		$this->set(compact('relationships','sections'));
+		
+		
+	}
+
+	function check_by_student_number(){
+		$response = $this->RfidStudent->findByStudentNumber($this->data['student_number']);
+		echo json_encode($response);
+		exit();
+	}
+	
+	function check_by_employee_number(){
+		
+		$response = $this->RfidStudent->findByEmployeeNumber($this->data['employee_number']);
+		echo json_encode($response);
+		exit();
+	}
+	
 }
