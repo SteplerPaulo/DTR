@@ -22,7 +22,7 @@
 						<?php echo $this->Form->input('id',array('class'=>'form-control','ng-model'=>'Field.id','type'=>'text','label'=>'RFID ID'));?>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row hide">
 					<div class="col-lg-4 col-lg-offset-8" ng-if="StudentMode">
 						<?php echo $this->Form->input('Student201.id',array('class'=>'form-control','ng-model'=>'Field.student_id','type'=>'text','label'=>'Student ID'));?>
 					</div>
