@@ -119,6 +119,16 @@ class RfidStudentsController extends AppController {
 		$this->data['RfidStudent']['rfid']= $octal;
 		$this->data['RfidStudent']['dec_rfid']= $dec;
 		
+	
+		//MOBILE NO FORMAT
+		if(isset($this->data['Employee'])){
+			$this->data['RfidStudent']['employee_mobile_no'] = '+63'.$this->data['RfidStudent']['employee_mobile_no'];
+			$this->data['RfidStudent']['emergency_contact_no'] = '+63'.$this->data['RfidStudent']['emergency_contact_no'];
+		}
+		if(isset($this->data['Student201'])){
+			$this->data['RfidStudent']['student_mobile_no'] = '+63'.$this->data['RfidStudent']['student_mobile_no'];
+			$this->data['RfidStudent']['guardian_mobile_no'] = '+63'.$this->data['RfidStudent']['guardian_mobile_no'];
+		}
 		
 		
 		if($this->RfidStudent->save($this->data)){
