@@ -3,7 +3,7 @@ class RfidStudentsController extends AppController {
 
 	var $name = 'RfidStudents';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudent','Section','SchoolYear','Level','Student201','Employee');
+	var $uses = array('RfidStudent','Section','SchoolYear','Level','Student201','Employee','RfidHistory');
 
 	function index() {
 		$this->paginate = array(
@@ -119,6 +119,20 @@ class RfidStudentsController extends AppController {
 		$this->data['RfidStudent']['rfid']= $octal;
 		$this->data['RfidStudent']['dec_rfid']= $dec;
 		
+	
+		//MOBILE NO FORMAT
+		if(isset($this->data['Employee'])){
+			$this->data['RfidStudent']['employee_mobile_no'] = '+63'.$this->data['RfidStudent']['employee_mobile_no'];
+			$this->data['RfidStudent']['emergency_contact_no'] = '+63'.$this->data['RfidStudent']['emergency_contact_no'];
+		}
+		if(isset($this->data['Student201'])){
+			$this->data['RfidStudent']['student_mobile_no'] = '+63'.$this->data['RfidStudent']['student_mobile_no'];
+			$this->data['RfidStudent']['guardian_mobile_no'] = '+63'.$this->data['RfidStudent']['guardian_mobile_no'];
+		}
+		
+		
+
+		
 		
 		
 		if($this->RfidStudent->save($this->data)){
@@ -132,8 +146,26 @@ class RfidStudentsController extends AppController {
 				$this->data['Student201']['has_rfid'] = 1;
 				$this->Student201->save($this->data['Student201']);
 			}
-			//REDIRECT PAGE
-			$this->redirect(array('action' => 'success'));
+			
+			//CREATE RFID HISTORY
+			$history['RfidHistory'] = $this->data['RfidStudent'];
+			unset($history['RfidHistory']['id']);
+			
+			if($this->RfidHistory->save($history)){
+				//REDIRECT ON SUCCESS PAGE
+				$this->Session->setFlash(__('Saving successful!', true));
+				$this->redirect(array('action' => 'success'));
+			
+			}else{
+				//REDIRECT ON ERROR PAGE
+				$this->Session->setFlash(__('Error on saving rfid history! Pls. contact system administrator.', true));
+				$this->redirect(array('action' => 'error'));
+			}
+			
+		}else{
+			//REDIRECT ON ERROR PAGE
+			$this->Session->setFlash(__("Error on assigning RFID! Pls. contact system administrator.", true));
+			$this->redirect(array('action' => 'error'));
 		}
 		
 	}
@@ -167,6 +199,10 @@ class RfidStudentsController extends AppController {
 
 		$this->set(compact('relationships','sections'));
 		
+		
+	}
+	
+	function error(){
 		
 	}
 

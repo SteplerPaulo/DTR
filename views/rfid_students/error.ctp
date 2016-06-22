@@ -7,15 +7,14 @@
 				</h3>
 			</div>
 			<div class="panel-body">
-				<div class="alert alert-success" >
+				<div class="alert alert-danger" >
 					<?php echo $session->flash();?>
 				</div>
 			</div>
 			<div class="panel-footer">	
 				<div class="text-right">
 					<a class="btn btn-primary" href="../rfid_students/assign">	
-						<i class="fa fa-pencil"></i>
-						Assign New RFID
+						Back <i class="fa fa-reply" aria-hidden="true"></i>
 					</a>
 				</div>
 			</div>
