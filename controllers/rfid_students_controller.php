@@ -3,7 +3,7 @@ class RfidStudentsController extends AppController {
 
 	var $name = 'RfidStudents';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudent','Section','SchoolYear','Level','Student201','Employee');
+	var $uses = array('RfidStudent','Section','SchoolYear','Level','Student201','Employee','RfidHistory');
 
 	function index() {
 		$this->paginate = array(
@@ -131,6 +131,10 @@ class RfidStudentsController extends AppController {
 		}
 		
 		
+
+		
+		
+		
 		if($this->RfidStudent->save($this->data)){
 			//UPDATE EMPLOYEE 201
 			if(isset($this->data['Employee'])){
@@ -142,8 +146,26 @@ class RfidStudentsController extends AppController {
 				$this->data['Student201']['has_rfid'] = 1;
 				$this->Student201->save($this->data['Student201']);
 			}
-			//REDIRECT PAGE
-			$this->redirect(array('action' => 'success'));
+			
+			//CREATE RFID HISTORY
+			$history['RfidHistory'] = $this->data['RfidStudent'];
+			unset($history['RfidHistory']['id']);
+			
+			if($this->RfidHistory->save($history)){
+				//REDIRECT ON SUCCESS PAGE
+				$this->Session->setFlash(__('Saving successful!', true));
+				$this->redirect(array('action' => 'success'));
+			
+			}else{
+				//REDIRECT ON ERROR PAGE
+				$this->Session->setFlash(__('Error on saving rfid history! Pls. contact system administrator.', true));
+				$this->redirect(array('action' => 'error'));
+			}
+			
+		}else{
+			//REDIRECT ON ERROR PAGE
+			$this->Session->setFlash(__("Error on assigning RFID! Pls. contact system administrator.", true));
+			$this->redirect(array('action' => 'error'));
 		}
 		
 	}
@@ -177,6 +199,10 @@ class RfidStudentsController extends AppController {
 
 		$this->set(compact('relationships','sections'));
 		
+		
+	}
+	
+	function error(){
 		
 	}
 
