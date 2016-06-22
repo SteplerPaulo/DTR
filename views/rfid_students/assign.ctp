@@ -18,7 +18,7 @@
 						</select>
 						<input class="hide" name="data[RfidStudent][type]" ng-model="type"/>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-lg-4 hide">
 						<?php echo $this->Form->input('id',array('class'=>'form-control','ng-model'=>'Field.id','type'=>'text','label'=>'RFID ID'));?>
 					</div>
 				</div>
@@ -110,17 +110,17 @@
 						<div class="panel panel-warning" ng-show="HaveAnExistingRFID">
 							<div class="panel-heading"><b>Warning</b></div>
 							<div class="panel-body">
-								{{Field.first_name}} already have an existing RFID.What would you like to do?
+								Record found. What would you like to do?
 							</div>
 							<div class="panel-footer text-right">
-								<button type="button" class="btn btn-default btn-sm" ng-click="reset(ReloadPage)">Reset Form</button>
+								<button type="button" class="btn btn-default btn-sm" ng-click="reset(ReloadPage)">Cancel</button>
 								<button type="button" class="btn btn-info btn-sm" ng-click="update()">Update</button>
 							</div>
 						</div>
 						<div class="panel panel-warning" ng-show="DuplicatedRFID">
 							<div class="panel-heading"><b>Warning</b></div>
 							<div class="panel-body">
-								Duplicated RFID No
+								Duplicate RFID No. Found
 							</div>
 						</div>
 						<div class="panel panel-warning" ng-show="No201">
