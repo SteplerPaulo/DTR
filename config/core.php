@@ -302,7 +302,3 @@
  *
  */
 	Cache::config('default', array('engine' => 'File'));
-	Configure::write('BrandName', 'Amigosource');
-	Configure::write('BrandTagLine', 'Make the right choice.');
-	Configure::write('JS.async', true);
-	Configure::write('JS.defer', true);
