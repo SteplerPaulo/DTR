@@ -3,7 +3,7 @@
 		<div class=" col-lg-5">
 			<div class="row">
 				<div  class="col-lg-6" >
-					<label>Date From</label><?php echo date('Y-m-d'); ?>
+					<label>Date From</label>
 					<input type="date" class="form-control input-sm" id="FromDate" ng-model="fromDate" value="<?php echo date('Y-m-d'); ?>">
 				</div>
 				<div  class="col-lg-6" >

@@ -1,6 +1,6 @@
 <?php
 require('formsheet.php');
-class DocRerpot extends Formsheet{
+class EmplAttendanceReport extends Formsheet{
 	protected static $_width = 8.5;
 	protected static $_height = 11;
 	protected static $_unit = 'in';
@@ -10,13 +10,13 @@ class DocRerpot extends Formsheet{
 	protected static $curr_page = 1;
 	protected static $page_count;
 	
-	function DocRerpot(){
+	function EmplAttendanceReport(){
 		//$this->user = $user;
 		//$this->data = $data;
-		//DocRerpot::$page_count = ceil((count($data)+count($vendors)+1)/21);//Total Page Count
+		//EmplAttendanceReport::$page_count = ceil((count($data)+count($vendors)+1)/21);//Total Page Count
 
 		$this->showLines = !true;
-		$this->FPDF(DocRerpot::$_orient, DocRerpot::$_unit,array(DocRerpot::$_width,DocRerpot::$_height));
+		$this->FPDF(EmplAttendanceReport::$_orient, EmplAttendanceReport::$_unit,array(EmplAttendanceReport::$_width,EmplAttendanceReport::$_height));
 		$this->createSheet();
 	}
 	

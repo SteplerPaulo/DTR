@@ -1,9 +1,9 @@
 <?php
-App::import('Vendor','report');
+App::import('Vendor','employee_report');
 
 
 
-$pr= new DocRerpot();
+$pr= new EmplAttendanceReport();
 if(!empty($data) && !empty($hdr)){
 	$pr->divider();
 	$pr->hdr(0,$hdr,$data);

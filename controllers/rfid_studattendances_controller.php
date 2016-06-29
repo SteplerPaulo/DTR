@@ -145,6 +145,7 @@ class RfidStudattendancesController extends AppController {
 	
 	function doc_report($fromDate=null,$toDate=null,$sno=null,$sname=null){
 		if(!empty($fromDate) && !empty($toDate) && !empty($sno) && !empty($sname)){
+			
 			//GET DATE BETWEEN TWO DATES
 			$dates = $this->get_dates_between_two_dates($fromDate,$toDate);
 			//SET GATEKEEPER DATABASE
@@ -154,6 +155,7 @@ class RfidStudattendancesController extends AppController {
 			
 			//CALL UPDATED ATTENDANCE ENTRY
 			$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$sno,$gatekeeper_db);	
+			
 			$hdr['sname'] = $sname;
 			$hdr['sno'] = $sno;
 			$hdr['fromDate'] = $fromDate;
@@ -231,6 +233,8 @@ class RfidStudattendancesController extends AppController {
 	function set_gatekeeper_db(){
 		$fields = get_class_vars('DATABASE_CONFIG');
 		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		
+
 		return $gatekeeper_db;
 	}
 	

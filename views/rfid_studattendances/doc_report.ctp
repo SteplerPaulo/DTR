@@ -2,14 +2,13 @@
 App::import('Vendor','student_report');
 
 
-
-$pr= new StudDocRerpot();
+$pr= new StudentAttendanceReport();
 if(!empty($data) && !empty($hdr)){
 	$pr->divider();
-	$pr->hdr(0);
-	$pr->table(0);
-	$pr->hdr(4.25);
-	$pr->table(4.25);
+	$pr->hdr(0,$hdr,$data);
+	$pr->table(0,$hdr,$data);
+	$pr->hdr(4.25,$hdr,$data);
+	$pr->table(4.25,$hdr,$data);
 }else{
 	
 	$pr->nodata();
