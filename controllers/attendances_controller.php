@@ -6,6 +6,7 @@ class AttendancesController extends AppController {
 	var $uses = array('Attendance','RfidStudent','SchoolYear','AttendanceCopy');
 	
 	function beforeFilter(){ 
+		parent::beforeFilter();
 		$this->Auth->userModel = 'User'; 
 		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy','admin_add','modal','admin_posting'));	
     } 

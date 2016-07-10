@@ -6,8 +6,9 @@ class RfidStudattendancesController extends AppController {
 	var $uses = array('RfidStudattendance','RfidStudent');
 	
 	function beforeFilter(){ 
+		parent::beforeFilter();
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','students','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy','admin_add','admin_posting','daily_report','monthly_report'));	
+		$this->Auth->allow(array('index','students','report','datetime','doc_report','daily_report','monthly_report'));	
     } 
 
 

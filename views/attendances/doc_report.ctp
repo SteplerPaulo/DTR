@@ -1,14 +1,12 @@
 <?php
 App::import('Vendor','employee_report');
 
-
-
 $pr= new EmplAttendanceReport();
 if(!empty($data) && !empty($hdr)){
 	$pr->divider();
-	$pr->hdr(0,$hdr,$data);
+	$pr->hdr(0,$hdr,$data,$SystemDefault);
 	$pr->table(0,$hdr,$data);
-	$pr->hdr(4.25,$hdr,$data);
+	$pr->hdr(4.25,$hdr,$data,$SystemDefault);
 	$pr->table(4.25,$hdr,$data);
 }else{
 	

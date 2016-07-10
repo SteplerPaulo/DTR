@@ -20,7 +20,7 @@ class StudentAttendanceReport extends Formsheet{
 		$this->createSheet();
 	}
 	
-	function hdr($x=0,$hdr,$data){
+	function hdr($x=0,$hdr,$data,$SystemDefault){
 		$metrics = array(
 			'base_x'=> 0.125+$x,
 			'base_y'=> 0.125,
@@ -32,8 +32,8 @@ class StudentAttendanceReport extends Formsheet{
 		$this->section($metrics);
 		$y = 4;
 		$this->GRID['font_size']=8;
-		$this->DrawImage(8.525,0,0.6,0.6,'../webroot/img/school_logo.png');
-		$this->centerText(0,$y++,'JUAN SUMULONG MEMORIAL JUNIOR COLLEGE',$metrics['cols'],'b');
+		$this->DrawImage(8.525,0,0.6,0.6,'../webroot/img/'.$SystemDefault['school_logo']);
+		$this->centerText(0,$y++,$SystemDefault['school_name'],$metrics['cols'],'b');
 		$this->centerText(0,$y++,'DAILY TIME RECORD',$metrics['cols'],'b');
 		
 		$this->centerText(0,$y++,date("M d, Y", strtotime($hdr['fromDate'])).' - '.date("M d, Y", strtotime($hdr['toDate'])),$metrics['cols'],'');

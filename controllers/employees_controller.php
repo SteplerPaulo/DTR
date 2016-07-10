@@ -4,6 +4,10 @@ class EmployeesController extends AppController {
 	var $name = 'Employees';
 	var $helpers = array('Access');
 	
+	function beforeFilter(){ 
+		parent::beforeFilter();
+	} 
+	
 	function index() {
 		$this->Employee->recursive = 0;
 		$this->set('employees', $this->paginate());

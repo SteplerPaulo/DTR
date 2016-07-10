@@ -6,6 +6,7 @@ class UsersController extends AppController {
 	var $helpers = array('Access');
 	
 	function beforeFilter(){ 
+		parent::beforeFilter();
 		$this->Auth->userModel = 'User'; 
 		$this->Auth->allow(array('register','login','check','upload','download','install','permission_control','modify_permision','add_aco','add_aro'));	
     } 
