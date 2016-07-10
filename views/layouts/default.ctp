@@ -208,8 +208,9 @@
 						<b><span>JUAN SUMULONG MEMORIAL JUNIOR COLLEGE</span></b>
 					</li>
 					-->
-					<li  >
-						<a>JUAN SUMULONG MEMORIAL JUNIOR COLLEGE </a>
+					<li>
+						<a><?php echo $SystemDefault['school_name'];?>
+						</a>
 					</li>
 					<li class="dropdown" ng-hide="false">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <b class="caret"></b></a>

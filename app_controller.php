@@ -64,9 +64,21 @@ class AppController extends Controller {
 	
 	
 	function beforeFilter() {
+		App::Import('Model', 'SystemDefault');
+		$this->SystemDefault = new SystemDefault;
+		$systemDefault = $this->SystemDefault->find('first');
+		
+		$this->Session->write('SystemDefault',null);
+		$this->Session->write('SystemDefault',$systemDefault);
+		$systemDefault = $this->Session->read('SystemDefault');
+		$this->set('SystemDefault',$this->Session->read('SystemDefault'));
+		$this->set('SystemDefault',$systemDefault['SystemDefault']);
+		
 		if ($this->params['controller'] == 'pages') {
 			$this->Auth->allow('*'); 
 			return;
 		}
 	}
+	
+	
 }
