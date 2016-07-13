@@ -2,6 +2,7 @@
 class SystemDefaultsController extends AppController {
 
 	var $name = 'SystemDefaults';
+	var $helpers = array('Access');
 
 	function index() {
 		$this->SystemDefault->recursive = 0;

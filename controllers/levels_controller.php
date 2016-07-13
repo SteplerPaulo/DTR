@@ -2,6 +2,7 @@
 class LevelsController extends AppController {
 
 	var $name = 'Levels';
+	var $helpers = array('Access');
 
 	function index() {
 		$this->Level->recursive = 0;

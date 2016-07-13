@@ -2,6 +2,7 @@
 class RfidHistoriesController extends AppController {
 
 	var $name = 'RfidHistories';
+	var $helpers = array('Access');
 
 	function index() {
 		$this->RfidHistory->recursive = 0;
