@@ -84,7 +84,7 @@
 									);  ?>
 					</li>
 					<li>
-						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Daily Time Record',
+						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Employee Daily Time Record',
 									array('admin' => false,'controller'=>'attendances','action'=>'/'),
 									array('escape'=>false )
 								);?>
