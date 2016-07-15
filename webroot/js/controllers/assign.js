@@ -165,7 +165,7 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 							$scope.Field.middle_name = d.Employee.middle_name;
 							$scope.Field.employee_mobile_no = d.Employee.mobile;
 							$scope.Field.emergency_contact_no = d.Employee.emergency_contact_no;
-							$scope.Field.emergency_contact_person = d.Employee.emergency_contact_person;
+							$scope.Field.emergency_contact_person = d.Employee.emergency_contact;
 						}else{
 							$scope.No201=true;
 						}
