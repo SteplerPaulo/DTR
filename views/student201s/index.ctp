@@ -21,7 +21,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr pagination-id="ContactListTable" dir-paginate="s in students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
+			<tr pagination-id="StudentListTable" dir-paginate="s in students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
 				<td>{{s.Student201.id}}</td>
 				<td>{{s.Student201.student_number}}</td>
 				<td>{{s.Student201.full_name}}</td>
@@ -35,7 +35,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="5" class="text-center">
-					<dir-pagination-controls pagination-id="ContactListTable"></dir-pagination-controls>
+					<dir-pagination-controls pagination-id="StudentListTable"></dir-pagination-controls>
 				</td>
 			</tr>
 		</tfoot>

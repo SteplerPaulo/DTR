@@ -3,6 +3,7 @@ class Student201sController extends AppController {
 
 	var $name = 'Student201s';
 	var $helpers = array('Access');
+	var $uses = array('Student201','Section','Level');
 
 	function index() {
 		$this->Student201->recursive = 0;
@@ -27,6 +28,12 @@ class Student201sController extends AppController {
 				$this->Session->setFlash(__('The student201 could not be saved. Please, try again.', true));
 			}
 		}
+		
+		$relationships = array('Parent'=>'Parent','Guardian'=>'Guardian');
+		$levels = $this->Level->find('list');
+		$sections = $this->Section->find('list');
+		
+		$this->set(compact('relationships','sections','levels'));
 	}
 
 	function edit($id = null) {
@@ -45,6 +52,14 @@ class Student201sController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->Student201->read(null, $id);
 		}
+		
+		
+		
+		$relationships = array('Parent'=>'Parent','Guardian'=>'Guardian');
+		$levels = $this->Level->find('list');
+		$sections = $this->Section->find('list');
+		
+		$this->set(compact('relationships','sections','levels'));
 	}
 
 	function delete($id = null) {
