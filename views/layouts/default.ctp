@@ -90,8 +90,14 @@
 								);?>
 					</li>
 					<li>
-						<?php echo $this->Html->link("<i class='fa fa-tags'></i> Assign RFID",
+						<?php echo $this->Html->link("<i class='fa fa-tag'></i> Assign RFID",
 									array('admin' => false,'controller'=>'rfid_students','action'=>'assign'),
+									array('escape'=>false )
+								);?>
+					</li>
+					<li>
+						<?php echo $this->Html->link("<i class='fa fa-tags'></i> Assign Fetcher",
+									array('admin' => false,'controller'=>'fetchers','action'=>'assigning'),
 									array('escape'=>false )
 								);?>
 					</li>
@@ -129,7 +135,19 @@
 							</li>
 							<li>
 								<?php echo $this->Html->link("<i class='fa fa-users fa-fw'></i> Students",
-											array('admin' => false,'controller'=>'message_ins','action'=>'/'),
+											array('admin' => false,'controller'=>'student201s','action'=>'/'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-user-secret fa-fw'></i> Fetchers",
+											array('admin' => false,'controller'=>'fetchers','action'=>'/'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-list-alt fa-fw'></i> Sections",
+											array('admin' => false,'controller'=>'sections','action'=>'/'),
 											array('escape'=>false )
 										);?>
 							</li>
