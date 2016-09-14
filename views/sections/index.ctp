@@ -1,4 +1,3 @@
-
 <div ng-controller="SectionController" ng-init="initializeController()">	
 	<div class="row">
 		<div class="col-lg-4 col-md-4 col-xs-4">
@@ -10,9 +9,12 @@
 			<input type="number" min="1" max="100" class="form-control input-sm" ng-model="pageSize">
 		</div>
 	</div><br/>
-
-	<table class="table table-bordered">
+	<table class="table table-hovered table-striped">
 		<thead>
+			<tr>
+				<td colspan="3"></td>
+				<td colspan="1" class="text-right"><a class="btn btn-warning btn-sm " href="/DTR/student201s/add">Create New Section 201</a></td>
+			</tr>
 			<tr>
 				<th>Section Code</th>
 				<th>Name</th>
@@ -39,20 +41,4 @@
 		</tfoot>
 	</table>	
 </div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Section', true), array('action' => 'add')); ?></li>
-	</ul>
-</div>
-
-
-
-
 <?php echo $this->Html->script('controllers/sections',array('inline'=>false));?>
-
-
-
-
-
-

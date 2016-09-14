@@ -10,10 +10,13 @@
 		</div>
 	</div><br/>
 
-	<table class="table table-bordered">
+	<table class="table table-hovered table-striped">
 		<thead>
 			<tr>
-				<th>ID</th>
+				<td colspan="3"></td>
+				<td colspan="1" class="text-right"><a class="btn btn-warning btn-sm " href="/DTR/student201s/add">Create New Employee 201</a></td>
+			</tr>
+			<tr>
 				<th>Employee Number</th>
 				<th>Name</th>
 				<th>Has RFID</th>
@@ -22,7 +25,6 @@
 		</thead>
 		<tbody>
 			<tr pagination-id="ContactListTable" dir-paginate="s in students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
-				<td>{{s.Employee.id}}</td>
 				<td>{{s.Employee.employee_no}}</td>
 				<td>{{s.Employee.full_name}}</td>
 				<td>{{s.Employee.has_rfid_string}}</td>
@@ -40,11 +42,5 @@
 			</tr>
 		</tfoot>
 	</table>	
-</div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Employee', true), array('action' => 'add')); ?></li>
-	</ul>
 </div>
 <?php echo $this->Html->script('controllers/employees',array('inline'=>false));?>

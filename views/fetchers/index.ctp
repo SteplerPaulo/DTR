@@ -10,8 +10,12 @@
 		</div>
 	</div><br/>
 
-	<table class="table table-bordered">
+	<table class="table table-hovered table-striped">
 		<thead>
+			<tr>
+				<td colspan="2"></td>
+				<td colspan="1" class="text-right"><a class="btn btn-warning btn-sm " href="/DTR/fetchers/registration">Create New Fetcher 201</a></td>
+			</tr>
 			<tr>
 				<th>ID</th>
 				<th>Name</th>
@@ -23,7 +27,7 @@
 				<td>{{s.Fetcher.id}}</td>
 				<td>{{s.Fetcher.full_name}}</td>
 				<td class="actions text-center">
-					<a data-toggle="tooltip" title="View Fetcher Profile" href="/DTR/fetchers/profile/{{s.Fetcher.id}}"><i class="fa fa-eye"></i></a>
+					<a data-toggle="tooltip" title="Upload Fetcher's Photo" href="/DTR/fetchers/profile/{{s.Fetcher.id}}"><i class="fa fa-file-image-o"></i></a>
 				</td>
 			</tr>
 		</tbody>
@@ -35,11 +39,5 @@
 			</tr>
 		</tfoot>
 	</table>	
-</div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Fetcher Registration', true), array('action' => 'registration')); ?></li>
-	</ul>
 </div>
 <?php echo $this->Html->script('controllers/fetchers',array('inline'=>false));?>
