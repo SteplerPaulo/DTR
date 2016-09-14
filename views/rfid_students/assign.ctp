@@ -139,6 +139,7 @@
 			</div>
 			<div class="panel-footer">	
 				<div class="text-right">
+					<button class="btn btn-default" type="reset">Reset</button>
 					<button class="btn btn-primary" type="submit" ng-disabled="DuplicatedRFID || HaveAnExistingRFID || No201">Save</button>
 				</div>
 			</div>

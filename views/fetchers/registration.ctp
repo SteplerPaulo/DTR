@@ -20,11 +20,10 @@
 					</div>
 				</div><br/>
 			</div>
-			
 			<div class="panel-footer">	
 				<div class="text-right">
+					<button class="btn btn-default" type="reset">Reset</button>
 					<button class="btn btn-primary" type="submit">Save</button>
-					
 				</div>
 			</div>
 			<?php echo $this->Form->end();?>
