@@ -207,4 +207,9 @@ class FetchersController extends AppController {
 		
 		
 	}
+	
+	function assigning_2(){
+		
+		
+	}
 }
