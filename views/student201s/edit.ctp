@@ -46,7 +46,7 @@
 						</div>
 					</div>
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('mobile',array('between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Mobile No','class'=>'form-control','required'=>'required'));?>
+						<?php echo $this->Form->input('mobile',array('value'=>substr($this->data['Student201']['mobile'],3,11),'between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Mobile No','class'=>'form-control','required'=>'required','maxlength'=>10));?>
 					</div>
 				
 				</div><br/>
@@ -61,24 +61,17 @@
 						<?php echo $this->Form->input('primary_relationship',array('options'=>$relationships,'empty'=>'Select','label'=>'Relationship','class'=>'form-control','required'=>'required'));?>
 					</div>
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('primary_mobile_no',array('between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Contact Mobile No','class'=>'form-control','required'=>'required'));?>
+						<?php echo $this->Form->input('primary_mobile_no',array('value'=>substr($this->data['Student201']['primary_mobile_no'],3,11),'between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Contact Mobile No','class'=>'form-control','required'=>'required','maxlength'=>10));?>
 					</div>
+					
 				</div>
 			</div>
 			<div class="panel-footer">	
 				<div class="text-right">
+					<a class="btn btn-default" href="/DTR/student201s">Cancel</a>
 					<button class="btn btn-primary" type="submit">Save</button>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-		<!--
-		<li><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $this->Form->value('Student201.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $this->Form->value('Student201.id'))); ?></li>
-		-->
-		<li><?php echo $this->Html->link(__('List Student201s', true), array('action' => 'index'));?></li>
-	</ul>
 </div>

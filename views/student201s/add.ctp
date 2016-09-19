@@ -1,4 +1,4 @@
-<div class="row" ng-controller="Student201AddController" ng-init="initializeController()">
+<div class="row">
 	<div class="col-md-8 col-md-offset-2">
 		<div class="login-panel panel panel-default">
 			<div class="panel-heading">
@@ -32,16 +32,16 @@
 				</div><br/>
 				<div class="row" >
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('gender',array('class'=>'form-control','required'=>'required'));?>
+						<?php echo $this->Form->input('gender',array('empty'=>'Select','class'=>'form-control','required'=>'required'));?>
 					</div>
 					<div class="col-lg-4">
 						<div class="form-group">
-							<label class="control-label">Date</label>
+							<label class="control-label">Date Of Birth</label>
 							<input type="date" name="data[Student201][birthday]" class="form-control" required="required">
 						</div>
 					</div>
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('mobile',array('between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Mobile No','class'=>'form-control','required'=>'required'));?>
+						<?php echo $this->Form->input('mobile',array('between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Mobile No','class'=>'form-control','required'=>'required','maxlength'=>10));?>
 					</div>
 				</div><br/>
 				
@@ -55,7 +55,7 @@
 						<?php echo $this->Form->input('primary_relationship',array('options'=>$relationships,'empty'=>'Select','label'=>'Relationship','class'=>'form-control','required'=>'required'));?>
 					</div>
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('primary_mobile_no',array('between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Contact Mobile No','class'=>'form-control','required'=>'required'));?>
+						<?php echo $this->Form->input('primary_mobile_no',array('between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Contact Mobile No','class'=>'form-control','required'=>'required','maxlength'=>10));?>
 					</div>
 				</div>
 			</div>
