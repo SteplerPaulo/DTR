@@ -10,7 +10,8 @@ App.controller('FetcherAssigningController',function($scope,$rootScope,$http,$fi
 		$rootScope.FINALFETCHERS = [];
 		$rootScope.FINALSTUDENTS = [];
 		$rootScope.isSelected=[];
-		$rootScope.isRemoved=[];
+		$rootScope.RFIDENTRY = true;
+		$rootScope.ASSIGNING = false;
 		
 		$http.get("/DTR/fetchers/all").success(function(response) {
 			$scope.fetchers = response;
@@ -21,33 +22,90 @@ App.controller('FetcherAssigningController',function($scope,$rootScope,$http,$fi
 		});
 	}
 	
+	$scope.GoButton = function(RFID) {
+		$scope.RFID = RFID;
+		if(RFID){
+			$rootScope.RFIDENTRY = false;
+			$rootScope.ASSIGNING = true;
+			
+			$http.get("/DTR/fetchers/populate/"+RFID).success(function(response) {
+				
+				
+				$.each(response,function(i,d){
+					$.each($scope.fetchers,function(i,f){
+						if(d.Fetcher.id ==  f.Fetcher.id){
+							$scope.SelectedFetchers[f.Fetcher.id] = f;
+							$rootScope.isSelected[f.Fetcher.slug] = true;
+						}
+					});
+					
+					
+					$.each($scope.students,function(i,f){
+						if(d.RfidStudent.id ==  f.RfidStudent.id){
+							$scope.SelectedStudents[f.RfidStudent.id] = f;
+							$rootScope.isSelected[f.RfidStudent.slug] = true;
+							
+						}
+					});
+				});
+			
+				
+				
+				$rootScope.FINALFETCHERS = [];
+				$.each($scope.SelectedFetchers,function(i,o){
+					if(o){//FILTER UNDEFINED VALUE
+						$rootScope.FINALFETCHERS.push(o);
+					}
+				});
+
+
+				
+				$rootScope.FINALSTUDENTS = [];
+				$.each($scope.SelectedStudents,function(i,o){
+					if(o){
+						$rootScope.FINALSTUDENTS.push(o);
+					}
+				});
+					
+				
+				
+				
+				
+				
+				
+				
+				
+			});
+			
+		}
+		
+	}
+	
 
 	
 	$scope.fetcherSelected = function(d) {
-		var indx = d.Fetcher.id;
-		$scope.SelectedFetchers[indx] = d;
+		
+		
+		$scope.SelectedFetchers[d.Fetcher.id] = d;
+		
 		$rootScope.FINALFETCHERS = [];
 		$.each($scope.SelectedFetchers,function(i,o){
 			if(o){//FILTER UNDEFINED VALUE
 				$rootScope.FINALFETCHERS.push(o);
 			}
 		});
-	
-		$rootScope.isSelected[d.Fetcher.slug] = true;
-		$rootScope.isRemoved[d.Fetcher.slug] = false;
-		
+		console.log($rootScope.FINALFETCHERS);
+		$rootScope.isSelected[d.Fetcher.slug] = true;//REMOVE FETCHER FROM OPTION LIST
 	};
 	
 	$scope.removeFetcher = function(d) {
 		$rootScope.isSelected[d.Fetcher.slug] = false;
-		$rootScope.isRemoved[d.Fetcher.slug] = true;
 	}
 	
 	
 	
 	$scope.studentSelected = function(d) {
-		var indx = d.RfidStudent.id;
-		$scope.SelectedStudents[indx] = d;
+		$scope.SelectedStudents[d.RfidStudent.id] = d;
 		$rootScope.FINALSTUDENTS = [];
 		$.each($scope.SelectedStudents,function(i,o){
 			if(o){
@@ -56,11 +114,9 @@ App.controller('FetcherAssigningController',function($scope,$rootScope,$http,$fi
 		});
 		
 		$rootScope.isSelected[d.RfidStudent.slug] = true;
-		$rootScope.isRemoved[d.RfidStudent.slug] = false;
 	};
 	
 	$scope.removeStudent = function(d) {
 		$rootScope.isSelected[d.RfidStudent.slug] = false;
-		$rootScope.isRemoved[d.RfidStudent.slug] = true;
 	}
 });

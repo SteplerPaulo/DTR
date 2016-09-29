@@ -19,8 +19,6 @@ class FetcherRfidStudentsController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) {
-			pr($this->data);exit;
-			
 			$this->FetcherRfidStudent->create();
 			if ($this->FetcherRfidStudent->save($this->data)) {
 				$this->Session->setFlash(__('The fetcher rfid student has been saved', true));
@@ -72,8 +70,7 @@ class FetcherRfidStudentsController extends AppController {
 	
 		
 		if (!empty($this->data)) {
-			
-			pr($this->data);exit;
+			$this->FetcherRfidStudent->deleteAll(array ("FetcherRfidStudent.source_rfid" => $this->data['FetcherRfidStudent']['source_rfid']));
 			
 			$source_rfid = $this->data['FetcherRfidStudent']['source_rfid'];
 			if(strlen($source_rfid) <= 8){
@@ -115,7 +112,7 @@ class FetcherRfidStudentsController extends AppController {
 			$this->FetcherRfidStudent->create();
 			if ($this->FetcherRfidStudent->saveAll($data)) {
 				$this->Session->setFlash(__('The fetcher rfid student has been saved', true));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => '../fetchers/assigning'));
 			} else {
 				$this->Session->setFlash(__('The fetcher rfid student could not be saved. Please, try again.', true));
 			}

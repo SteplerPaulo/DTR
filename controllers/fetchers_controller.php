@@ -2,7 +2,7 @@
 class FetchersController extends AppController {
 
 	var $name = 'Fetchers';
-	var $uses =  array('Fetcher','FetcherDocument');
+	var $uses =  array('Fetcher','FetcherDocument','FetcherRfidStudent');
 	var $helpers = array('Access');
 
 	function index() {
@@ -185,14 +185,6 @@ class FetchersController extends AppController {
 	}
 	
 	function all(){
-		
-		$this->Fetcher->unbindModel(
-			array(
-				'hasMany' => array('FetcherRfidStudent'),
-				//'hasOne' => array('FetcherDocument'),
-			)
-		);
-	
 		$fetchers = $this->Fetcher->find('all',array('fields'=>array('FetcherDocument.id','Fetcher.full_name','Fetcher.id','Fetcher.slug')));
 		echo json_encode($fetchers);
 		exit;
@@ -211,5 +203,11 @@ class FetchersController extends AppController {
 	function assigning_2(){
 		
 		
+	}
+
+	function populate($rfid =  null){
+		$result = $this->Fetcher->FetcherRfidStudent->find('all',array('recursive'=>1,'conditions'=>array('FetcherRfidStudent.source_rfid'=>$rfid)));
+		echo json_encode($result);
+		exit;
 	}
 }
