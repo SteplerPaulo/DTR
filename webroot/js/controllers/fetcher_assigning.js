@@ -2,7 +2,7 @@ App.controller('FetcherAssigningController',function($scope,$rootScope,$http,$fi
 	
 	$scope.initializeController = function(){
 		$scope.currentPage = 1; 
-		$scope.pageSize = 11;
+		//$scope.pageSize = 11;
 		$scope.FetcherIsChecked = {}; 
 		$scope.Checkbox = false; 
 		$scope.SelectedFetchers = [];
