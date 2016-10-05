@@ -219,4 +219,42 @@ class RfidStudentsController extends AppController {
 		exit();
 	}
 	
+	
+	function checking(){
+		$result =  $this->RfidStudent->find('all');
+		$data =  array();
+		$i = 0;
+		foreach($result as $k => $r){
+		
+			//if($r['RfidStudent']['dec_rfid'] != hexdec ($r['RfidStudent']['source_rfid'])){
+				echo $r['RfidStudent']['source_rfid'].' = ';
+				echo hexdec ($r['RfidStudent']['source_rfid']).' = ';
+				echo $r['RfidStudent']['dec_rfid'].'<br/>';
+				
+				$dec =  hexdec ($r['RfidStudent']['source_rfid']);
+				
+				if(strlen($dec) == 7){
+					$dec = '000'.$dec;
+				}else if(strlen($dec) == 8){
+					$dec = '00'.$dec;
+				}else if(strlen($dec) == 9){
+					$dec = '0'.$dec;
+				}
+				$data[$i]['RfidStudent']['dec_rfid'] = $dec;
+				$data[$i]['RfidStudent']['id'] = $r['RfidStudent']['id'];
+				$data[$i]['RfidStudent']['source_rfid'] = $r['RfidStudent']['source_rfid'];
+				$data[$i]['RfidStudent']['old_dec_rfid'] = $r['RfidStudent']['dec_rfid'];
+				
+				$i++;
+			//}
+			
+			
+		}
+		
+		if($this->RfidStudent->saveAll($data)){
+			
+			echo 'Saving Successfull';
+		}
+		exit;
+	}
 }
