@@ -219,7 +219,6 @@ class RfidStudentsController extends AppController {
 		exit();
 	}
 	
-	
 	function checking(){
 		$result =  $this->RfidStudent->find('all');
 		$data =  array();
@@ -255,6 +254,12 @@ class RfidStudentsController extends AppController {
 			
 			echo 'Saving Successfull';
 		}
+		exit;
+	}
+
+	function all_student(){
+		$students = $this->RfidStudent->find('all',array('conditions'=>array('RfidStudent.type'=>1)));
+		echo json_encode($students);
 		exit;
 	}
 }
