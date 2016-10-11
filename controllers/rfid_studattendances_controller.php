@@ -126,6 +126,7 @@ class RfidStudattendancesController extends AppController {
 			exit;
 		}
 	}
+	
 	function admin_report(){
 		
 		
@@ -137,12 +138,10 @@ class RfidStudattendancesController extends AppController {
 		exit;
 	}
 	
-	
 	function admin_adjust($fromDate=null,$toDate=null,$sno=null,$sname=null){
 		$this->layout='clean';
 		$this->set(compact('fromDate','toDate','sno','sname'));
 	}
-	
 	
 	function doc_report($fromDate=null,$toDate=null,$sno=null,$sname=null){
 		if(!empty($fromDate) && !empty($toDate) && !empty($sno) && !empty($sname)){
@@ -173,11 +172,10 @@ class RfidStudattendancesController extends AppController {
 		}
 	}
 	
-	function daily_report($sectionId = '', $sectionName = '', $date = ''){
+	function daily_report($sectionId = null, $sectionName = null, $date = null){
 		
 		if(!empty($sectionId) && !empty($sectionName) &&!empty($date)){
 			$data = $this->RfidStudattendance->daily_report($sectionId,$date);
-		
 			$hdr = array();
 			$hdr['section_id'] = $sectionId;
 			$hdr['section_name'] = $sectionName;
@@ -196,6 +194,7 @@ class RfidStudattendancesController extends AppController {
 	
 		
 	}
+	
 	function monthly_report($sectionId = ""){
 		if(!empty($sectionId)){
 			$data = array();
@@ -211,8 +210,6 @@ class RfidStudattendancesController extends AppController {
 			$this->render();
 		}
 	}
-	
-	
 	
 	function get_dates_between_two_dates($fromDate,$toDate){
 		//GET DATE BETWEEN TWO DATES
