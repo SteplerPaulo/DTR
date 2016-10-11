@@ -76,13 +76,33 @@ class DailyReport extends Formsheet{
 		$this->centerText(27,1.3,'Remarks',3);
 		$this->GRID['font_size']=8;
 		$y=2.8;
+		$prev_student = '';
 		
 		//pr($data);exit;
 		foreach($data as $d){
-			$this->leftText(0.2,$y,$d[0]['full_name'],15,'');
-			$this->centerText(15,$y,date('h:i', strtotime($d['rfid_studattendance']['time_in'])),3,'');
-			$this->centerText(18,$y,date('h:i', strtotime($d['rfid_studattendance']['time_out'])),3,'');
-			$y++;
+			$curr_student =  $d['rfid_students']['student_number'];
+			if($prev_student != $curr_student){
+				$this->leftText(0.2,$y,$d[0]['full_name'],15,'');
+			}
+			$prev_student = $curr_student;
+				
+			if($d['rfid_studattendance']['time_in'] < '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) $tix = 15;
+			else if($d['rfid_studattendance']['time_in'] >= '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) $tix = 21; 
+			else $tix = null; 
+			
+			if ($d['rfid_studattendance']['time_out'] < '12:00:00' && $d['rfid_studattendance']['time_out'] != Null) $tox = 18; 	
+			else if($d['rfid_studattendance']['time_out'] >= '12:00:00' && $d['rfid_studattendance']['time_out'] != Null) $tox = 24; 
+			else $tox = null; 
+			
+			$this->centerText($tix,$y,date('h:i', strtotime($d['rfid_studattendance']['time_in'])),3,'');
+			$this->centerText($tox,$y,date('h:i', strtotime($d['rfid_studattendance']['time_out'])),3,'');
+			
+		
+			
+			if($prev_student != $curr_student){
+				$y++;
+			}
+			
 		}
 	}
 	
