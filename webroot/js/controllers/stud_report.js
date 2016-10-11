@@ -20,13 +20,10 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 		//PER STUDENT SCOPE
 		$scope.fromDate =  $filter("date")(Date.now(), 'yyyy-MM-dd');
 		$scope.toDate = $filter("date")(Date.now(), 'yyyy-MM-dd');
-		$http.get("/DTR/student201s/all").success(function(response) {
+		$http.get("/DTR/rfid_students/all_student").success(function(response) {
 			$scope.students = response;
-			console.log(response);
+			//console.log(response);
 		});
-		
-		
-
 	}
 	
 	$scope.perWhat = function(per){
@@ -34,17 +31,11 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 			case 'Student': 
 					$scope.perStudent = true;
 					$scope.perSection = false;
-			
-					
 					break;
 			case 'Section': 
 					$scope.perStudent = false;
 					$scope.perSection = true;	
-					
-					
-					
 					break;
-			
 		}
 	}  
 	
@@ -63,8 +54,8 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 	
 	//PRINT ICON EVENT HANDLER
 	$scope.printReport = function(section_id,section_name,date){
-		
 		var get = $scope.ReportURL+section_id+'/'+section_name+'/'+date;
+		console.log(get);
 		if(section_id && section_name && date) {
 			return $('iframe')[0].src=get;
 		}
