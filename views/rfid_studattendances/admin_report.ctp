@@ -103,11 +103,11 @@
 				</thead>
 				<tbody>
 					<tr pagination-id="Table" dir-paginate="d in students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
-						<td class="text-center">{{d.Student201.student_number}}</td>
-						<td class="">{{d.Student201.full_name}}</td>
+						<td class="text-center">{{d.RfidStudent.student_number}}</td>
+						<td class="">{{d.RfidStudent.full_name}}</td>
 						<td class="text-center actions">
-							<a empno_adjust="{{d.Student201.student_number}}" ng-click="AdjustButton(fromDate,toDate,d.Student201.full_name,d.Student201.student_number)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
-							<a ng-click="DateFilterModal(fromDate,toDate,d.Student201.full_name,d.Student201.student_number)" data-toggle="tooltip" title="Print"><i class="fa fa-print"></a></i>
+							<a empno_adjust="{{d.RfidStudent.student_number}}" ng-click="AdjustButton(fromDate,toDate,d.RfidStudent.full_name,d.RfidStudent.student_number)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
+							<a ng-click="DateFilterModal(fromDate,toDate,d.RfidStudent.full_name,d.RfidStudent.student_number)" data-toggle="tooltip" title="Print"><i class="fa fa-print"></a></i>
 						</td>
 					</tr>
 				</tbody>
