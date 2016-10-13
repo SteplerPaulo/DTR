@@ -84,7 +84,9 @@ class DailyReport extends Formsheet{
 			if($prev_student != $curr_student){
 				$this->leftText(0.2,$y,$d[0]['full_name'],15,'');
 			}
-			$prev_student = $curr_student;
+			if($prev_student == $curr_student){
+				$y--;
+			}
 				
 			if($d['rfid_studattendance']['time_in'] < '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) $tix = 15;
 			else if($d['rfid_studattendance']['time_in'] >= '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) $tix = 21; 
@@ -96,13 +98,9 @@ class DailyReport extends Formsheet{
 			
 			$this->centerText($tix,$y,date('h:i', strtotime($d['rfid_studattendance']['time_in'])),3,'');
 			$this->centerText($tox,$y,date('h:i', strtotime($d['rfid_studattendance']['time_out'])),3,'');
+			$y++;
 			
-		
-			
-			if($prev_student != $curr_student){
-				$y++;
-			}
-			
+			$prev_student = $curr_student;
 		}
 	}
 	
