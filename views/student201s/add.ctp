@@ -13,10 +13,29 @@
 						<?php echo $this->Form->input('student_number',array('class'=>'form-control','required'=>'required'));?>
 					</div>
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('level_id',array('empty'=>'Select','class'=>'form-control','required'=>'required'));?>
+						<?php //echo $this->Form->input('level_id',array('empty'=>'Select','class'=>'form-control','required'=>'required'));
+						?>
+						
+						<label for="Student201LevelId">Level</label>
+						<select name="data[Student201][level_id]" class="form-control" required="required" id="Student201LevelId">
+							<option value="">Select</option>
+							<?php foreach($levels as $lvl):?>
+								<option value="<?php echo $lvl['Level']['id']?>" level="<?php echo $lvl['Level']['alias']?>"><?php echo $lvl['Level']['name']?></option>
+							<?php endforeach;?>
+						</select>
 					</div>
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('section_code',array('options'=>$sections,'empty'=>'Select','class'=>'form-control','required'=>'required'));?>
+						
+						<?php //echo $this->Form->input('section_code',array('options'=>$sections,'empty'=>'Select','class'=>'form-control','required'=>'required'));?>
+						
+						<label for="Student201SectionCode">Section</label>
+						<select name="data[Student201][section_code]" class="form-control" required="required" id="Student201SectionCode">
+							<option value="">Select</option>
+							<?php foreach($sections as $sec):?>
+								
+								<option value="<?php echo $sec['Section']['id']?>" level="<?php echo $sec['Section']['level']?>"><?php echo $sec['Section']['name']?></option>
+							<?php endforeach;?>
+						</select>
 					</div>
 				</div><br/>
 				<div class="row" >
@@ -69,3 +88,4 @@
 		</div>
 	</div>
 </div>
+<?php echo $this->Html->script('biz/addStudent201',array('inline'=>false));?>
