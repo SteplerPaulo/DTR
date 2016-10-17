@@ -22,7 +22,6 @@ class Student201sController extends AppController {
 		if (!empty($this->data)) {
 			$this->data['Student201']['mobile'] = '+63'.$this->data['Student201']['mobile'];
 			$this->data['Student201']['primary_mobile_no'] = '+63'.$this->data['Student201']['primary_mobile_no'];
-		
 			
 			if ($this->Student201->save($this->data)) {
 				//$this->Session->setFlash(__('The student201 has been saved', true));
@@ -33,10 +32,10 @@ class Student201sController extends AppController {
 		}
 		
 		$relationships = array('Parent'=>'Parent','Guardian'=>'Guardian');
-		$levels = $this->Level->find('list');
-		$sections = $this->Section->find('list');
+		$levels = $this->Level->find('all');
+		$sections = $this->Section->find('all');
 		$genders = array('M'=>'Male','F'=>'Female');
-		
+		//pr($levels );exit;
 		$this->set(compact('relationships','sections','levels','genders'));
 	}
 
