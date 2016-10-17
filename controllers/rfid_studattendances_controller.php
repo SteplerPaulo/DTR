@@ -173,21 +173,25 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function daily_report($sectionId = null, $sectionName = null, $date = null){
-		
+	
 		if(!empty($sectionId) && !empty($sectionName) &&!empty($date)){
+			
 			$data = $this->RfidStudattendance->daily_report($sectionId,$date);
+			$students = $this->RfidStudattendance->sectionStudents($sectionId);
+			//pr($data);
 			$hdr = array();
 			$hdr['section_id'] = $sectionId;
 			$hdr['section_name'] = $sectionName;
 			$hdr['date'] = $date;
 			
-			$this->set(compact('data','hdr'));
+			$this->set(compact('data','hdr','students'));
 			$this->layout='pdf';
 			$this->render();
 		}else{
 			$data = array();
 			$hdr = array();
-			$this->set(compact('data','hdr'));
+			$students = array();
+			$this->set(compact('data','hdr','students'));
 			$this->layout='pdf';
 			$this->render();
 		}
@@ -199,13 +203,15 @@ class RfidStudattendancesController extends AppController {
 		if(!empty($sectionId)){
 			$data = array();
 			$hdr = array();
-			$this->set(compact('data','hdr'));
+			$students = $this->RfidStudattendance->sectionStudents($sectionId);
+			$this->set(compact('data','hdr','students'));
 			$this->layout='pdf';
 			$this->render();
 		}else{
 			$data = array();
 			$hdr = array();
-			$this->set(compact('data','hdr'));
+			$students = array();
+			$this->set(compact('data','hdr','students'));
 			$this->layout='pdf';
 			$this->render();
 		}
