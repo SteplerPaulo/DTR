@@ -64,5 +64,27 @@ class RfidStudattendance extends AppModel {
 			"
 		);
 	}
+	
+	function sectionStudents($sectionId){
+		return $this->query("
+					SELECT 
+						CONCAT(
+							IFNULL(`rfid_students`.`last_name`,''),
+							', ',
+							IFNULL(`rfid_students`.`first_name`,''),
+							' ',
+							 IFNULL(`rfid_students`.`middle_name`,'')
+							) AS full_name,
+							`rfid_students`.`student_number` 
+						FROM
+						  rfid_students 
+						WHERE section_id = '$sectionId' 
+						  AND `type` = 1 
+						ORDER BY `last_name`,
+						  `first_name`,
+						  `middle_name` 
+				");
+		
+	}
 
 }
