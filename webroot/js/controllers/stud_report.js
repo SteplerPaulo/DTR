@@ -51,6 +51,18 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 		}
 	}     
 	
+	$scope.perSectionDailyReportAdjustButton =  function(secId,secName,date){
+		//console.log(secId);
+		//console.log(secName);
+		//console.log(date);
+		
+		var get = '/DTR/admin/rfid_studattendances/per_section_adjustment/'+secId+'/'+secName+'/'+date;
+		if(secId && secName && date) {
+			return $('iframe')[0].src=get;
+		}
+		
+	}
+	
 	
 	//PRINT ICON EVENT HANDLER
 	$scope.printReport = function(section_id,section_name,date){

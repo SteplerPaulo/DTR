@@ -51,6 +51,8 @@
 						<td class="text-center">{{d.Section.id}}</td>
 						<td class="">{{d.Section.name}}</td>
 						<td class="text-center actions">
+							<a ng-click="perSectionDailyReportAdjustButton(d.Section.id,d.Section.name,Daily)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
+							
 							<a ng-click="printReport(d.Section.id,d.Section.name,Daily)" data-toggle="tooltip" title="Print"><i class="fa fa-print"></a></i>
 						</td>
 					</tr>
