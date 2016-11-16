@@ -8,7 +8,7 @@ App.controller('PerSectionDailyAdjustmentController',function($scope,$rootScope,
 		$scope.secId = $('#PerSectionDailyAdjustmentTable caption h3').attr('secId');
 		$scope.date = $('#PerSectionDailyAdjustmentTable caption h3').attr('date');
 		$scope.secName =  $('#PerSectionDailyAdjustmentTable caption h3 #SectionName').text();
-		$http.get('/DTR/rfid_studattendances/per_sec_data_adjsutment/'+$scope.secId+'/'+$scope.secName+'/'+$scope.date).success(function(response) {
+		$http.get('/DTR/rfid_studattendances/per_sec_data_adjustment/'+$scope.secId+'/'+$scope.secName+'/'+$scope.date).success(function(response) {
 			$scope.students = response;
 		});	
 	}
@@ -26,12 +26,14 @@ App.controller('PerSectionDailyAdjustmentController',function($scope,$rootScope,
 				$('#PMTimeOut').val(data.Attendance.PM.time_out);
 			}
 			
-			
+			$('#Remarks').text(data.Attendance.remarks);
+			$('#UpdatedRemarks').val(data.Attendance.remarks);
 		}else{
 			$('#AMTimeIn').val('');
 			$('#AMTimeOut').val('');
 			$('#PMTimeIn').val('');
 			$('#PMTimeOut').val('');
+			$('#Remarks').text('');
 		}
 		
 		$('#EditModal').modal();
@@ -49,17 +51,32 @@ App.controller('PerSectionDailyAdjustmentController',function($scope,$rootScope,
 		var AMTimeOut = $('#AMTimeOut').val();
 		var PMTimeIn = $('#PMTimeIn').val();
 		var PMTimeOut = $('#PMTimeOut').val();
-		console.log($scope.date);
+		var remarks = $('#UpdatedRemarks').find(":selected").val();
 		
-		$.ajax({
-			url: '/DTR/admin/rfid_studattendances/per_section_saving',
-			dataType:'json',
-			data:{'data':{'AMTimeIn':AMTimeIn,'AMTimeOut':AMTimeOut,'PMTimeIn':PMTimeIn,'PMTimeOut':PMTimeOut,'date':date,'sno':sno,'rfid':rfid}},
-			type:'post',
-		}).done(function( response ) {
-			//$rootScope.$broadcast('RefreshAttendance',response);
-		});		
-		
+		if(AMTimeIn.length && AMTimeOut.length && PMTimeIn.length && PMTimeOut.length){
+			$.ajax({
+				url: '/DTR/admin/rfid_studattendances/per_section_saving',
+				dataType:'json',
+				data:{'data':{'AMTimeIn':AMTimeIn,'AMTimeOut':AMTimeOut,'PMTimeIn':PMTimeIn,'PMTimeOut':PMTimeOut,'date':date,'sno':sno,'rfid':rfid,'remarks':remarks}},
+				type:'post',
+			}).done(function( response ) {
+				//$rootScope.$broadcast('RefreshAttendance',response);
+			});		
+		}else{
+			console.log('wew');
+			if(!AMTimeIn.length) $('#AMTimeIn').parents('td:first').addClass('has-error');
+			if(!AMTimeOut.length) $('#AMTimeOut').parents('td:first').addClass('has-error');
+			if(!PMTimeIn.length) $('#PMTimeIn').parents('td:first').addClass('has-error');
+			if(!PMTimeOut.length) $('#PMTimeOut').parents('td:first').addClass('has-error');
+			$('#SaveButton').attr('disabled','disabled');
+			
+		}
+	});
+	
+		//VALIDATE MODAL INPUTS
+	$('#AMTimeIn,#AMTimeOut,#PMTimeIn,#PMTimeOut').blur(function(){
+		$(this).parents('td:first').removeClass('has-error');
+		$('#SaveButton').removeAttr('disabled');
 	});
 	
 });

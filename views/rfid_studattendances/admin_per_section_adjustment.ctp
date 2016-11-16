@@ -35,7 +35,7 @@
 						<td>{{stud.Attendance.AM.time_out}}</td>
 						<td>{{stud.Attendance.PM.time_in}}</td>
 						<td>{{stud.Attendance.PM.time_out}}</td>
-						<td></td>
+						<td>{{stud.Attendance.remarks}}</td>
 						<td class="text-center actions">
 							<a data-toggle="tooltip" title="Edit" ng-click="edit(stud)"><i class="fa fa-edit"></i></a>
 						</td>
@@ -80,12 +80,19 @@
 								</thead>
 								<tbody>
 									<tr>
-										<td><input type="time" class="form-control input-sm input-group" id="AMTimeIn"></td>
+										<td><input id="AMTimeIn" type="time" class="form-control input-sm input-group"></td>
 										<td><input id="AMTimeOut" type="time" class="form-control input-sm input-group"></input></td>
 										<td><input id="PMTimeIn" type="time" class="form-control input-sm input-group"></input></td>
 										<td><input id="PMTimeOut" type="time" class="form-control input-sm input-group"></input></td>
-										<td>Present</td>
-										<td><select class="form-control input-sm"><option>Select</option></select></td>
+										<td id="Remarks"></td>
+										<td>
+											<select class="form-control input-sm" id="UpdatedRemarks">
+												<option>Select</option>
+												<?php foreach($remarks as $rem):?>
+													<option value="<?php echo $rem ?>"><?php echo $rem ?></option>
+												<?php endforeach; ?>
+											</select>
+										</td>
 									</tr>
 								</tbody>
 							</table>

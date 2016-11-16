@@ -46,7 +46,8 @@ class RfidStudattendance extends AppModel {
 			  `rfid_students`.`student_number`,
 			  `rfid_studattendance`.`date`,
 			  `rfid_studattendance`.`time_in`,
-			  `rfid_studattendance`.`time_out` 
+			  `rfid_studattendance`.`time_out`,
+			  `rfid_studattendance`.`remarks`
 			FROM
 			 `rfid_students` 
 			  INNER JOIN `sections` 
