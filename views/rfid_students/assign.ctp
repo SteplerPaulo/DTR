@@ -66,18 +66,18 @@
 						<label for="employee_mobile_no">Employee Mobile No</label>
 						<div class="input-group">
 							<span class="input-group-addon">+63</span>
-							<input ng-disabled="HaveAnExistingRFID" name="data[RfidStudent][employee_mobile_no]" type="text" class="form-control" maxlength="10" ng-model="Field.employee_mobile_no" required="required"/>
+							<input ng-disabled="HaveAnExistingRFID" name="data[RfidStudent][employee_mobile_no]" type="text" class="form-control" maxlength="10" ng-model="Field.employee_mobile_no"/>
 						</div>
 					</div>
 					<div class="col-lg-4">
 						<label for="emergency_contact_no">In Case of Emergency No.</label>
 						<div class="input-group">
 							<span class="input-group-addon">+63</span>
-							<input ng-disabled="HaveAnExistingRFID" name="data[RfidStudent][emergency_contact_no]" type="text" class="form-control" maxlength="10" ng-model="Field.emergency_contact_no" required="required"/>
+							<input ng-disabled="HaveAnExistingRFID" name="data[RfidStudent][emergency_contact_no]" type="text" class="form-control" maxlength="10" ng-model="Field.emergency_contact_no"/>
 						</div>
 					</div>
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('emergency_contact_person',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','label'=>'Person to Contact','class'=>'form-control ','ng-model'=>'Field.emergency_contact_person'));?>
+						<?php echo $this->Form->input('emergency_contact_person',array('ng-disabled'=>'HaveAnExistingRFID','label'=>'Person to Contact','class'=>'form-control ','ng-model'=>'Field.emergency_contact_person'));?>
 					</div>
 				</div>
 				
@@ -87,18 +87,18 @@
 						<label for="student_mobile_no">Student Mobile No</label>
 						<div class="input-group">
 							<span class="input-group-addon">+63</span>
-							<input ng-readonly="HaveAnExistingRFID" name="data[RfidStudent][student_mobile_no]" type="text" class="form-control" maxlength="10" ng-model="Field.student_mobile_no" required="required"/>
+							<input ng-readonly="HaveAnExistingRFID" name="data[RfidStudent][student_mobile_no]" type="text" class="form-control" maxlength="10" ng-model="Field.student_mobile_no"/>
 						</div>
 					</div>
 					<div class="col-lg-4">
 						<label for="guardian_mobile_no">Guardian Mobile No</label>
 						<div class="input-group">
 							<span class="input-group-addon">+63</span>
-							<input ng-readonly="HaveAnExistingRFID" name="data[RfidStudent][guardian_mobile_no]" type="text" class="form-control ng-pristine ng-valid" maxlength="10" ng-model="Field.guardian_mobile_no" required="required"/>
+							<input ng-readonly="HaveAnExistingRFID" name="data[RfidStudent][guardian_mobile_no]" type="text" class="form-control ng-pristine ng-valid" maxlength="10" ng-model="Field.guardian_mobile_no"/>
 						</div>
 					</div>
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('relationship',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','options'=>$relationships,'empty'=>'Select','class'=>'form-control','ng-model'=>'Field.relationship'));?>
+						<?php echo $this->Form->input('relationship',array('ng-disabled'=>'HaveAnExistingRFID','options'=>$relationships,'empty'=>'Select','class'=>'form-control','ng-model'=>'Field.relationship'));?>
 					</div>	
 				</div>
 				
@@ -131,7 +131,7 @@
 							
 							<div class="panel-footer text-right">
 								<button type="button" class="btn btn-default btn-sm" ng-click="reset()">Cancel</button>
-								<a href="../students/add" class="btn btn-info btn-sm" >Yes</a>
+								<a href="../student201s/add" class="btn btn-info btn-sm" >Yes</a>
 							</div>
 						</div>
 					</div>
