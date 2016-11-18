@@ -385,4 +385,9 @@ class RfidStudattendancesController extends AppController {
 		
 		
 	}
+
+	function deped_report(){
+		$this->layout='pdf';
+		$this->render();
+	}
 }

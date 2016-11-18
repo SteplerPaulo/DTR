@@ -14,8 +14,7 @@ App.controller('PerSectionDailyAdjustmentController',function($scope,$rootScope,
 	}
 	
 	
-	$scope.edit = function(data){		
-		console.log(data);
+	$scope.edit = function(data){
 		if(data.Attendance){
 			if(data.Attendance.AM){
 				$('#AMTimeIn').val(data.Attendance.AM.time_in);

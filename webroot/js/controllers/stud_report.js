@@ -8,7 +8,7 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 		$scope.perStudent = true;
 		
 		//PER SECTION SCOPE
-		$scope.types = [{id:1,name:"Daily Report"},{id:2,name:"Monthly Report"}];
+		$scope.types = [{id:1,name:"Daily Report"},{id:2,name:"Monthly Report"},{id:3,name:'DepEd Report'}];
 		$scope.DailyReport =  true;
 		$scope.ReportURL =  '/DTR/rfid_studattendances/daily_report/';
 		$scope.Daily =  $filter("date")(Date.now(), 'yyyy-MM-dd');
@@ -45,9 +45,12 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 		if(type['id'] == 1){
 			$scope.DailyReport =  true;
 			$scope.ReportURL =  '/DTR/rfid_studattendances/daily_report/';
-		}else{
+		}else if(type['id'] == 2){
 			$scope.DailyReport =  false;
 			$scope.ReportURL =  '/DTR/rfid_studattendances/monthly_report/';
+		}else{
+			$scope.DailyReport =  false;
+			$scope.ReportURL =  '/DTR/rfid_studattendances/deped_report/';
 		}
 	}     
 	
