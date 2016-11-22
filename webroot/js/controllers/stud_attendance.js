@@ -37,7 +37,7 @@ App.controller('StudentAttendanceController',function($scope,$rootScope,$http,$t
 					method: 'POST',
 					url: '/DTR/attendances/add',
 					data: $.param({data:{'Attendance':{
-									'remarks':1,
+									//'remarks':1,
 									'employee_number':$scope.empno,
 									'rfid':$scope.RFID,
 								}}}),
@@ -64,7 +64,7 @@ App.controller('StudentAttendanceController',function($scope,$rootScope,$http,$t
 					method: 'POST',
 					url: '/DTR/attendances/add',
 					data: $.param({data:{'Attendance':{
-									'remarks':0,
+									//'remarks':0,
 									'employee_number':'',
 									'rfid':$scope.RFID,
 								}}}),
