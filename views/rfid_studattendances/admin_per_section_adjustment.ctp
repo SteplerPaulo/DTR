@@ -88,8 +88,8 @@
 										<td>
 											<select class="form-control input-sm" id="UpdatedRemarks">
 												<option>Select</option>
-												<?php foreach($remarks as $rem):?>
-													<option value="<?php echo $rem ?>"><?php echo $rem ?></option>
+												<?php foreach($remarks as $rem_k =>$rem):?>
+													<option value="<?php echo $rem_k ?>"><?php echo $rem ?></option>
 												<?php endforeach; ?>
 											</select>
 										</td>
