@@ -41,7 +41,7 @@ class DepEdReport extends Formsheet{
 		$this->leftText(32,$y,'Date: ','','b');
 	}
 	
-	function body(){
+	function body($students){
 		$this->showLines = !true;
 		$metrics = array(
 			'base_x'=> 0.5,
@@ -101,6 +101,19 @@ class DepEdReport extends Formsheet{
 		$this->centerText($x+=$x_ntrvl,$y,'DY',$x_ntrvl,'');
 		$this->centerText($x+=$x_ntrvl,$y,'HC',$x_ntrvl,'');
 		$this->centerText($x+=$x_ntrvl,$y,'NI',$x_ntrvl,'');
+		$y=2.8;
+		foreach($students as $key => $stud){
+			
+			$this->leftText(0.1,$y,++$key.'.','','');
+			$this->leftText(1.1,$y++,$stud[0]['full_name'],'','');
+			if(isset($stud['Attendance'])){
+				
+				$date = strtotime($stud['Attendance']['date']);
+				$day   = date('d',$date);
+				$this->centerText(12+$day,$y,$stud['Attendance']['remarks'],$x_ntrvl,'');
+			}
+			
+		}
 		
 	}
 	
