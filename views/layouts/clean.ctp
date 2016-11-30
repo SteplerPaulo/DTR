@@ -58,20 +58,20 @@
 		echo $this->Html->script(array('template/plugins/metisMenu/metisMenu.min')); //Metis Menu Plugin JavaScript
 		echo $this->Html->script(array('template/sb-admin'));
 		echo $this->Html->script(array('template/jquery-ui-1.11.2.custom/jquery-ui'));
-		echo $this->Html->script(array('template/plugins/jasny/jasny-bootstrap')); //Bootstrap Jasny JavaScript
-		echo $this->Html->script(array('template/plugins/jasny/jasny-modal-patch')); //Patch modal z-index
-		echo $this->Html->script(array('template/plugins/wizard/wizard'));
-		echo $this->Html->script(array('template/angular'));	
+		//echo $this->Html->script(array('template/plugins/jasny/jasny-bootstrap')); //Bootstrap Jasny JavaScript
+		//echo $this->Html->script(array('template/plugins/jasny/jasny-modal-patch')); //Patch modal z-index
+		//echo $this->Html->script(array('template/plugins/wizard/wizard'));
+		echo $this->Html->script(array('template/angular.min'));	
 		echo $this->Html->script(array('template/bootstrap-datepicker'));
 		echo $this->Html->script(array('template/jqueryForm'));
 		echo $this->Html->script(array('biz/app'));
 		echo $this->Html->script(array('test/data'));
 		echo $this->Html->script(array('angularUtils/directives/dirPagination'));
-		echo $this->Html->script(array('angularUtils/directives/ui-bootstrap-tpls-0.14.3.min'));
+		echo $this->Html->script(array('angularUtils/directives/ui-bootstrap-tpls-2.3.0.min'));
 		//echo $this->Html->script(array('template/plugins/dataTables/jquery.dataTables'));
 		//echo $this->Html->script(array('template/plugins/dataTables/dataTables.bootstrap'));
 	?> 
-	<script type="text/javascript">(function(){window.App = angular.module('App',['angularUtils.directives.dirPagination'])})();</script>
+	<script type="text/javascript">(function(){window.App = angular.module('App',['angularUtils.directives.dirPagination','ui.bootstrap'])})();</script>
 
 	<?php  echo $scripts_for_layout; ?>
 </body>

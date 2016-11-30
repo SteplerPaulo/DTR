@@ -1,10 +1,11 @@
-<div ng-controller="PerSectionDailyAdjustmentController" ng-init="initializeController()">
+<div ng-controller="PerSectionDailyAdjustmentController as $ctr" ng-init="initializeController()">
+	
 	<div class="row">
 		<div class="col-lg-4 col-md-4 col-xs-4">
 			<label for="search">Search</label>
 			<input ng-model="q" id="search" class="form-control input-sm" placeholder="Filter text">
 		</div>
-	</div>
+	</div><hr/>
 	<div class="row">
 		<div class="col-lg-12">
 			<table class="table table-bordered" id="PerSectionDailyAdjustmentTable">
@@ -14,30 +15,34 @@
 					</h3><br/>
 				</caption>
 				<thead>
-					<tr> 
-						<th class="text-center" rowspan='2'>Name</th>
-						<th class="text-center" colspan="2">AM</th>
-						<th class="text-center" colspan="2">PM</th>
-						<th class="text-center" rowspan='2'>Remarks</th>
-						<th class="text-center" rowspan='2'>Actions</th>
-					</tr>
 					<tr>
+						<th class="text-center">Name</th>
 						<th class="text-center">In</th>
 						<th class="text-center">Out</th>
-						<th class="text-center">In</th>
-						<th class="text-center">Out</th>
+						<th class="text-center">Remarks</th>
+						<th class="text-center">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr pagination-id="PerSectionDailyAdjustmentTable" dir-paginate="stud in students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
-						<td>{{stud[0].full_name}}</td>
-						<td>{{stud.Attendance.AM.time_in}}</td>
-						<td>{{stud.Attendance.AM.time_out}}</td>
-						<td>{{stud.Attendance.PM.time_in}}</td>
-						<td>{{stud.Attendance.PM.time_out}}</td>
-						<td>{{stud.Attendance.remarks}}</td>
+					<tr pagination-id="PerSectionDailyAdjustmentTable" dir-paginate="stud in Students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
+						<td>{{stud.StudentName}}</td>
+						<td>
+							<div ng-repeat="attend in stud.Attendance" class="badge">
+								{{attend.TimeIn}}
+							</div>
+						</td>
+						<td>
+							<div ng-repeat="attend in stud.Attendance" class="badge">
+								{{attend.TimeOut}}
+							</div>
+						</td>
+						<td>
+							<div ng-repeat="attend in stud.Attendance" class="badge">
+								{{attend.Remarks}}
+							</div>
+						</td>
 						<td class="text-center actions">
-							<a data-toggle="tooltip" title="Edit" ng-click="edit(stud)"><i class="fa fa-edit"></i></a>
+							<a data-toggle="tooltip" title="Edit" ng-click="$ctr.open(stud,'lg')"><i class="fa fa-edit"></i></a>
 						</td>
 					</tr>
 				</tbody>
@@ -51,61 +56,53 @@
 			</table>
 		</div>
 	</div>
-	<!-- Modal -->
-	<div class="modal fade" id="EditModal" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-sm" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title"></h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-lg-12">
-							<table class="table table-bordered">
-								<thead>	
-									<tr class="alert alert-info">
-										<td class="text-center" colspan="2">AM</td>
-										<td class="text-center" colspan="2">PM</td>
-										<td class="text-center" colspan="2"></td>
-									</tr>
-									<tr>
-										<td>Time In</td>
-										<td>Time Out</td>
-										<td>Time In</td>
-										<td>Time Out</td>
-										<td>Status</td>
-										<td>Change</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td><input id="AMTimeIn" type="time" class="form-control input-sm input-group"></td>
-										<td><input id="AMTimeOut" type="time" class="form-control input-sm input-group"></input></td>
-										<td><input id="PMTimeIn" type="time" class="form-control input-sm input-group"></input></td>
-										<td><input id="PMTimeOut" type="time" class="form-control input-sm input-group"></input></td>
-										<td id="Remarks"></td>
-										<td>
-											<select class="form-control input-sm" id="UpdatedRemarks">
-												<option>Select</option>
-												<?php foreach($remarks as $rem_k =>$rem):?>
-													<option value="<?php echo $rem_k ?>"><?php echo $rem ?></option>
-												<?php endforeach; ?>
-											</select>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" id="SaveButton">Save</button>
+
+	
+	<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">{{$ctrl.StudentData.StudentName}}</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+           	<div class="row">
+				<div class="col-lg-12">
+					<table class="table table-bordered" id="StudentAttendanceTable">
+						<thead>	
+							<tr>
+								<td class="text-center">Time In</td>
+								<td class="text-center">Time Out</td>
+								<td class="text-center">Status</td>
+								<td class="text-center">Change</td>
+								<th class="text-center">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="att in $ctrl.StudentData.Attendance">
+								<td><input id="TimeIn" type="time" class="form-control input-sm input-group" value="{{att.TimeIn}}"></input></td>
+								<td><input id="TimeOut" type="time" class="form-control input-sm input-group" value="{{att.TimeOut}}"></input></td>
+								<td id="Remarks">{{att.Remarks}}</td>
+								<td>
+									<select id="UpdatedRemarks" class="form-control input-sm" >
+										<option value="">Select</option>
+										<?php foreach($remarks as $rem_k =>$rem):?>
+											<option value="<?php echo $rem_k ?>"><?php echo $rem ?></option>
+										<?php endforeach; ?>
+									</select>
+								</td>
+								<td class="text-center actions">
+									| <a data-toggle="tooltip" title="Remove" ng-click="$ctrl.remove($index)"><i class="fa fa-cut"></i></a> | 
+									<a data-toggle="tooltip" title="Change"><i class="fa fa-save"></i></a> |
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
+        </div>
+        <div class="modal-footer">
+            <button id="SaveButton" class="btn btn-primary" type="button" ng-click="$ctrl.save()">Save</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
 		</div>
-	</div>
-
+    </script>
 </div>
+
 <?php echo $this->Html->script('controllers/per_section_daily_adjustment',array('inline'=>false));?>
