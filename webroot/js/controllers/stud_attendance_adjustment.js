@@ -4,6 +4,7 @@ App.controller('StudentAttendanceAdjustmentController',function($scope,$rootScop
 		$scope.currentPage = 1; 
 		$scope.pageSize = 15;
 		
+		
 		//TRANSLATE DATA FROM MAIN PAGE
 		$scope.fromDate = $('#AdjustmetTable caption h3').attr('fromdate');
 		$scope.toDate = $('#AdjustmetTable caption h3').attr('todate');

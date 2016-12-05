@@ -144,9 +144,9 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function admin_per_section_adjustment($sectionId = null, $sectionName = null, $date = null){
-		$sectionId = 110;
-		$sectionName = 'Archdiocese of Manila';
-		$date = '2016-11-24';
+		//$sectionId = 110;
+		//$sectionName = 'Archdiocese of Manila';
+		//$date = '2016-11-30';
 		
 		
 		$this->layout='clean';
@@ -155,48 +155,6 @@ class RfidStudattendancesController extends AppController {
 		
 	}
 
-	function admin_per_section_saving(){
-		//pr($this->data);
-		
-		//$existing = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudAttendance.student_number'=>$this->data['sno'],'RfidStudAttendance.date'=>$this->data['date'])));
-		
-		$this->RfidStudattendance->deleteAll([
-				'RfidStudattendance.student_number' => $this->data['sno'], 
-				'RfidStudattendance.date' => $this->data['date']
-			]);
-			
-		$data =  array();
-		if(!empty($this->data['TimeIn']) && !empty($this->data['TimeOut'])){
-			$data['RfidStudattendance']['date'] =  $this->data['date'];
-			$data['RfidStudattendance']['student_number'] =  $this->data['sno'];
-			$data['RfidStudattendance']['rfid'] =  $this->data['rfid'];
-			$data['RfidStudattendance']['time_in'] =  $this->data['TimeIn'];
-			$data['RfidStudattendance']['time_out'] =  $this->data['TimeOut'];
-			$data['RfidStudattendance']['remarks'] =  $this->data['remarks'];
-			$data['RfidStudattendance']['status'] =  'S';
-		}
-		
-		
-
-		
-	
-		//pr($data);
-		//exit;
-		if($this->RfidStudattendance->saveAll($data)){
-			$data['message'] = 'Saving succesfull!';
-			$data['status'] = 1;
-			echo json_encode($data);
-			exit;
-			
-		}else{
-			$data['message'] = 'Please try again!';
-			$data['status'] = 0; 
-			echo json_encode($data);
-			exit;
-		}
-		
-	}
-	
 	function doc_report($fromDate=null,$toDate=null,$sno=null,$sname=null){
 		if(!empty($fromDate) && !empty($toDate) && !empty($sno) && !empty($sname)){
 			
@@ -241,34 +199,73 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function per_sec_data_adjustment($sectionId = null, $sectionName = null, $date = null){
-		$sectionId = 110;
-		$sectionName = 'Archdiocese of Manila';
-		$date = '2016-11-24';
+		//$sectionId = 110;
+		//$sectionName = 'Archdiocese of Manila';
+		//$date = '2016-11-30';
 		
 		$daily_report = $data['DailyReport'] = $this->RfidStudattendance->daily_report($sectionId,$date);
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
-		
+
 		$data = array();
 		foreach($students as $s_key => $student){
 			
+			$data[$s_key]['StudentNo'] = $student['rfid_students']['student_number'];
+			$data[$s_key]['StudentName'] = $student[0]['full_name'];
+			$data[$s_key]['StudentRFID'] = $student['rfid_students']['dec_rfid'];
+			
 			foreach($daily_report as $d_key => $daily){
-				$data[$s_key]['StudentNo'] = $student['rfid_students']['student_number'];
-				$data[$s_key]['StudentName'] = $student[0]['full_name'];
-				$data[$s_key]['StudentRFID'] = $student['rfid_students']['dec_rfid'];
+				
 				
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
 					$data[$s_key]['Attendance'][$d_key]['Date'] = $daily['rfid_studattendance']['date'];
 					$data[$s_key]['Attendance'][$d_key]['TimeIn'] = $daily['rfid_studattendance']['time_in'];
 					$data[$s_key]['Attendance'][$d_key]['TimeOut'] = $daily['rfid_studattendance']['time_out'];
+					$data[$s_key]['Attendance'][$d_key]['TimeInDate'] = $daily['rfid_studattendance']['date'].' '.$daily['rfid_studattendance']['time_in'];
+					$data[$s_key]['Attendance'][$d_key]['TimeOutDate'] = $daily['rfid_studattendance']['date'].' '.$daily['rfid_studattendance']['time_out'];
 					$data[$s_key]['Attendance'][$d_key]['Remarks'] = $daily['rfid_studattendance']['remarks'];
 					
 				}
 			}
 		}
-		
 		echo json_encode($data);
 		exit;
 	}
+	
+	function admin_per_section_saving(){
+		//$existing = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudAttendance.student_number'=>$this->data['sno'],'RfidStudAttendance.date'=>$this->data['date'])));
+		
+		$this->RfidStudattendance->deleteAll([
+				'RfidStudattendance.student_number' => $this->data['sno'], 
+				'RfidStudattendance.date' => $this->data['date']
+			]);
+			
+		$data =  array();
+		
+		$data['RfidStudattendance']['date'] =  $this->data['date'];
+		$data['RfidStudattendance']['student_number'] =  $this->data['sno'];
+		$data['RfidStudattendance']['rfid'] =  $this->data['rfid'];
+		$data['RfidStudattendance']['time_in'] =  $this->data['TimeIn'];
+		$data['RfidStudattendance']['time_out'] =  $this->data['TimeOut'];
+		$data['RfidStudattendance']['remarks'] =  $this->data['remarks'];
+		$data['RfidStudattendance']['status'] =  'S';
+		
+		
+		if($this->RfidStudattendance->saveAll($data)){
+			$data['message'] = 'Saving succesfull!';
+			$data['status'] = 1;
+			echo json_encode($data);
+			exit;
+			
+		}else{
+			$data['message'] = 'Please try again!';
+			$data['status'] = 0; 
+			echo json_encode($data);
+			exit;
+		}
+		
+	}
+	
+	
 	
 	function monthly_report($sectionId = ""){
 		if(!empty($sectionId)){
@@ -389,9 +386,9 @@ class RfidStudattendancesController extends AppController {
 	}
 
 	function deped_report($sectionId = null, $sectionName = null, $date = null){
-		$sectionId = 110;
-		$sectionName = "Archdiocese of Manila";
-		$date = "2016-11-10";
+		//$sectionId = 110;
+		//$sectionName = "Archdiocese of Manila";
+		//$date = "2016-11-10";
 		
 		
 		$daily_report = $this->RfidStudattendance->daily_report($sectionId,$date);

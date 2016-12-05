@@ -11,19 +11,10 @@ App.controller('PerSectionDailyAdjustmentController',function($scope,$rootScope,
 		$rootScope.secName =  $('#PerSectionDailyAdjustmentTable caption h3 #SectionName').text();
 		$http.get('/DTR/rfid_studattendances/per_sec_data_adjustment/'+$rootScope.secId+'/'+$rootScope.secName+'/'+$rootScope.date).success(function(response) {
 			$rootScope.Students = response;
+			console.log(response);
 		});	
 	}
 	
-	
-	
-	//VALIDATE MODAL INPUTS
-	$('#TimeIn,#TimeOut,#UpdatedRemarks').blur(function(){
-		console.log('wew');
-		$(this).parents('td:first').removeClass('has-error');
-		$('#SaveButton').removeAttr('disabled');
-	});
-	
-
 	$ctrl.open = function (data,size, parentSelector) {
 		var parentElem = parentSelector ? 
 			angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
@@ -43,58 +34,59 @@ App.controller('PerSectionDailyAdjustmentController',function($scope,$rootScope,
 			}
 		});
 
-		modalInstance.result.then(function (selectedItem) {
-		  //$ctrl.selected = selectedItem;
-		}, function () {
-		 // $log.info('Modal dismissed at: ' + new Date());
-		});
 	};
-	
-	
-}).controller('ModalInstanceCtrl', function ($rootScope,$uibModalInstance, StudentData) {
-	//console.log(StudentData);
-	//console.log($rootScope);
-	
-	var $ctrl = this;
-	$ctrl.StudentData = StudentData;
-	
-	$ctrl.remove = function(index) { 
-		console.log(index);
-		console.log($ctrl.StudentData.Attendance);
+}).filter('cmdate', [
+    '$filter', function($filter) {
+        return function(input, format) {
+            return $filter('date')(new Date(input), format);
+        };
+    }
+]);
+App.controller('ModalInstanceCtrl', function ($rootScope,$uibModalInstance, StudentData,$filter) {
 		
-		$ctrl.StudentData.Attendance.splice(index, 0);     
+	var $ctrl = this;
+	$ctrl.active = false;
+
+	if(StudentData.Attendance){
+		$.each(StudentData.Attendance,function(i,o){
+			StudentData.Attendance[i]['TimeInDate'] =  new Date(o.Date +' '+o.TimeIn);
+			StudentData.Attendance[i]['TimeOutDate'] =  new Date(o.Date +' '+o.TimeOut);
+		});
 	}
 	
-	//
+	$ctrl.StudentData = StudentData;
+	
+	
+	$ctrl.copyTimeIn = function(o){
+		$ctrl.TimeIn =  o.TimeInDate;
+	}
+
+	$ctrl.copyTimeOut = function(o){
+		$ctrl.TimeOut =  o.TimeOutDate;
+	}
+	
+	$ctrl.on = function() { 
+		$ctrl.active = true;	
+	}
+	
+	$ctrl.off = function() { 
+		$ctrl.AttendanceForm.$valid = $ctrl.active = false;
+	}
+	
 	$ctrl.save = function () {
+		var TimeIn = $filter('date')($ctrl.TimeIn, "HH:mm a");
+		var TimeOut = $filter('date')($ctrl.TimeOut, "HH:mm a");
 		
-		if($('#StudentAttendanceTable tbody').find('tr').length > 1){
-			$('#SaveButton').attr('disabled','disabled');
-			
-		}else{
-			var TimeIn = $('#TimeIn').val();
-			var TimeOut = $('#TimeOut').val();
-			var Remarks = $('#UpdatedRemarks').find(":selected").val();
-			
-			if(TimeIn.length && TimeOut.length && Remarks.length){
-				$('#SaveButton').removeAttr('disabled');
-				$.ajax({
-					url: '/DTR/admin/rfid_studattendances/per_section_saving',
-					dataType:'json',
-					data:{'data':{'TimeIn':TimeIn,'TimeOut':TimeOut,'date':$rootScope.date,'sno':StudentData.StudentNo,'rfid':StudentData.StudentRFID,'remarks':Remarks}},
-					type:'post',
-				}).done(function( response ) {
-					$rootScope.initializeController();
-					$uibModalInstance.close('Data Here');
-				});		
-			}else{
-				if(!TimeIn.length) $('#TimeIn').parents('td:first').addClass('has-error');
-				if(!TimeOut.length) $('#TimeOut').parents('td:first').addClass('has-error');
-				if(!Remarks.length) $('#UpdatedRemarks').parents('td:first').addClass('has-error');
-				$('#SaveButton').attr('disabled','disabled');
-				
-			}	
-		}
+		$.ajax({
+			url: '/DTR/admin/rfid_studattendances/per_section_saving',
+			dataType:'json',
+			data:{'data':{'TimeIn':TimeIn,'TimeOut':TimeOut,'date':$rootScope.date,'sno':StudentData.StudentNo,'rfid':StudentData.StudentRFID,'remarks':$ctrl.Remarks}},
+			type:'post',
+		}).done(function( response ) {
+			$rootScope.initializeController();
+			$uibModalInstance.close('');
+		});
+		
 	};
 
 	$ctrl.cancel = function () {
@@ -103,36 +95,5 @@ App.controller('PerSectionDailyAdjustmentController',function($scope,$rootScope,
 	
 
 });
-
-/*
-// Please note that the close and dismiss bindings are from $uibModalInstance.
-angular.module('App').component('modalComponent', {
-  templateUrl: 'myModalContent.html',
-  bindings: {
-    resolve: '<',
-    close: '&',
-    dismiss: '&'
-  },
-  controller: function () {
-    var $ctrl = this;
-
-    $ctrl.$onInit = function () {
-      $ctrl.items = $ctrl.resolve.items;
-      $ctrl.selected = {
-        item: $ctrl.items[0]
-      };
-    };
-
-    $ctrl.ok = function () {
-      $ctrl.close({$value: $ctrl.selected.item});
-    };
-
-    $ctrl.cancel = function () {
-      $ctrl.dismiss({$value: 'cancel'});
-    };
-  }
-});
-*/
-
 
 
