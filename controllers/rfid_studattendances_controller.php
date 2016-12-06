@@ -223,7 +223,6 @@ class RfidStudattendancesController extends AppController {
 					$data[$s_key]['Attendance'][$d_key]['TimeInDate'] = $daily['rfid_studattendance']['date'].' '.$daily['rfid_studattendance']['time_in'];
 					$data[$s_key]['Attendance'][$d_key]['TimeOutDate'] = $daily['rfid_studattendance']['date'].' '.$daily['rfid_studattendance']['time_out'];
 					$data[$s_key]['Attendance'][$d_key]['Remarks'] = $daily['rfid_studattendance']['remarks'];
-					
 				}
 			}
 		}
@@ -267,19 +266,42 @@ class RfidStudattendancesController extends AppController {
 	
 	
 	
-	function monthly_report($sectionId = ""){
+	function monthly_report($sectionId = null, $sectionName = null, $date = null){
+		//$sectionId = 110;
+		
 		if(!empty($sectionId)){
-			$data = array();
-			$hdr = array();
+			$hdr = array('SectionName'=>$sectionName,'Date'=>$date);
+			
+			$monthly_report = $this->RfidStudattendance->monthly_report($sectionId,$date);
 			$students = $this->RfidStudattendance->sectionStudents($sectionId);
-			$this->set(compact('data','hdr','students'));
+			
+			$data = array();
+			foreach($students as $s_key => $student){
+				$data[$s_key]['StudentNo'] = $student['rfid_students']['student_number'];
+				$data[$s_key]['StudentName'] = $student[0]['full_name'];
+				$data[$s_key]['StudentRFID'] = $student['rfid_students']['dec_rfid'];
+				
+				foreach($monthly_report as $d_key => $monthly){
+					$i = 0;
+					if( $monthly['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
+						$data[$s_key]['Attendance'][$i]['Date'] = $monthly['rfid_studattendance']['date'];
+						$data[$s_key]['Attendance'][$i]['TimeIn'] = $monthly['rfid_studattendance']['time_in'];
+						$data[$s_key]['Attendance'][$i]['TimeOut'] = $monthly['rfid_studattendance']['time_out'];
+						$data[$s_key]['Attendance'][$i]['TimeInDate'] = $monthly['rfid_studattendance']['date'].' '.$monthly['rfid_studattendance']['time_in'];
+						$data[$s_key]['Attendance'][$i]['TimeOutDate'] = $monthly['rfid_studattendance']['date'].' '.$monthly['rfid_studattendance']['time_out'];
+						$data[$s_key]['Attendance'][$i]['Remarks'] = $monthly['rfid_studattendance']['remarks'];
+					}
+				}
+			}
+			
+			$this->set(compact('data','hdr'));
 			$this->layout='pdf';
 			$this->render();
 		}else{
 			$data = array();
 			$hdr = array();
 			$students = array();
-			$this->set(compact('data','hdr','students'));
+			$this->set(compact('data','hdr'));
 			$this->layout='pdf';
 			$this->render();
 		}
@@ -394,8 +416,6 @@ class RfidStudattendancesController extends AppController {
 		$daily_report = $this->RfidStudattendance->daily_report($sectionId,$date);
 		$students = $this->RfidStudattendance->sectionStudents($sectionId);
 		
-	
-	
 		
 		foreach($daily_report as $d_key => $daily){
 			foreach($students as $s_key => $student){

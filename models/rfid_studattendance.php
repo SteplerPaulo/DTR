@@ -66,6 +66,40 @@ class RfidStudattendance extends AppModel {
 		);
 	}
 	
+	function monthly_report($sectionId,$date){
+		
+		$month = 11;//date("m",strtotime($date));
+		$year = 2016;//date("Y",strtotime($date));
+	
+		return $this->query( 
+			"SELECT 
+			  `rfid_students`.`section_id`,
+			  `sections`.`name`,
+			  CONCAT(`rfid_students`.`first_name`,' ',`rfid_students`.`middle_name`,' ',`rfid_students`.`last_name`) AS full_name,
+			  `rfid_students`.`student_number`,
+			  `rfid_studattendance`.`date`,
+			  `rfid_studattendance`.`time_in`,
+			  `rfid_studattendance`.`time_out`,
+			  `rfid_studattendance`.`remarks`
+			FROM
+			  `rfid_students` 
+			  INNER JOIN `sections` 
+				ON (
+				  `rfid_students`.`section_id` = `sections`.`id`
+				) 
+			  INNER JOIN `rfid_studattendance` 
+				ON (
+				  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
+				) 
+			WHERE (
+				`rfid_students`.`section_id` = '$sectionId' 
+				AND MONTH(`rfid_studattendance`.`date`) = '$month' 
+				AND YEAR(`rfid_studattendance`.`date`) = '$year'
+			  );"
+		);
+		
+	}
+	
 	function sectionStudents($sectionId){
 		return $this->query("
 					SELECT 
