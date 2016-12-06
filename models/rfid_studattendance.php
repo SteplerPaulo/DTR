@@ -46,7 +46,8 @@ class RfidStudattendance extends AppModel {
 			  `rfid_students`.`student_number`,
 			  `rfid_studattendance`.`date`,
 			  `rfid_studattendance`.`time_in`,
-			  `rfid_studattendance`.`time_out` 
+			  `rfid_studattendance`.`time_out`,
+			  `rfid_studattendance`.`remarks`
 			FROM
 			 `rfid_students` 
 			  INNER JOIN `sections` 
@@ -63,6 +64,29 @@ class RfidStudattendance extends AppModel {
 			  ) ;
 			"
 		);
+	}
+	
+	function sectionStudents($sectionId){
+		return $this->query("
+					SELECT 
+						CONCAT(
+							IFNULL(`rfid_students`.`last_name`,''),
+							', ',
+							IFNULL(`rfid_students`.`first_name`,''),
+							' ',
+							 IFNULL(`rfid_students`.`middle_name`,'')
+							) AS full_name,
+							`rfid_students`.`student_number` ,
+							`rfid_students`.`dec_rfid`
+						FROM
+						  rfid_students 
+						WHERE section_id = '$sectionId' 
+						  AND `type` = 1 
+						ORDER BY `last_name`,
+						  `first_name`,
+						  `middle_name` 
+				");
+		
 	}
 
 }

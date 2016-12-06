@@ -20,7 +20,7 @@ class DailyReport extends Formsheet{
 		$this->createSheet();
 	}
 	
-	function hdr($x=0,$hdr){
+	function hdr($x=0,$hdr,$SystemDefault){
 		$metrics = array(
 			'base_x'=> 0.125+$x,
 			'base_y'=> 0.125,
@@ -32,8 +32,8 @@ class DailyReport extends Formsheet{
 		$this->section($metrics);
 		$y = 4;
 		$this->GRID['font_size']=8;
-		$this->DrawImage(8.525,0,0.6,0.6,'../webroot/img/school_logo.png');
-		$this->centerText(0,$y++,'JUAN SUMULONG MEMORIAL JUNIOR COLLEGE',$metrics['cols'],'b');
+		$this->DrawImage(8.525,0,0.6,0.6,'../webroot/img/'.$SystemDefault['school_logo']);
+		$this->centerText(0,$y++,$SystemDefault['school_name'],$metrics['cols'],'b');
 		$this->centerText(0,$y++,'School Year 2015 - 2016',$metrics['cols'],'b');
 		$this->centerText(0,$y++,'Section - '.$hdr['section_name'],$metrics['cols'],'b');
 		$this->centerText(0,$y++,'DAILY ATTENDANCE ',$metrics['cols'],'b');
@@ -42,7 +42,7 @@ class DailyReport extends Formsheet{
 		$this->leftText(6,$y++,date('l', strtotime($hdr['date'])),'','');
 	}
 	
-	function table($x=0,$data){
+	function table($x=0,$data,$students){
 		$metrics = array(
 			'base_x'=> 0.125+$x,
 			'base_y'=> 2,
@@ -76,12 +76,42 @@ class DailyReport extends Formsheet{
 		$this->centerText(27,1.3,'Remarks',3);
 		$this->GRID['font_size']=8;
 		$y=2.8;
+		$prev_student = '';
 		
 		//pr($data);exit;
-		foreach($data as $d){
-			$this->leftText(0.2,$y,$d[0]['full_name'],15,'');
-			$this->centerText(15,$y,date('h:i', strtotime($d['rfid_studattendance']['time_in'])),3,'');
-			$this->centerText(18,$y,date('h:i', strtotime($d['rfid_studattendance']['time_out'])),3,'');
+		//pr($students);exit;
+		$i = 1;
+		
+		foreach($students as $stud){
+			$this->leftText(0.2,$y,$i++.'. '.$stud[0]['full_name'],15,'');
+		
+			foreach($data as $d){
+				if($stud['rfid_students']['student_number'] == $d['rfid_students']['student_number']){
+					$curr_student =  $d['rfid_students']['student_number'];
+					
+					if($prev_student == $curr_student && $tox == 24){
+						$y--;
+					}
+						
+					if($d['rfid_studattendance']['time_in'] < '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) $tix = 15;
+					else if($d['rfid_studattendance']['time_in'] >= '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) $tix = 21; 
+					else $tix = null; 
+					
+					if ($d['rfid_studattendance']['time_out'] < '12:00:00' && $d['rfid_studattendance']['time_out'] != Null) $tox = 18; 	
+					else if($d['rfid_studattendance']['time_out'] >= '12:00:00' && $d['rfid_studattendance']['time_out'] != Null) $tox = 24; 
+					else $tox = null; 
+					
+					if(!empty($d['rfid_studattendance']['time_in'])){
+						$this->centerText($tix,$y,date('h:i', strtotime($d['rfid_studattendance']['time_in'])),3,'');
+					}
+					if(!empty($d['rfid_studattendance']['time_out'])){
+						$this->centerText($tox,$y,date('h:i', strtotime($d['rfid_studattendance']['time_out'])),3,'');
+					}
+					
+					$prev_student = $curr_student;
+				}
+				
+			}
 			$y++;
 		}
 	}

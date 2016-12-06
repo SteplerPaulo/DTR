@@ -1,6 +1,6 @@
 <?php
 require('formsheet.php');
-class DocRerpot extends Formsheet{
+class EmplAttendanceReport extends Formsheet{
 	protected static $_width = 8.5;
 	protected static $_height = 11;
 	protected static $_unit = 'in';
@@ -10,17 +10,17 @@ class DocRerpot extends Formsheet{
 	protected static $curr_page = 1;
 	protected static $page_count;
 	
-	function DocRerpot(){
+	function EmplAttendanceReport(){
 		//$this->user = $user;
 		//$this->data = $data;
-		//DocRerpot::$page_count = ceil((count($data)+count($vendors)+1)/21);//Total Page Count
+		//EmplAttendanceReport::$page_count = ceil((count($data)+count($vendors)+1)/21);//Total Page Count
 
 		$this->showLines = !true;
-		$this->FPDF(DocRerpot::$_orient, DocRerpot::$_unit,array(DocRerpot::$_width,DocRerpot::$_height));
+		$this->FPDF(EmplAttendanceReport::$_orient, EmplAttendanceReport::$_unit,array(EmplAttendanceReport::$_width,EmplAttendanceReport::$_height));
 		$this->createSheet();
 	}
 	
-	function hdr($x=0,$hdr,$data){
+	function hdr($x=0,$hdr,$data,$SystemDefault){
 		$metrics = array(
 			'base_x'=> 0.125+$x,
 			'base_y'=> 0.125,
@@ -32,9 +32,9 @@ class DocRerpot extends Formsheet{
 		$this->section($metrics);
 		$y = 4;
 		$this->GRID['font_size']=8;
-		$this->centerText(0,$y++,'JUAN SUMULONG MEMORIAL JUNIOR COLLEGE',$metrics['cols'],'b');
+		$this->centerText(0,$y++,$SystemDefault['school_name'],$metrics['cols'],'b');
 		$this->centerText(0,$y++,'DAILY TIME RECORD',$metrics['cols'],'b');
-		$this->DrawImage(8.525,0,0.6,0.6,'../webroot/img/school_logo.png');
+		$this->DrawImage(8.525,0,0.6,0.6,'../webroot/img/'.$SystemDefault['school_logo']);
 		$y++;
 		$this->leftText(0.3,$y++,'Name: '.$hdr['empname'],'','');
 		$this->leftText(0.3,$y,'Employee No: '.$hdr['empno'],'','');

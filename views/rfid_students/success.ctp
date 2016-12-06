@@ -8,7 +8,7 @@
 			</div>
 			<div class="panel-body">
 				<div class="alert alert-success" >
-					Saving successful!
+					<?php echo $session->flash();?>
 				</div>
 			</div>
 			<div class="panel-footer">	

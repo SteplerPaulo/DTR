@@ -10,10 +10,13 @@
 		</div>
 	</div><br/>
 
-	<table class="table table-bordered">
+	<table class="table table-hovered table-striped">
 		<thead>
 			<tr>
-				<th>ID</th>
+				<td colspan="3"></td>
+				<td colspan="1" class="text-right"><a class="btn btn-warning btn-sm " href="/DTR/student201s/add">Create New Student 201</a></td>
+			</tr>
+			<tr>
 				<th>Student Number</th>
 				<th>Name</th>
 				<th>Has RFID</th>
@@ -21,8 +24,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr pagination-id="ContactListTable" dir-paginate="s in students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
-				<td>{{s.Student201.id}}</td>
+			<tr pagination-id="StudentListTable" dir-paginate="s in students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
 				<td>{{s.Student201.student_number}}</td>
 				<td>{{s.Student201.full_name}}</td>
 				<td>{{s.Student201.has_rfid_string}}</td>
@@ -35,19 +37,12 @@
 		<tfoot>
 			<tr>
 				<td colspan="5" class="text-center">
-					<dir-pagination-controls pagination-id="ContactListTable"></dir-pagination-controls>
+					<dir-pagination-controls pagination-id="StudentListTable"></dir-pagination-controls>
 				</td>
 			</tr>
 		</tfoot>
 	</table>	
 </div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Student', true), array('action' => 'add')); ?></li>
-	</ul>
-</div>
-
 <?php echo $this->Html->script('controllers/student201s',array('inline'=>false));?>
 
 

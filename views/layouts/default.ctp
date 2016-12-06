@@ -84,14 +84,20 @@
 									);  ?>
 					</li>
 					<li>
-						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Daily Time Record',
+						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Employee Daily Time Record',
 									array('admin' => false,'controller'=>'attendances','action'=>'/'),
 									array('escape'=>false )
 								);?>
 					</li>
 					<li>
-						<?php echo $this->Html->link("<i class='fa fa-tags'></i> Assign RFID",
+						<?php echo $this->Html->link("<i class='fa fa-tag'></i> Assign RFID",
 									array('admin' => false,'controller'=>'rfid_students','action'=>'assign'),
+									array('escape'=>false )
+								);?>
+					</li>
+					<li>
+						<?php echo $this->Html->link("<i class='fa fa-tags'></i> Assign Fetcher",
+									array('admin' => false,'controller'=>'fetchers','action'=>'assigning'),
 									array('escape'=>false )
 								);?>
 					</li>
@@ -102,24 +108,51 @@
 								);?>
 					</li>
 					<li>
-						<?php echo $this->Html->link("<i class='fa fa-file-text-o'></i> Student Attendance Report",
-									array('admin' => true,'controller'=>'rfid_studattendances','action'=>'report'),
-									array('escape'=>false )
-								);?>
+						<a href="javascript:void(0)" data-toggle="collapse" data-target="#ReportLinks"><i class="fa fa-file-pdf-o fa-fw "></i> Reports <i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="ReportLinks" class="collapse">
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-file-text-o'></i> Student Attendance Report",
+											array('admin' => true,'controller'=>'rfid_studattendances','action'=>'report'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-file-archive-o'></i> Employee Attendance Report",
+											array('admin' => true,'controller'=>'attendances','action'=>'report'),
+											array('escape'=>false )
+										);?>
+							</li>
+						</ul>
 					</li>
 					<li>
-						<?php echo $this->Html->link("<i class='fa fa-file-archive-o'></i> Employee Attendance Report",
-									array('admin' => true,'controller'=>'attendances','action'=>'report'),
-									array('escape'=>false )
-								);?>
+						<a href="javascript:void(0)" data-toggle="collapse" data-target="#201s"><i class="fa fa-database fa-fw "></i> 201 <i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="201s" class="collapse">
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-street-view fa-fw'></i> Employees",
+											array('admin' => false,'controller'=>'employees','action'=>'/'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-users fa-fw'></i> Students",
+											array('admin' => false,'controller'=>'student201s','action'=>'/'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-user-secret fa-fw'></i> Fetchers",
+											array('admin' => false,'controller'=>'fetchers','action'=>'/'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-list-alt fa-fw'></i> Sections",
+											array('admin' => false,'controller'=>'sections','action'=>'/'),
+											array('escape'=>false )
+										);?>
+							</li>
+						</ul>
 					</li>
-					<li>
-						<?php echo $this->Html->link("<i class='fa fa-key'></i> Keywords",
-									array('admin' => false,'controller'=>'keywords','action'=>'/'),
-									array('escape'=>false )
-								);?>
-					</li>
-			
 					<li>
 						<a href="javascript:void(0)" data-toggle="collapse" data-target="#MessagesLinks"><i class="fa fa-folder-open fa-fw "></i> Messages <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="MessagesLinks" class="collapse">
@@ -141,10 +174,15 @@
 											array('escape'=>false )
 										);?>
 							</li>
-							
 							<li>
 								<?php echo $this->Html->link("<i class='fa fa-book'></i> Contacts",
 											array('admin' => false,'controller'=>'contacts','action'=>'/'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-key'></i> Keywords",
+											array('admin' => false,'controller'=>'keywords','action'=>'/'),
 											array('escape'=>false )
 										);?>
 							</li>
@@ -158,35 +196,6 @@
 										);  ?>	
 					</li>
 					<?php endif;  ?>
-					<li>
-						<a href="javascript:void(0)" data-toggle="collapse" data-target="#demo"><i class="fa fa-archive fa-fw "></i> UI Elements <i class="fa fa-fw fa-caret-down"></i></a>
-						<ul id="demo" class="collapse">
-							<li>
-								<a href="forms">Forms</a>
-							</li>
-							<li>
-								<a href="panels-wells">Panels and Wells</a>
-							</li>
-							<li>
-								<a href="buttons">Buttons</a>
-							</li>
-							<li>
-								<a href="notifications">Notifications</a>
-							</li>
-							<li>
-								<a href="typography">Typography</a>
-							</li>
-							<li>
-								<a href="grid">Grid</a>
-							</li>
-							<li>
-								<a href="http://fortawesome.github.io/Font-Awesome/icons/"><i class="fa fa-flag fw"></i> Font Awesome</a>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<a href="theme-color"><i class="fa fa-paint-brush"></i> Theme Color</a>
-					</li>
 				</ul>
 			</div>
 		</div>
@@ -209,10 +218,11 @@
 						<b><span>JUAN SUMULONG MEMORIAL JUNIOR COLLEGE</span></b>
 					</li>
 					-->
-					<li  >
-						<a>JUAN SUMULONG MEMORIAL JUNIOR COLLEGE </a>
+					<li>
+						<a><?php echo $SystemDefault['school_name'];?>
+						</a>
 					</li>
-					<li class="dropdown" ng-hide="true">
+					<li class="dropdown" ng-hide="false">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 						   <li >

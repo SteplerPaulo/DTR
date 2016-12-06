@@ -109,11 +109,19 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 							$scope.Field.last_name = d.Student201.last_name;
 							$scope.Field.first_name = d.Student201.first_name;
 							$scope.Field.middle_name = d.Student201.middle_name;
-							$scope.Field.student_mobile_no = d.Student201.mobile;
-							$scope.Field.guardian_mobile_no = d.Student201.primary_mobile_no;
+							$scope.Field.student_mobile_no = d.Student201.mobile.substring(3, 13);
+							$scope.Field.guardian_mobile_no = d.Student201.primary_mobile_no.substring(3, 13);
 							$scope.Field.relationship = d.Student201.primary_relationship;
 							$scope.Field.level_id = d.Student201.level_id;
 							$scope.Field.section_id = d.Student201.section_code;
+							
+							
+							console.log(d.Student201);
+							
+							
+							
+							
+							
 						}else{			//IF NO DATA FOUND
 							$scope.No201=true;
 						}
@@ -128,11 +136,13 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 					$scope.Field.last_name = d.RfidStudent.last_name;
 					$scope.Field.first_name = d.RfidStudent.first_name;
 					$scope.Field.middle_name = d.RfidStudent.middle_name;
-					$scope.Field.student_mobile_no = d.RfidStudent.student_mobile_no;
-					$scope.Field.guardian_mobile_no = d.RfidStudent.guardian_mobile_no;
+					$scope.Field.student_mobile_no = d.RfidStudent.student_mobile_no.substring(3, 13);
+					$scope.Field.guardian_mobile_no = d.RfidStudent.guardian_mobile_no.substring(3, 13);
 					$scope.Field.relationship = d.RfidStudent.relationship;
 					$scope.Field.source_rfid = d.RfidStudent.source_rfid;
 					$scope.HaveAnExistingRFID = true;
+					
+							
 				}
 			});
 			
@@ -163,9 +173,9 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 							$scope.Field.last_name = d.Employee.last_name;
 							$scope.Field.first_name = d.Employee.first_name;
 							$scope.Field.middle_name = d.Employee.middle_name;
-							$scope.Field.employee_mobile_no = d.Employee.mobile;
-							$scope.Field.emergency_contact_no = d.Employee.emergency_contact_no;
-							$scope.Field.emergency_contact_person = d.Employee.emergency_contact_person;
+							$scope.Field.employee_mobile_no = d.Employee.mobile.substring(3, 13);
+							$scope.Field.emergency_contact_no = d.Employee.emergency_contact_no.substring(3, 13);
+							$scope.Field.emergency_contact_person = d.Employee.emergency_contact;
 						}else{
 							$scope.No201=true;
 						}
@@ -177,8 +187,8 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 					$scope.Field.last_name = d.RfidStudent.last_name;
 					$scope.Field.first_name = d.RfidStudent.first_name;
 					$scope.Field.middle_name = d.RfidStudent.middle_name;
-					$scope.Field.employee_mobile_no = d.RfidStudent.employee_mobile_no;
-					$scope.Field.emergency_contact_no = d.RfidStudent.emergency_contact_no;
+					$scope.Field.employee_mobile_no = d.RfidStudent.employee_mobile_no.substring(3, 13);
+					$scope.Field.emergency_contact_no = d.RfidStudent.emergency_contact_no.substring(3, 13);
 					$scope.Field.emergency_contact_person = d.RfidStudent.emergency_contact_person;
 					$scope.Field.source_rfid = d.RfidStudent.source_rfid;
 					$scope.HaveAnExistingRFID = true;

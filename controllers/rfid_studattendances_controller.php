@@ -3,11 +3,12 @@ class RfidStudattendancesController extends AppController {
 
 	var $name = 'RfidStudattendances';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudattendance','RfidStudent');
+	var $uses = array('RfidStudattendance','RfidStudent','Remark');
 	
 	function beforeFilter(){ 
+		parent::beforeFilter();
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','students','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy','admin_add','admin_posting','daily_report','monthly_report'));	
+		$this->Auth->allow(array('index','students','report','datetime','doc_report','daily_report','monthly_report'));	
     } 
 
 
@@ -125,6 +126,7 @@ class RfidStudattendancesController extends AppController {
 			exit;
 		}
 	}
+	
 	function admin_report(){
 		
 		
@@ -136,15 +138,68 @@ class RfidStudattendancesController extends AppController {
 		exit;
 	}
 	
-	
 	function admin_adjust($fromDate=null,$toDate=null,$sno=null,$sname=null){
 		$this->layout='clean';
 		$this->set(compact('fromDate','toDate','sno','sname'));
 	}
 	
+	function admin_per_section_adjustment($sectionId = null, $sectionName = null, $date = null){
+		$this->layout='clean';
+		$remarks = $this->Remark->find('list');//,array('fields'=>array('Remark.name','Remark.name')));
+		//pr($remarks);exit;
+		$this->set(compact('sectionId','sectionName','date','remarks'));
+		
+	}
+
+	function admin_per_section_saving(){
+		pr($this->data);
+		
+		//$existing = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudAttendance.student_number'=>$this->data['sno'],'RfidStudAttendance.date'=>$this->data['date'])));
+		
+		$this->RfidStudattendance->deleteAll([
+				'RfidStudattendance.student_number' => $this->data['sno'], 
+				'RfidStudattendance.date' => $this->data['date']
+			]);
+			
+		$data =  array();
+		if(!empty($this->data['AMTimeIn']) && !empty($this->data['AMTimeOut']) && !empty($this->data['PMTimeIn']) && !empty($this->data['PMTimeOut'])){
+			$data[0]['RfidStudattendance']['date'] =  $this->data['date'];
+			$data[0]['RfidStudattendance']['student_number'] =  $this->data['sno'];
+			$data[0]['RfidStudattendance']['rfid'] =  $this->data['rfid'];
+			$data[0]['RfidStudattendance']['time_in'] =  $this->data['AMTimeIn'];
+			$data[0]['RfidStudattendance']['time_out'] =  $this->data['AMTimeOut'];
+			$data[0]['RfidStudattendance']['remarks'] =  $this->data['remarks'];
+			$data[0]['RfidStudattendance']['status'] =  'S';
+			
+			$data[1]['RfidStudattendance']['date'] =  $this->data['date'];
+			$data[1]['RfidStudattendance']['student_number'] =  $this->data['sno'];
+			$data[1]['RfidStudattendance']['rfid'] =  $this->data['rfid'];
+			$data[1]['RfidStudattendance']['time_in'] =  $this->data['PMTimeIn'];
+			$data[1]['RfidStudattendance']['time_out'] =  $this->data['PMTimeOut'];
+			$data[1]['RfidStudattendance']['remarks'] =  $this->data['remarks'];
+			$data[1]['RfidStudattendance']['status'] =  'S';
+		}
+		
+		
+
+		
+	
+		//pr($data);
+		//exit;
+		if($this->RfidStudattendance->saveAll($data)){
+			echo 'SAVING SUCCEFULL';
+			exit;
+			
+		}else{
+			echo 'Please Try Again';
+			exit;
+		}
+		
+	}
 	
 	function doc_report($fromDate=null,$toDate=null,$sno=null,$sname=null){
 		if(!empty($fromDate) && !empty($toDate) && !empty($sno) && !empty($sname)){
+			
 			//GET DATE BETWEEN TWO DATES
 			$dates = $this->get_dates_between_two_dates($fromDate,$toDate);
 			//SET GATEKEEPER DATABASE
@@ -154,6 +209,7 @@ class RfidStudattendancesController extends AppController {
 			
 			//CALL UPDATED ATTENDANCE ENTRY
 			$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$sno,$gatekeeper_db);	
+			
 			$hdr['sname'] = $sname;
 			$hdr['sno'] = $sno;
 			$hdr['fromDate'] = $fromDate;
@@ -170,46 +226,65 @@ class RfidStudattendancesController extends AppController {
 		}
 	}
 	
-	function daily_report($sectionId = '', $sectionName = '', $date = ''){
+	function daily_report($sectionId = null, $sectionName = null, $date = null){
 		
-		if(!empty($sectionId) && !empty($sectionName) &&!empty($date)){
-			$data = $this->RfidStudattendance->daily_report($sectionId,$date);
+		$data = $this->RfidStudattendance->daily_report($sectionId,$date);
+		$students = $this->RfidStudattendance->sectionStudents($sectionId);
+		$hdr = array();
+		$hdr['section_id'] = $sectionId;
+		$hdr['section_name'] = $sectionName;
+		$hdr['date'] = $date;
+		$this->set(compact('data','hdr','students'));
+		$this->layout='pdf';
+		$this->render();
+	
+	}
+	
+	function per_sec_data_adjustment($sectionId = null, $sectionName = null, $date = null){
+		$daily_report = $this->RfidStudattendance->daily_report($sectionId,$date);
+		$students = $this->RfidStudattendance->sectionStudents($sectionId);
 		
-			$hdr = array();
-			$hdr['section_id'] = $sectionId;
-			$hdr['section_name'] = $sectionName;
-			$hdr['date'] = $date;
-			
-			$this->set(compact('data','hdr'));
-			$this->layout='pdf';
-			$this->render();
-		}else{
-			$data = array();
-			$hdr = array();
-			$this->set(compact('data','hdr'));
-			$this->layout='pdf';
-			$this->render();
+		foreach($daily_report as $d_key => $daily){
+			foreach($students as $s_key => $student){
+				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
+					if($daily['rfid_studattendance']['time_in'] < '12:00:00' && $daily['rfid_studattendance']['time_in'] != Null){
+						$students[$s_key]['Attendance']['AM']['time_in'] = $daily['rfid_studattendance']['time_in'];
+					}else{
+						$students[$s_key]['Attendance']['PM']['time_in'] = $daily['rfid_studattendance']['time_in'];
+					}
+					
+					
+					if ($daily['rfid_studattendance']['time_out'] < '12:00:00' && $daily['rfid_studattendance']['time_out'] != Null){
+						$students[$s_key]['Attendance']['AM']['time_out'] = $daily['rfid_studattendance']['time_out'];
+					}else{
+						$students[$s_key]['Attendance']['PM']['time_out'] = $daily['rfid_studattendance']['time_out'];
+					}
+					$students[$s_key]['Attendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
+				}
+			}
 		}
 	
-		
+		echo json_encode($students);
+		exit;
 	}
+	
 	function monthly_report($sectionId = ""){
 		if(!empty($sectionId)){
 			$data = array();
 			$hdr = array();
-			$this->set(compact('data','hdr'));
+			$students = $this->RfidStudattendance->sectionStudents($sectionId);
+			$this->set(compact('data','hdr','students'));
 			$this->layout='pdf';
 			$this->render();
 		}else{
 			$data = array();
 			$hdr = array();
-			$this->set(compact('data','hdr'));
+			$students = array();
+			$this->set(compact('data','hdr','students'));
 			$this->layout='pdf';
 			$this->render();
 		}
 	}
-	
-	
 	
 	function get_dates_between_two_dates($fromDate,$toDate){
 		//GET DATE BETWEEN TWO DATES
@@ -231,6 +306,8 @@ class RfidStudattendancesController extends AppController {
 	function set_gatekeeper_db(){
 		$fields = get_class_vars('DATABASE_CONFIG');
 		$gatekeeper_db  = $fields['gatekeeper']['database'];
+		
+
 		return $gatekeeper_db;
 	}
 	

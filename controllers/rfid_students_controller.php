@@ -3,7 +3,7 @@ class RfidStudentsController extends AppController {
 
 	var $name = 'RfidStudents';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudent','Section','SchoolYear','Level','Student201','Employee');
+	var $uses = array('RfidStudent','Section','SchoolYear','Level','Student201','Employee','RfidHistory');
 
 	function index() {
 		$this->paginate = array(
@@ -119,6 +119,20 @@ class RfidStudentsController extends AppController {
 		$this->data['RfidStudent']['rfid']= $octal;
 		$this->data['RfidStudent']['dec_rfid']= $dec;
 		
+	
+		//MOBILE NO FORMAT
+		if(isset($this->data['Employee'])){
+			$this->data['RfidStudent']['employee_mobile_no'] = '+63'.$this->data['RfidStudent']['employee_mobile_no'];
+			$this->data['RfidStudent']['emergency_contact_no'] = '+63'.$this->data['RfidStudent']['emergency_contact_no'];
+		}
+		if(isset($this->data['Student201'])){
+			$this->data['RfidStudent']['student_mobile_no'] = '+63'.$this->data['RfidStudent']['student_mobile_no'];
+			$this->data['RfidStudent']['guardian_mobile_no'] = '+63'.$this->data['RfidStudent']['guardian_mobile_no'];
+		}
+		
+		
+
+		
 		
 		
 		if($this->RfidStudent->save($this->data)){
@@ -132,8 +146,26 @@ class RfidStudentsController extends AppController {
 				$this->data['Student201']['has_rfid'] = 1;
 				$this->Student201->save($this->data['Student201']);
 			}
-			//REDIRECT PAGE
-			$this->redirect(array('action' => 'success'));
+			
+			//CREATE RFID HISTORY
+			$history['RfidHistory'] = $this->data['RfidStudent'];
+			unset($history['RfidHistory']['id']);
+			
+			if($this->RfidHistory->save($history)){
+				//REDIRECT ON SUCCESS PAGE
+				$this->Session->setFlash(__('Saving successful!', true));
+				$this->redirect(array('action' => 'success'));
+			
+			}else{
+				//REDIRECT ON ERROR PAGE
+				$this->Session->setFlash(__('Error on saving rfid history! Pls. contact system administrator.', true));
+				$this->redirect(array('action' => 'error'));
+			}
+			
+		}else{
+			//REDIRECT ON ERROR PAGE
+			$this->Session->setFlash(__("Error on assigning RFID! Pls. contact system administrator.", true));
+			$this->redirect(array('action' => 'error'));
 		}
 		
 	}
@@ -169,6 +201,10 @@ class RfidStudentsController extends AppController {
 		
 		
 	}
+	
+	function error(){
+		
+	}
 
 	function check_by_student_number(){
 		$response = $this->RfidStudent->findByStudentNumber($this->data['student_number']);
@@ -183,4 +219,47 @@ class RfidStudentsController extends AppController {
 		exit();
 	}
 	
+	function checking(){
+		$result =  $this->RfidStudent->find('all');
+		$data =  array();
+		$i = 0;
+		foreach($result as $k => $r){
+		
+			//if($r['RfidStudent']['dec_rfid'] != hexdec ($r['RfidStudent']['source_rfid'])){
+				echo $r['RfidStudent']['source_rfid'].' = ';
+				echo hexdec ($r['RfidStudent']['source_rfid']).' = ';
+				echo $r['RfidStudent']['dec_rfid'].'<br/>';
+				
+				$dec =  hexdec ($r['RfidStudent']['source_rfid']);
+				
+				if(strlen($dec) == 7){
+					$dec = '000'.$dec;
+				}else if(strlen($dec) == 8){
+					$dec = '00'.$dec;
+				}else if(strlen($dec) == 9){
+					$dec = '0'.$dec;
+				}
+				$data[$i]['RfidStudent']['dec_rfid'] = $dec;
+				$data[$i]['RfidStudent']['id'] = $r['RfidStudent']['id'];
+				$data[$i]['RfidStudent']['source_rfid'] = $r['RfidStudent']['source_rfid'];
+				$data[$i]['RfidStudent']['old_dec_rfid'] = $r['RfidStudent']['dec_rfid'];
+				
+				$i++;
+			//}
+			
+			
+		}
+		
+		if($this->RfidStudent->saveAll($data)){
+			
+			echo 'Saving Successfull';
+		}
+		exit;
+	}
+
+	function all_student(){
+		$students = $this->RfidStudent->find('all',array('conditions'=>array('RfidStudent.type'=>1)));
+		echo json_encode($students);
+		exit;
+	}
 }

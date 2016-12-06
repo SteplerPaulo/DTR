@@ -44,7 +44,7 @@
 							<div ng-show="editingData[d.rfid_studattendance.id]"><input type="time" step="any" class="form-control input-sm" ng-model="d.rfid_studattendance.time_out" /></div>
 						</td>
 						<td class="text-center">{{d.rfid_studattendance.status}}</td>
-						<td class="text-center" ng-hide="{{d.rfid_studattendance.status == posted}}" >
+						<td class="text-center" ng-hide="{{d.rfid_studattendance.status == posted && d.rfid_studattendance.status != null}}" >
 							<a data-toggle="tooltip" title="Modify" ng-hide="editingData[d.rfid_studattendance.id]" ng-click="modify(d)"><i class="fa fa-edit"></i></a>
 							<a data-toggle="tooltip" title="Update" ng-show="editingData[d.rfid_studattendance.id]" ng-click="update(d)"><i class="fa fa-save"></i></a>&nbsp;
 							<a data-toggle="tooltip" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
