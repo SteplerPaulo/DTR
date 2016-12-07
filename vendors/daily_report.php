@@ -107,7 +107,8 @@ class DailyReport extends Formsheet{
 					if(!empty($d['rfid_studattendance']['time_out'])){
 						$this->centerText($tox,$y,date('h:i', strtotime($d['rfid_studattendance']['time_out'])),3,'');
 					}
-					
+			
+					$this->centerText(27,$y,$d['rfid_studattendance']['remarks'],3);
 					$prev_student = $curr_student;
 				}
 				
