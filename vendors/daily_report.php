@@ -92,27 +92,52 @@ class DailyReport extends Formsheet{
 					if($prev_student == $curr_student && $tox == 24){
 						$y--;
 					}
-						
-					if($d['rfid_studattendance']['time_in'] < '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) $tix = 15;
-					else if($d['rfid_studattendance']['time_in'] >= '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) $tix = 21; 
-					else $tix = null; 
 					
-					if ($d['rfid_studattendance']['time_out'] < '12:00:00' && $d['rfid_studattendance']['time_out'] != Null) $tox = 18; 	
-					else if($d['rfid_studattendance']['time_out'] >= '12:00:00' && $d['rfid_studattendance']['time_out'] != Null) $tox = 24; 
-					else $tox = null; 
-					
+					//Set Time In Column
+					if($d['rfid_studattendance']['time_in'] < '12:00:00' && $d['rfid_studattendance']['time_in'] != Null){
+						$tix = 15;
+						$tix2 = 21;
+					}else if($d['rfid_studattendance']['time_in'] >= '12:00:00' && $d['rfid_studattendance']['time_in'] != Null){
+						$tix = 21;
+						$tix2 = 15;
+					}else{
+						$tix = null; 
+					} 
+					//Set Time Out Column
+					if ($d['rfid_studattendance']['time_out'] < '12:00:00' && $d['rfid_studattendance']['time_out'] != Null){
+						$tox = 18;
+						$tox2 = 24;
+					}else if($d['rfid_studattendance']['time_out'] >= '12:00:00' && $d['rfid_studattendance']['time_out'] != Null){
+						$tox = 24; 	
+						$tox2 = 18; 	
+					}else{
+						$tox = null;
+					}  
+					//View Time In Data
 					if(!empty($d['rfid_studattendance']['time_in'])){
 						$this->centerText($tix,$y,date('h:i', strtotime($d['rfid_studattendance']['time_in'])),3,'');
+						$this->centerText($tix2,$y,'---',3,'');
 					}
+					//View Time Out Data
 					if(!empty($d['rfid_studattendance']['time_out'])){
 						$this->centerText($tox,$y,date('h:i', strtotime($d['rfid_studattendance']['time_out'])),3,'');
+						$this->centerText($tox2,$y,'---',3,'');
 					}
-			
+					//Remarks
 					$this->centerText(27,$y,$d['rfid_studattendance']['remarks'],3);
 					$prev_student = $curr_student;
+					$isPresent = true; //Row Status
 				}
-				
 			}
+			//Check If Row Has Data
+			if(!$isPresent) {
+				$this->centerText(27,$y,'A',3);
+				$this->centerText(15,$y,'---',3);
+				$this->centerText(18,$y,'---',3);
+				$this->centerText(21,$y,'---',3);
+				$this->centerText(24,$y,'---',3);
+			}
+			$isPresent = false;
 			$y++;
 		}
 	}
