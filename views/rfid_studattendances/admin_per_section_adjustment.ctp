@@ -27,13 +27,13 @@
 					<tr pagination-id="PerSectionDailyAdjustmentTable" dir-paginate="stud in Students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
 						<td>{{stud.StudentName}}</td>
 						<td>
-							<div ng-repeat="attend in stud.Attendance" class="label label-default">
+							<div ng-repeat="attend in stud.Attendance" class="badge">
 								{{attend.TimeInDate | cmdate:'hh:mm a'}}
 							</div>
 						</td>
 						<td>
-							<div ng-repeat="attend in stud.Attendance" class="label label-default">
-								{{attend.TimeOutDate | cmdate:'hh:mm a'}}
+							<div ng-repeat="attend in stud.Attendance" class="badge">
+								{{attend.TimeOutDate | cmdate:'hh:mm a'}} 
 							</div>
 						</td>
 						<td>
