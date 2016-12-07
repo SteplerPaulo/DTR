@@ -14,7 +14,7 @@
 		<thead>
 			<tr>
 				<td colspan="3"></td>
-				<td colspan="1" class="text-right"><a class="btn btn-warning btn-sm " href="/DTR/student201s/add">Create New Employee 201</a></td>
+				<td colspan="1" class="text-right"><a class="btn btn-warning btn-sm " href="/DTR/employees/add">Create New Employee 201</a></td>
 			</tr>
 			<tr>
 				<th>Employee Number</th>
