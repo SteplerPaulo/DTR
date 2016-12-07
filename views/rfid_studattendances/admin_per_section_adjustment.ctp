@@ -37,7 +37,7 @@
 							</div>
 						</td>
 						<td>
-							<div ng-repeat="attend in stud.Attendance" class="label" ng-class=" attend.Remarks == 'P' ? 'label-success' : 'label-default'">
+							<div ng-repeat="attend in stud.Attendance" ng-class=" attend.Remarks == 'P' ? 'badge-green' : 'badge'">
 								{{attend.Remarks}}
 							</div>
 						</td>
