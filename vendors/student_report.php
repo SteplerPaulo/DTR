@@ -75,7 +75,7 @@ class StudentAttendanceReport extends Formsheet{
 		$y=1.8;
 		$prev_date = explode('-', $data[0]['rfid_studattendance']['date'])[2] - 1;
 
-	
+		//pr($data);exit;
 		foreach($data as $d){
 			$curr_date =  explode('-', $d['rfid_studattendance']['date'])[2];
 			if($prev_date != $curr_date){
@@ -87,16 +87,33 @@ class StudentAttendanceReport extends Formsheet{
 			}
 			$prev_date = $curr_date;
 			
-			if($d['rfid_studattendance']['time_in'] < '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) $tix = 7;
-			else if($d['rfid_studattendance']['time_in'] >= '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) $tix = 13; 
-			else $tix = null; 
+			if($d['rfid_studattendance']['time_in'] < '12:00:00' && $d['rfid_studattendance']['time_in'] != Null){
+				$tix = 7;
+				$tix2 = 13; 
+			}else if($d['rfid_studattendance']['time_in'] >= '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) {
+				$tix = 13; 
+				$tix2 = 7; 
+			}else{
+				$tix = 7; 
+				$tix2 = 13; 
+				//pr('wew');exit;
+			}
 			
-			if ($d['rfid_studattendance']['time_out'] < '12:00:00' && $d['rfid_studattendance']['time_out'] != Null) $tox = 10; 	
-			else if($d['rfid_studattendance']['time_out'] >= '12:00:00' && $d['rfid_studattendance']['time_out'] != Null) $tox = 16; 
-			else $tox = null; 
+			if ($d['rfid_studattendance']['time_out'] < '12:00:00' && $d['rfid_studattendance']['time_out'] != Null){
+				$tox = 10; 
+				$tox2 = 16; 
+			}else if($d['rfid_studattendance']['time_out'] >= '12:00:00' && $d['rfid_studattendance']['time_out'] != Null){
+				$tox = 16; 
+				$tox2 = 10; 
+			}else{
+				$tox = 10; 
+				$tox2 = 16; 
+			} 
 			
 			$this->centerText($tix,$y,$d['rfid_studattendance']['time_in'],3,'');
+			//$this->centerText($tix2,$y,'---',3,'');
 			$this->centerText($tox,$y,$d['rfid_studattendance']['time_out'],3,'');
+			//$this->centerText($tox2,$y,'---',3,'');
 			
 			if($tox == 16) $y++;
 		}
