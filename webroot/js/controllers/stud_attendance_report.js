@@ -58,18 +58,31 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 	
 	//PER SECTION INTENT TO ADJUST EVENT HANDLER 
 	$scope.perSectionDailyReportAdjustButton =  function(secId,secName,date){	
-		var get = '/DTR/admin/rfid_studattendances/per_section_adjustment/'+secId+'/'+secName+'/'+date;
-		if(secId && secName && date) {
-			return $('iframe')[0].src=get;
-		}
+		$.ajax({
+			url: '/DTR/rfid_studattendances/init_remarks/'+secId+'/'+secName+'/'+date,
+			dataType:'json',
+			type:'post',
+		}).done(function( response ) {
+			var get = '/DTR/admin/rfid_studattendances/per_section_adjustment/'+secId+'/'+secName+'/'+date;
+			if(secId && secName && date) {
+				return $('iframe')[0].src=get;
+			}
+		});
 	}
 	
 	//PRINT ICON EVENT HANDLER
 	$scope.printReport = function(section_id,section_name,date){
-		var get = $scope.ReportURL+section_id+'/'+section_name+'/'+date;
-		if(section_id && section_name && date) {
-			return $('iframe')[0].src=get;
-		}
+		
+		$.ajax({
+			url: '/DTR/rfid_studattendances/init_remarks/'+section_id+'/'+section_name+'/'+date,
+			dataType:'json',
+			type:'post',
+		}).done(function( response ) {
+			var get = $scope.ReportURL+section_id+'/'+section_name+'/'+date;
+			if(section_id && section_name && date) {
+				return $('iframe')[0].src=get;
+			}
+		});
 	}
 
 /****************************PER STUDENT ******************************************/	

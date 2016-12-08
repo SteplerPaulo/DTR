@@ -414,17 +414,16 @@ class RfidStudattendancesController extends AppController {
 		
 	}
 	
-	function init_remarks(){
-		$sy = 2016;
-		$sectionId = 9;
-		$date = '2016-11-16';
+	function init_remarks($sectionId = null, $sectionName = null, $date = null){
+		//$sectionId = 9;
+		//$date = '2016-11-16';
 		
+		$sy = date("Y",strtotime($date));
 		$sched =  $this->Schedule->find('first',array('conditions'=>array('Schedule.section_id'=>$sectionId,'Schedule.sy'=>$sy)));
-	
-		$attendances = $this->RfidStudattendance->daily_report($sectionId,$date);
-		
+		$attendances = $this->RfidStudattendance->monthly_report($sectionId,$date);
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
 	
+
 		$data =  array();
 		$i =  0;
 		foreach($attendances as $att){
@@ -446,10 +445,14 @@ class RfidStudattendancesController extends AppController {
 		//pr($data);exit;
 		
 		if($this->RfidStudattendance->saveAll($data)){
-			die('Saving Successfull');
+			$respanse['data'] = $data;
+			$respanse['message'] = 'Successful';
+			echo json_encode($data);
 			exit;
 		}else{
-			die('Something went wrong. Pls contact your system administrator');
+			$respanse['data'] = $data;
+			$respanse['message'] = 'Error!';
+			echo json_encode($data);
 			exit;
 		}
 		
