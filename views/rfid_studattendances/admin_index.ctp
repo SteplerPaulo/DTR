@@ -19,11 +19,11 @@
 				
 				<div  class="col-lg-6" ng-show="DailyReport">
 					<label>Date</label>
-					<input type="date" class="form-control input-sm" ng-model="Daily">
+					<input type="date" class="form-control input-sm" ng-model="Daily" max="{{Daily}}">
 				</div>
 				<div  class="col-lg-6" ng-hide="DailyReport">
 					<label>Month</label>
-					<input type="month" class="form-control input-sm" ng-model="Monthly">
+					<input type="month" class="form-control input-sm" ng-model="Monthly" max="{{Monthly}}">
 				</div>
 			</div>
 			<div class="row">
@@ -80,7 +80,7 @@
 				</div>
 				<div  class="col-lg-6" >
 					<label>Date To</label>
-					<input type="date" class="form-control input-sm" id="ToDate" ng-model="toDate">
+					<input type="date" class="form-control input-sm" id="ToDate" ng-model="toDate" max="{{toDate}}">
 				</div>
 			</div>
 			<div class="row">
