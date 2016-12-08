@@ -6,7 +6,7 @@ $i = 1;
 $pr= new MonthlyReport();
 foreach($chunk_data as $dt){
 	$pr->hdr($SystemDefault,$hdr);
-	$pr->body($dt);
+	$pr->body($dt,$hdr);
 	$pr->ftr();
 	if(count($chunk_data) != ($i++)){
 		$pr->createSheet();
