@@ -3,7 +3,7 @@ class RfidStudattendancesController extends AppController {
 
 	var $name = 'RfidStudattendances';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudattendance','RfidStudent','Remark');
+	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
@@ -69,24 +69,41 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function admin_index() {
-		$this->RfidStudattendance->recursive = 0;
-		$this->set('rfidStudattendances', $this->paginate());
+		
 	}
-
-	function admin_view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid rfid studattendance', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('rfidStudattendance', $this->RfidStudattendance->read(null, $id));
+	
+	function admin_adjust($fromDate=null,$toDate=null,$sno=null,$sname=null){
+		$this->layout='clean';
+		$this->set(compact('fromDate','toDate','sno','sname'));
 	}
-
-	function admin_add($fromDate=null,$toDate=null){
+	
+	function data($fromDate=null,$toDate=null,$sno=null,$empname=null){
+		//GET DATE BETWEEN TWO DATES
+		$dates = $this->get_dates_between_two_dates($fromDate,$toDate);
+		//SET GATEKEEPER DATABASE
 		$gatekeeper_db  = $this->set_gatekeeper_db();
-		$sno = $this->data['RfidStudattendance']['student_number'];
-		//$this->data['RfidStudattendance']['remarks'] = 2; //REMARK AS ADMIN FORCE ENTRY
-		$this->data['RfidStudattendance']['status'] = 'Saved';
-
+		//INCLUSIVE DATE FORCE ENTRY
+		$this->inclusive_dates_force_entry($dates,$sno,$gatekeeper_db);
+			
+		$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$sno,$gatekeeper_db);
+		echo json_encode($data);
+		exit;
+	}
+	
+	function admin_update($fromDate=null,$toDate=null){
+		//pr($this->data);exit;
+		
+		$gatekeeper_db  = $this->set_gatekeeper_db();
+		$sno = $this->data['rfid_studattendance']['student_number'];
+		//FIELDS DATA FOR EDITING 
+		$this->data['RfidStudattendance']['id'] = $this->data['rfid_studattendance']['id'];
+		$this->data['RfidStudattendance']['time_in'] = (!empty($this->data['rfid_studattendance']['time_in']))?$this->data['rfid_studattendance']['time_in']:null;
+		$this->data['RfidStudattendance']['time_out'] = (!empty($this->data['rfid_studattendance']['time_out']))?$this->data['rfid_studattendance']['time_out']:null;
+		$this->data['RfidStudattendance']['remarks'] = (!empty($this->data['rfid_studattendance']['remarks']))?$this->data['rfid_studattendance']['remarks']:null;
+		$this->data['RfidStudattendance']['status'] = (!empty($this->data['rfid_studattendance']['time_out']) && !empty($this->data['rfid_studattendance']['time_out']))?'Saved':'Raw';
+		
+		//pr($this->data['RfidStudattendance']);exit;
+		
 		if($this->RfidStudattendance->save($this->data['RfidStudattendance'])){
 			$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$sno,$gatekeeper_db);
 			echo json_encode($data);
@@ -96,22 +113,19 @@ class RfidStudattendancesController extends AppController {
 			exit;
 		}
 	}
+	
+	function admin_add($fromDate=null,$toDate=null){
+		$gatekeeper_db  = $this->set_gatekeeper_db();
+		$sno = $this->data['RfidStudattendance']['student_number'];
+		$this->data['RfidStudattendance']['status'] = 'Saved';
 
-	function admin_edit($id = null) {
-		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid rfid studattendance', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		if (!empty($this->data)) {
-			if ($this->RfidStudattendance->save($this->data)) {
-				$this->Session->setFlash(__('The rfid studattendance has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The rfid studattendance could not be saved. Please, try again.', true));
-			}
-		}
-		if (empty($this->data)) {
-			$this->data = $this->RfidStudattendance->read(null, $id);
+		if($this->RfidStudattendance->save($this->data['RfidStudattendance'])){
+			$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$sno,$gatekeeper_db);
+			echo json_encode($data);
+			exit;
+		}else{
+			die('Something went wrong. Pls contact your system administrator');
+			exit;
 		}
 	}
 
@@ -127,20 +141,12 @@ class RfidStudattendancesController extends AppController {
 		}
 	}
 	
-	function admin_report(){
-		
-		
-	}
+
 	
 	function students(){
 		$students = $this->RfidStudent->find('all',array('conditions'=>array('RfidStudent.type'=>1)));
 		echo json_encode($students);
 		exit;
-	}
-	
-	function admin_adjust($fromDate=null,$toDate=null,$sno=null,$sname=null){
-		$this->layout='clean';
-		$this->set(compact('fromDate','toDate','sno','sname'));
 	}
 	
 	function admin_per_section_adjustment($sectionId = null, $sectionName = null, $date = null){
@@ -185,7 +191,6 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function daily_report($sectionId = null, $sectionName = null, $date = null){
-		
 		$data = $this->RfidStudattendance->daily_report($sectionId,$date);
 		$students = $this->RfidStudattendance->sectionStudents($sectionId);
 		$hdr = array();
@@ -195,7 +200,6 @@ class RfidStudattendancesController extends AppController {
 		$this->set(compact('data','hdr','students'));
 		$this->layout='pdf';
 		$this->render();
-	
 	}
 	
 	function per_sec_data_adjustment($sectionId = null, $sectionName = null, $date = null){
@@ -205,7 +209,7 @@ class RfidStudattendancesController extends AppController {
 		
 		$daily_report = $data['DailyReport'] = $this->RfidStudattendance->daily_report($sectionId,$date);
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
-
+	
 		$data = array();
 		foreach($students as $s_key => $student){
 			
@@ -214,8 +218,6 @@ class RfidStudattendancesController extends AppController {
 			$data[$s_key]['StudentRFID'] = $student['rfid_students']['dec_rfid'];
 			
 			foreach($daily_report as $d_key => $daily){
-				
-				
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
 					$data[$s_key]['Attendance'][$d_key]['Date'] = $daily['rfid_studattendance']['date'];
 					$data[$s_key]['Attendance'][$d_key]['TimeIn'] = $daily['rfid_studattendance']['time_in'];
@@ -231,8 +233,6 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function admin_per_section_saving(){
-		//$existing = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudAttendance.student_number'=>$this->data['sno'],'RfidStudAttendance.date'=>$this->data['date'])));
-		
 		$this->RfidStudattendance->deleteAll([
 				'RfidStudattendance.student_number' => $this->data['sno'], 
 				'RfidStudattendance.date' => $this->data['date']
@@ -264,11 +264,7 @@ class RfidStudattendancesController extends AppController {
 		
 	}
 	
-	
-	
 	function monthly_report($sectionId = null, $sectionName = null, $date = null){
-		//$sectionId = 110;
-		
 		if(!empty($sectionId)){
 			$hdr = array('SectionName'=>$sectionName,'Date'=>$date);
 			
@@ -327,13 +323,10 @@ class RfidStudattendancesController extends AppController {
 	function set_gatekeeper_db(){
 		$fields = get_class_vars('DATABASE_CONFIG');
 		$gatekeeper_db  = $fields['gatekeeper']['database'];
-		
-
 		return $gatekeeper_db;
 	}
 	
 	function inclusive_dates_force_entry($dates,$sno,$gatekeeper_db){
-		
 		foreach($dates as $k => $dts){
 			$data[$k] =  $this->RfidStudattendance->per_student($dts,$dts,$sno,$gatekeeper_db);
 			if(empty($data[$k])){
@@ -346,41 +339,8 @@ class RfidStudattendancesController extends AppController {
 			$this->RfidStudattendance->saveAll($this->data);
 		
 		}
-		
 	}
 
-	function data($fromDate=null,$toDate=null,$sno=null,$empname=null){
-		//GET DATE BETWEEN TWO DATES
-		$dates = $this->get_dates_between_two_dates($fromDate,$toDate);
-		//SET GATEKEEPER DATABASE
-		$gatekeeper_db  = $this->set_gatekeeper_db();
-		//INCLUSIVE DATE FORCE ENTRY
-		$this->inclusive_dates_force_entry($dates,$sno,$gatekeeper_db);
-			
-		$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$sno,$gatekeeper_db);
-		echo json_encode($data);
-		exit;
-	}
-	
-	function admin_update($fromDate=null,$toDate=null){
-		$gatekeeper_db  = $this->set_gatekeeper_db();
-		$empno = $this->data['rfid_studattendance']['student_number'];
-		//FIELDS DATA FOR EDITING 
-		$this->data['RfidStudattendance']['id'] = $this->data['rfid_studattendance']['id'];
-		$this->data['RfidStudattendance']['time_in'] = (!empty($this->data['rfid_studattendance']['time_in']))?$this->data['rfid_studattendance']['time_in']:null;
-		$this->data['RfidStudattendance']['time_out'] = (!empty($this->data['rfid_studattendance']['time_out']))?$this->data['rfid_studattendance']['time_out']:null;;
-		$this->data['RfidStudattendance']['status'] = (!empty($this->data['rfid_studattendance']['time_out']) && !empty($this->data['rfid_studattendance']['time_out']))?'Saved':'Raw';
-		
-		if($this->RfidStudattendance->save($this->data['RfidStudattendance'])){
-			$data =  $this->RfidStudattendance->per_student($fromDate,$toDate,$empno,$gatekeeper_db);
-			echo json_encode($data);
-			exit;
-		}else{
-			die('Something went wrong. Pls contact your system administrator');
-			exit;
-		}
-	}
-	
 	function admin_posting($fromDate=null,$toDate=null){
 		$gatekeeper_db  = $this->set_gatekeeper_db();
 		$sno = $this->data[0]['rfid_studattendance']['student_number'];
@@ -452,5 +412,52 @@ class RfidStudattendancesController extends AppController {
 	function test(){
 		$this->layout='clean';
 		
+	}
+	
+	function init_remarks(){
+		$sy = 2016;
+		$sectionId = 9;
+		$date = '2016-11-16';
+		
+		$sched =  $this->Schedule->find('first',array('conditions'=>array('Schedule.section_id'=>$sectionId,'Schedule.sy'=>$sy)));
+	
+		$attendances = $this->RfidStudattendance->daily_report($sectionId,$date);
+		
+		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
+	
+		$data =  array();
+		$i =  0;
+		foreach($attendances as $att){
+			if(empty($att['rfid_studattendance']['remarks'])){
+				
+				$data[$i]['RfidStudattendance']['id'] = $att['rfid_studattendance']['id'];
+
+				if($att['rfid_studattendance']['time_in'] <= $sched['Schedule']['start_time']){
+					$data[$i]['RfidStudattendance']['remarks'] = 'P';
+				}else{
+					$data[$i]['RfidStudattendance']['remarks'] = 'L';
+				}
+				
+				$i++;
+			}
+			
+		}
+		
+		//pr($data);exit;
+		
+		if($this->RfidStudattendance->saveAll($data)){
+			die('Saving Successfull');
+			exit;
+		}else{
+			die('Something went wrong. Pls contact your system administrator');
+			exit;
+		}
+		
+	}
+	
+	function remarks(){
+		$remarks = $this->Remark->find('all');
+		echo json_encode($remarks);
+		exit;
 	}
 }
