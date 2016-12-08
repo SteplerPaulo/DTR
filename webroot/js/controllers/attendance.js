@@ -39,6 +39,7 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 					data: $.param({data:{'Attendance':{
 									'remarks':1,
 									'employee_number':$scope.empno,
+									'employee_name':$scope.empname,
 									'rfid':$scope.RFID,
 								}}}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -59,7 +60,6 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 					}
 				});
 			}else{
-				
 				$http({
 					method: 'POST',
 					url: '/DTR/attendances/add',
@@ -79,10 +79,6 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 					$scope.INFO = 'label label-danger';
 					focus('focusMe');
 				});
-				
-				
-				
-				
 			}
         }, 500);	
 		

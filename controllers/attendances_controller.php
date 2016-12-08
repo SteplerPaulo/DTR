@@ -3,7 +3,7 @@ class AttendancesController extends AppController {
 
 	var $name = 'Attendances';
 	var $helpers = array('Access');
-	var $uses = array('Attendance','RfidStudent','SchoolYear','AttendanceCopy');
+	var $uses = array('Attendance','RfidStudent','SchoolYear','AttendanceCopy','MessageOut');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
@@ -65,7 +65,35 @@ class AttendancesController extends AppController {
 				$response['data'] = $this->Attendance->find('all',array(
 																'conditions'=>array('employee_number'=>$this->data['Attendance']['employee_number']),
 																'order' => array('id'=> 'DESC')
-																));
+															));
+				
+				$response['details'] = $this->RfidStudent->findByEmployeeNumber($this->data['Attendance']['employee_number']);
+				
+			
+				//SAVE TO MESSAGE OUT
+				$MessageFrom = '09175683891';
+				$MessageTo = $response['details']['RfidStudent']['employee_mobile_no'];
+				if(empty($response['data'][0]['Attendance']['timeout'])){
+					$data = array('MessageOut'=>array(
+										'MessageFrom'=>$MessageFrom,
+										'MessageTo'=>$MessageTo,
+										'MessageText'=>'Welcome '.$this->data['Attendance']['employee_name'].' ! Good day!',
+										'MessageType'=>'IN',
+									));
+
+				}else{
+					$data = array('MessageOut'=>array(
+										'MessageFrom'=>$MessageFrom,
+										'MessageTo'=>$MessageTo,
+										'MessageText'=>'Goobye '.$this->data['Attendance']['employee_name'].'! Take care!',
+										'MessageType'=>'OUT',
+									));
+								
+				}
+				$this->MessageOut->save($data['MessageOut']);
+				//END SAVING TO MESSAGE OUT
+
+													
 				echo json_encode($response);
 				exit();
 			} else {
@@ -344,6 +372,45 @@ class AttendancesController extends AppController {
 			$this->Attendance->saveAll($this->data);
 		
 		}
+		
+	}
+
+	function message_out(){
+		
+		$response['data'] = $this->Attendance->find('all',array(
+																'conditions'=>array('employee_number'=>'95-0015 NA'),
+																'order' => array('id'=> 'DESC')
+																));
+		$response['details'] = $this->RfidStudent->findByEmployeeNumber('95-0015 NA');
+		
+	
+	
+		$MessageFrom = '09175683891';
+		$MessageTo = $response['details']['RfidStudent']['employee_mobile_no'];
+		
+		if(empty($response['data'][0]['Attendance']['timeout'])){
+			$data = array(
+				'MessageOut'=>array(
+					'MessageFrom'=>$MessageFrom,
+					'MessageTo'=>$MessageTo,
+					'MessageText'=>'Welcome <Name> ! Good day!',
+					'MessageType'=>'IN',
+				));
+			
+		}else{
+			$data = array(
+				'MessageOut'=>array(
+					'MessageFrom'=>$MessageFrom,
+					'MessageTo'=>$MessageTo,
+					'MessageText'=>'Goobye <Name>! Take care!',
+					'MessageType'=>'OUT',
+				));
+			
+		}
+		$this->MessageOut->save($data['MessageOut']);
+	
+		
+		pr($data);exit;
 		
 	}
 }
