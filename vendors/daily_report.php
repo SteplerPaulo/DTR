@@ -5,16 +5,10 @@ class DailyReport extends Formsheet{
 	protected static $_height = 11;
 	protected static $_unit = 'in';
 	protected static $_orient = 'P';	
-	//protected static $_available_line = 37;	
-	//protected static $_curr_page = 1;
 	protected static $curr_page = 1;
 	protected static $page_count;
 	
 	function DailyReport(){
-		//$this->user = $user;
-		//$this->data = $data;
-		//DailyReport::$page_count = ceil((count($data)+count($vendors)+1)/21);//Total Page Count
-
 		$this->showLines = !true;
 		$this->FPDF(DailyReport::$_orient, DailyReport::$_unit,array(DailyReport::$_width,DailyReport::$_height));
 		$this->createSheet();
@@ -34,7 +28,7 @@ class DailyReport extends Formsheet{
 		$this->GRID['font_size']=8;
 		$this->DrawImage(8.525,0,0.6,0.6,'../webroot/img/'.$SystemDefault['school_logo']);
 		$this->centerText(0,$y++,$SystemDefault['school_name'],$metrics['cols'],'b');
-		$this->centerText(0,$y++,'School Year 2015 - 2016',$metrics['cols'],'b');
+		$this->centerText(0,$y++,'School Year 2016 - 2017',$metrics['cols'],'b');
 		$this->centerText(0,$y++,'Section - '.$hdr['section_name'],$metrics['cols'],'b');
 		$this->centerText(0,$y++,'DAILY ATTENDANCE ',$metrics['cols'],'b');
 		$y++;
@@ -83,6 +77,7 @@ class DailyReport extends Formsheet{
 		$i = 1;
 		
 		foreach($students as $stud){
+			$isPresent = false;
 			$this->leftText(0.2,$y,$i++.'. '.$stud[0]['full_name'],15,'');
 		
 			foreach($data as $d){
@@ -137,7 +132,7 @@ class DailyReport extends Formsheet{
 				$this->centerText(21,$y,'---',3);
 				$this->centerText(24,$y,'---',3);
 			}
-			$isPresent = false;
+			//$isPresent = false;
 			$y++;
 		}
 	}
