@@ -16,8 +16,8 @@
 				<thead>
 					<tr>
 						<th class="text-center">Name</th>
-						<th class="text-center">In</th>
-						<th class="text-center">Out</th>
+						<th class="text-center">Time In</th>
+						<th class="text-center">Time Out</th>
 						<th class="text-center">Remarks</th>
 						<th class="text-center">Actions</th>
 					</tr>
@@ -26,18 +26,29 @@
 					<tr pagination-id="PerSectionDailyAdjustmentTable" dir-paginate="stud in Students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
 						<td>{{stud.StudentName}}</td>
 						<td>
-							<div ng-repeat="attend in stud.Attendance" class="badge">
-								{{attend.TimeInDate | cmdate:'hh:mm a'}}
+							<div  ng-if="stud.Attendance !== undefined" ng-repeat="attend in stud.Attendance">
+								<span class="badge" ng-if="attend.TimeInDate.length == '19'">{{attend.TimeInDate | cmdate:'hh:mm a'}}</span>
+								<span class="badge-red" ng-if="attend.TimeInDate.length == '11'">No Time In</span>
+							</div>
+							<div ng-if="stud.Attendance === undefined">
+								<span class="badge-red">No Time In</span>
 							</div>
 						</td>
 						<td>
-							<div ng-repeat="attend in stud.Attendance" class="badge">
-								{{attend.TimeOutDate | cmdate:'hh:mm a'}} 
+							<div ng-if="stud.Attendance !== undefined" ng-repeat="attend in stud.Attendance">
+								<span class="badge" ng-if="attend.TimeOutDate.length == '19'">{{attend.TimeOutDate | cmdate:'hh:mm a'}}</span>
+								<span class="badge-red" ng-if="attend.TimeOutDate.length == '11'">No Time Out</span>
+							</div>
+							<div ng-if="stud.Attendance === undefined">
+								<span class="badge-red">No Time Out</span>
 							</div>
 						</td>
 						<td>
-							<div ng-repeat="attend in stud.Attendance" ng-class=" attend.Remarks == 'P' ? 'badge-green' : 'badge'">
+							<div ng-if="stud.Attendance" ng-repeat="attend in stud.Attendance" ng-class=" attend.Remarks == 'P' ? 'badge-green' : 'badge-yellow'">
 								{{attend.Remarks}}
+							</div>
+							<div ng-if="stud.Attendance === undefined">
+								<span class="badge-red">A</span>
 							</div>
 						</td>
 						<td class="text-center actions">
