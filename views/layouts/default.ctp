@@ -112,7 +112,7 @@
 						<ul id="ReportLinks" class="collapse">
 							<li>
 								<?php echo $this->Html->link("<i class='fa fa-file-text-o'></i> Student Attendance Report",
-											array('admin' => true,'controller'=>'rfid_studattendances','action'=>'report'),
+											array('admin' => true,'controller'=>'rfid_studattendances','action'=>'index'),
 											array('escape'=>false )
 										);?>
 							</li>
