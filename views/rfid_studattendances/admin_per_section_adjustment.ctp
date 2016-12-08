@@ -1,5 +1,4 @@
 <div ng-controller="PerSectionDailyAdjustmentController as $ctr" ng-init="initializeController()">
-	
 	<div class="row">
 		<div class="col-lg-4 col-md-4 col-xs-4">
 			<label for="search">Search</label>
@@ -98,10 +97,10 @@
 								</td>
 							</tr>
 							<tr ng-form="$ctrl.AttendanceForm">
-								<td><input id="TimeIn" value="{{$ctrl.TimeInDate |date:'HH:mm'}}" type="time" class="form-control input-sm input-group" ng-disabled="!$ctrl.active" ng-model="$ctrl.TimeIn"  ng-required="true"></input></td>
-								<td><input id="TimeOut" value="{{$ctrl.TimeOutDate |date:'HH:mm'}}"  type="time" class="form-control input-sm input-group" ng-disabled="!$ctrl.active" ng-model="$ctrl.TimeOut" ng-required="true"></input></td>
+								<td><input value="{{$ctrl.TimeInDate |date:'HH:mm'}}" type="time" class="form-control input-sm input-group" ng-disabled="!$ctrl.active" ng-model="$ctrl.TimeIn"  ng-required="true"></input></td>
+								<td><input  value="{{$ctrl.TimeOutDate |date:'HH:mm'}}"  type="time" class="form-control input-sm input-group" ng-disabled="!$ctrl.active" ng-model="$ctrl.TimeOut" ng-required="true"></input></td>
 								<td>
-									<select id="Remarks" class="form-control input-sm" ng-disabled="!$ctrl.active" ng-model="$ctrl.Remarks" ng-required="true">
+									<select class="form-control input-sm" ng-disabled="!$ctrl.active" ng-model="$ctrl.Remarks" ng-required="true">
 										<option value="">Select</option>
 										<?php foreach($remarks as $rem_k =>$rem):?>
 											<option value="<?php echo $rem_k ?>"><?php echo $rem ?></option>
