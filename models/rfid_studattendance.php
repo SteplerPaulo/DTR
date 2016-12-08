@@ -9,21 +9,22 @@ class RfidStudattendance extends AppModel {
 		
 		return $this->query( 
 			"SELECT 
-				  `rfid_studattendance`.`id`,
-				  `rfid_studattendance`.`student_number`,
+				 `rfid_studattendance`.`id`,
+				 `rfid_studattendance`.`student_number`,
 				  CONCAT(
-					last_name,
-					',',
-					first_name,
+					IFNULL(`rfid_students`.`last_name`,''),
+					', ',
+					IFNULL(`rfid_students`.`middle_name`,''),
 					' ',
-					middle_name
-				  ) AS full_name,
-				  `rfid_studattendance`.`date`,
-				  `status`,
-				  time_in,
-				  time_out,
-				  DATE_FORMAT(time_in, '%h:%i:%s %p') AS formated_timein,
-				  DATE_FORMAT(time_out, '%h:%i:%s %p') AS formated_timeout
+					IFNULL(`rfid_students`.`first_name`,'')
+					) AS full_name,
+				 `rfid_studattendance`.`date`,
+				 `status`,
+				 `remarks`,
+				 time_in,
+				 time_out,
+				 DATE_FORMAT(time_in, '%h:%i:%s %p') AS formated_timein,
+				 DATE_FORMAT(time_out, '%h:%i:%s %p') AS formated_timeout
 				FROM
 				  rfid_studattendance 
 				  INNER JOIN `$gatekeeper_db`.`rfid_students` 
@@ -37,39 +38,46 @@ class RfidStudattendance extends AppModel {
 		);
 	}
 	
-	function daily_report($sectionId,$date){
+	public function daily_report($sectionId,$date){
 		return $this->query( 
 			"SELECT 
-			  `rfid_students`.`section_id`,
-			  `sections`.`name`,
-			  CONCAT(`rfid_students`.`first_name`,' ',`rfid_students`.`middle_name`,' ',`rfid_students`.`last_name`) AS full_name,
-			  `rfid_students`.`student_number`,
-			  `rfid_studattendance`.`date`,
-			  `rfid_studattendance`.`time_in`,
-			  `rfid_studattendance`.`time_out`,
-			  `rfid_studattendance`.`remarks`
+				`rfid_students`.`section_id`,
+				`sections`.`name`,
+				CONCAT(
+					IFNULL(`rfid_students`.`first_name`,''),
+					', ',
+					IFNULL(`rfid_students`.`middle_name`,''),
+					' ',
+					IFNULL(`rfid_students`.`last_name`,'')
+					) AS full_name,
+				`rfid_students`.`student_number`,
+				`rfid_studattendance`.`id`,
+				`rfid_studattendance`.`date`,
+				`rfid_studattendance`.`time_in`,
+				`rfid_studattendance`.`time_out`,
+				`rfid_studattendance`.`remarks`
 			FROM
-			 `rfid_students` 
-			  INNER JOIN `sections` 
-				ON (
-				  `rfid_students`.`section_id` = `sections`.`id`
-				) 
-			  INNER JOIN `rfid_studattendance` 
-				ON (
-				  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
-				) 
-			WHERE (
-				`rfid_students`.`section_id` = '$sectionId'
-				 AND `rfid_studattendance`.`date` = '$date'
-			  ) ;
+				`rfid_students` 
+					INNER JOIN `sections` 
+					ON (
+					  `rfid_students`.`section_id` = `sections`.`id`
+					) 
+					INNER JOIN `rfid_studattendance` 
+					ON (
+					  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
+					) 
+				WHERE (
+					`rfid_students`.`section_id` = '$sectionId'
+					AND `rfid_studattendance`.`date` = '$date'
+				) ;
 			"
 		);
 	}
 	
-	function monthly_report($sectionId,$date){
+	public function monthly_report($sectionId,$date){
 		
-		$month = 11;//date("m",strtotime($date));
-		$year = 2016;//date("Y",strtotime($date));
+		$month = date("m",strtotime($date));
+		$year = date("Y",strtotime($date));
 	
 		return $this->query( 
 			"SELECT 
@@ -77,6 +85,7 @@ class RfidStudattendance extends AppModel {
 			  `sections`.`name`,
 			  CONCAT(`rfid_students`.`first_name`,' ',`rfid_students`.`middle_name`,' ',`rfid_students`.`last_name`) AS full_name,
 			  `rfid_students`.`student_number`,
+			  `rfid_studattendance`.`id`,
 			  `rfid_studattendance`.`date`,
 			  `rfid_studattendance`.`time_in`,
 			  `rfid_studattendance`.`time_out`,
@@ -100,26 +109,26 @@ class RfidStudattendance extends AppModel {
 		
 	}
 	
-	function sectionStudents($sectionId){
+	public function sectionStudents($sectionId){
 		return $this->query("
-					SELECT 
-						CONCAT(
-							IFNULL(`rfid_students`.`last_name`,''),
-							', ',
-							IFNULL(`rfid_students`.`first_name`,''),
-							' ',
-							 IFNULL(`rfid_students`.`middle_name`,'')
-							) AS full_name,
-							`rfid_students`.`student_number` ,
-							`rfid_students`.`dec_rfid`
-						FROM
-						  rfid_students 
-						WHERE section_id = '$sectionId' 
-						  AND `type` = 1 
-						ORDER BY `last_name`,
-						  `first_name`,
-						  `middle_name` 
-				");
+				SELECT 
+					CONCAT(
+						IFNULL(`rfid_students`.`last_name`,''),
+						', ',
+						IFNULL(`rfid_students`.`first_name`,''),
+						' ',
+						IFNULL(`rfid_students`.`middle_name`,'')
+						) AS full_name,
+						`rfid_students`.`student_number` ,
+						`rfid_students`.`dec_rfid`
+					FROM
+					  rfid_students 
+					WHERE section_id = '$sectionId' 
+					  AND `type` = 1 
+					ORDER BY `last_name`,
+					  `first_name`,
+					  `middle_name` 
+			");
 		
 	}
 

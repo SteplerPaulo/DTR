@@ -4,8 +4,20 @@ class RfidStudent extends AppModel {
 	var $useDbConfig = 'gatekeeper';
 	
 	var $virtualFields = array(
-		'full_name' => 'CONCAT(RfidStudent.last_name, ", " ,RfidStudent.first_name, " ",RfidStudent.middle_name, ".")',
-		'slug' => 'CONCAT(RfidStudent.last_name,"-",RfidStudent.first_name,"-",RfidStudent.middle_name)',
+		'full_name' => "CONCAT(
+							IFNULL(RfidStudent.last_name,''),
+							', ',
+							IFNULL(RfidStudent.first_name,''),
+							' ',
+							IFNULL(RfidStudent.middle_name,'')
+					)",
+		'slug' => "CONCAT(
+							IFNULL(RfidStudent.last_name,''),
+							'-',
+							IFNULL(RfidStudent.first_name,''),
+							'-',
+							IFNULL(RfidStudent.middle_name,'')
+					)",
 		'type_string' =>"CASE RfidStudent.type
 										WHEN '0' THEN 'New Student'
 										WHEN '1' THEN 'Old Student'
