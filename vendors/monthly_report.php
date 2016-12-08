@@ -5,8 +5,6 @@ class MonthlyReport extends Formsheet{
 	protected static $_height = 13;
 	protected static $_unit = 'in';
 	protected static $_orient = 'L';	
-	//protected static $_available_line = 37;	
-	//protected static $_curr_page = 1;
 	protected static $curr_page = 1;
 	protected static $page_count;
 	
@@ -41,7 +39,7 @@ class MonthlyReport extends Formsheet{
 		$this->leftText(32,$y,'Date: '.date("F Y",strtotime($hdr['Date'])),'','b');
 	}
 	
-	function body($data){
+	function body($data,$hdr){
 		$this->showLines = !true;
 		$metrics = array(
 			'base_x'=> 0.5,
@@ -63,46 +61,39 @@ class MonthlyReport extends Formsheet{
 		$this->centerText(0,$y,'NO.',1,'');
 		$this->centerText(1,$y,'NAME OF PUPILS / STUDENTS',11,'');
 		$x=12;
+
 		
 		$x_ntrvl = 1;
+		
 		$this->centerText($x,$y,'MA',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'1',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'2',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'3',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'4',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'5',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'6',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'7',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'8',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'9',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'10',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'11',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'12',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'13',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'14',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'15',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'16',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'17',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'18',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'19',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'20',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'21',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'22',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'23',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'24',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'25',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'26',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'27',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'28',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'29',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'30',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'31',$x_ntrvl,'');
+		
+		$y = 1.7;
+		
+		for($day =1;$day<=31;$day++){
+			$date = $hdr['Date'].'-'.$day;
+			
+			
+			$this->centerText($x+=$x_ntrvl,0.7,date('D', strtotime($date)),$x_ntrvl,'');
+			$this->centerText($x,$y,$day,$x_ntrvl,'');
+			
+			if(date('N', strtotime($date)) >= 6){
+				
+				$this->SetFillColor(0,0,0);
+				$this->DrawBox($x,2,1,28,'DF');
+				
+			}
+			
+		}
+		$this->DrawMulitpleLines(12,47,1,'v');
+		
+		$y = 1.3;
+		$x=43;
 		$this->centerText($x+=$x_ntrvl,$y,'IU',$x_ntrvl,'');
 		$this->centerText($x+=$x_ntrvl,$y,'DY',$x_ntrvl,'');
 		$this->centerText($x+=$x_ntrvl,$y,'HC',$x_ntrvl,'');
 		$this->centerText($x+=$x_ntrvl,$y,'NI',$x_ntrvl,'');
-		$y=2.8;
 		
+		$y=2.8;
 		foreach($data as $key => $stud){
 			$this->leftText(0.1,$y,++$key.'.','','');
 			$this->leftText(1.1,$y++,$stud['StudentName'],'','');
@@ -112,6 +103,8 @@ class MonthlyReport extends Formsheet{
 					$day   = date('d',$date);
 					$this->centerText(12+$day,$y,$attnd['Remarks'],$x_ntrvl,'');
 				}
+			}else{
+				//$this->centerText(12,$y,'---',$x_ntrvl,'');
 			}
 		}
 	}
