@@ -8,7 +8,6 @@ $i = 1;
 
 
 $pr= new DepEdReport();
-
 foreach($data as $students){
 	$pr->hdr($SystemDefault,$hdr);
 	$pr->body($students);
@@ -17,9 +16,6 @@ foreach($data as $students){
 		$pr->createSheet();
 	}
 }
-
-
-
 $pr->output();
 
 
