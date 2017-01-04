@@ -16,7 +16,7 @@ class DepEdReport extends Formsheet{
 		$this->createSheet();
 	}
 	
-	function hdr($SystemDefault){
+	function hdr($SystemDefault,$hdr){
 		$this->showLines = !true;
 		$metrics = array(
 			'base_x'=> 0.5,
@@ -37,85 +37,96 @@ class DepEdReport extends Formsheet{
 		
 		$y++;
 		$this->GRID['font_size']=9;
-		$this->leftText(0,$y,'Grade Year/ Section:','','b');
-		$this->leftText(32,$y,'Date: ','','b');
+		$this->leftText(0,$y,'Section: '.$hdr['SectionName'],'','b');
+		$this->leftText(32,$y,'Date: '.$hdr['Date'],'','b');
 	}
 	
-	function body($students){
+	function body($data,$hdr){
+		//pr($hdr);exit;
 		$this->showLines = !true;
 		$metrics = array(
-			'base_x'=> 0.5,
+			'base_x'=> 0.25,
 			'base_y'=> 1.35,
-			'width'=> 12,
+			'width'=> 12.5,
 			'height'=> 6,
-			'cols'=> 48,
+			'cols'=> 63,
 			'rows'=> 30,	
 		);
 		$this->section($metrics);
 	
-		$this->GRID['font_size']=8;
+		$this->GRID['font_size']=6.5;
 		$this->DrawBox(0,0,$metrics['cols'],$metrics['rows'],'');
 		$this->drawLine(1,'v');
-		$this->DrawMulitpleLines(12,47,1,'v');
+		$this->drawLine(9,'v');
+		$this->drawLine(11,'v');
+		$this->drawLine(12,'v');
+		$this->drawLine(14,'v');
+		$this->drawLine(20,'v',array(1,$metrics['rows']-1));
+		$this->drawLine(24,'v',array(1,$metrics['rows']-1));
+		$this->drawLine(61.5,'v',array(1,$metrics['rows']-1));
+		$this->DrawMulitpleLines(29,60,1,'v');
+		$this->drawLine(1,'h',array(14,15));
+		$this->drawLine(1,'h',array(60,3));
 		$this->drawLine(2,'h');
 		$this->DrawMulitpleLines(3,29,1,'h');
-		$y = 1.3;
-		$this->centerText(0,$y,'NO.',1,'');
-		$this->centerText(1,$y,'NAME OF PUPILS / STUDENTS',11,'');
-		$x=12;
 		
+		$y = 1.3;
+		$this->centerText(0,$y,'No.',1,'');
+		$this->centerText(1,$y,'Name',9,'');
+		$this->centerText(9,$y,'Birthdate',2,'');
+		$this->centerText(11,$y,'Age',1,'');
+		$this->centerText(12,$y,'Religion',2,'');
+		$this->centerText(14,$y-0.5,'Address',15,'');
+		$this->centerText(14,$y+0.4,'House/Street/Sitio/Purok',6,'');
+		$this->centerText(20,$y+0.4,'Barangay',4,'');
+		$this->centerText(24,$y+0.4,'Municipality/City',5,'');
+		$this->centerText(60,$y-0.5,'Total',3,'');
+		$this->centerText(60,$y+0.4,'Tardy',1.5,'');
+		$this->centerText(61.5,$y+0.4,'Absent',1.5,'');
+		
+		
+		
+		$this->centerText(9,$y+1.5,'10/20/90',2,'');
+		$this->centerText(11,$y+1.5,'8',1,'');
+		$this->centerText(12,$y+1.5,'Catholic',2,'');
+		$this->centerText(14,$y+1.5,'#450 Pres. Laurel Highway',6,'');
+		$this->centerText(20,$y+1.5,'Poblacion',4,'');
+		$this->centerText(24,$y+1.5,'Malvar,Batangas',5,'');
+		
+		$x=28;
 		$x_ntrvl = 1;
-		$this->centerText($x,$y,'MA',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'1',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'2',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'3',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'4',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'5',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'6',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'7',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'8',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'9',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'10',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'11',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'12',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'13',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'14',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'15',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'16',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'17',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'18',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'19',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'20',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'21',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'22',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'23',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'24',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'25',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'26',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'27',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'28',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'29',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'30',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'31',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'IU',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'DY',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'HC',$x_ntrvl,'');
-		$this->centerText($x+=$x_ntrvl,$y,'NI',$x_ntrvl,'');
+		$y = 1.7;
+		for($day =1;$day<=31;$day++){
+			$date = $hdr['Date'].'-'.$day;
+			$this->centerText($x+=$x_ntrvl,0.7,date('D', strtotime($date)),$x_ntrvl,'');
+			$this->centerText($x,$y,$day,$x_ntrvl,'');
+			
+			if(date('N', strtotime($date)) >= 6){
+				$this->SetFillColor(0,0,0);
+				$this->DrawBox($x,2,1,28,'DF');
+			}	
+		}
+		
+		
+		
+		
 		$y=2.8;
-		foreach($students as $key => $stud){
-			
+		foreach($data as $key => $stud){
 			$this->leftText(0.1,$y,++$key.'.','','');
-			$this->leftText(1.1,$y++,$stud[0]['full_name'],'','');
+			$this->leftText(1.1,$y++,$stud['StudentName'],'','');
 			if(isset($stud['Attendance'])){
-				
-				$date = strtotime($stud['Attendance']['date']);
-				$day   = date('d',$date);
-				$this->centerText(12+$day,$y,$stud['Attendance']['remarks'],$x_ntrvl,'');
+				foreach($stud['Attendance'] as $attnd){
+					$date = strtotime($attnd['Date']);
+					$day   = date('d',$date);
+					$this->centerText(28+$day,$y,$attnd['Remarks'],$x_ntrvl,'');
+				}
+			}else{
+				//$this->centerText(12,$y,'---',$x_ntrvl,'');
 			}
-			
 		}
 		
 	}
+	
 	
 	function ftr(){
 		$this->showLines = !true;
@@ -154,6 +165,7 @@ class DepEdReport extends Formsheet{
 		$this->drawLine($y++,'h',array(14,10));
 		$this->centerText(14,$y++,'Homeroom Adviser',10,'b');
 	}
+	
 	function nodata(){
 		$metrics = array(
 			'base_x'=> 0,
