@@ -14,7 +14,6 @@ App.controller('ReportController',function($scope,$rootScope,$http,$filter){
 	
 	//INTENT TO ADJUST EVENT HANDLER 
 	$scope.AdjustButton = function(fromDate,toDate,empname,empno){
-		var get = '/DTR/admin/attendances/adjust/'+fromDate+'/'+toDate+'/'+empno+'/'+empname;
 		if(empno && empname && fromDate && toDate) {
 			return $('iframe')[0].src=get;
 		}
