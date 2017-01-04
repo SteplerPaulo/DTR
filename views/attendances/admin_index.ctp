@@ -4,11 +4,11 @@
 			<div class="row">
 				<div  class="col-lg-6" >
 					<label>Date From</label>
-					<input type="date" class="form-control input-sm" id="FromDate" ng-model="fromDate" value="<?php echo date('Y-m-d'); ?>">
+					<input type="date" class="form-control input-sm" id="FromDate" ng-model="fromDate" max="{{toDate}}">
 				</div>
 				<div  class="col-lg-6" >
 					<label>Date To</label>
-					<input type="date" class="form-control input-sm" id="ToDate" ng-model="toDate" value="<?php echo date('Y-m-d');?>">
+					<input type="date" class="form-control input-sm" id="ToDate" ng-model="toDate" max="{{toDate}}">
 				</div>
 			</div>
 			<div class="row">
@@ -56,4 +56,4 @@
 	</section>
 </div>
 
-<?php echo $this->Html->script('controllers/report',array('inline'=>false)); ?>
+<?php echo $this->Html->script('controllers/employee_report',array('inline'=>false)); ?>
