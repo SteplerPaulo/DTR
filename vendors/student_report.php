@@ -57,21 +57,16 @@ class StudentAttendanceReport extends Formsheet{
 		$this->GRID['font_size']=8;
 		$this->DrawBox(0,0,$metrics['cols'],$metrics['rows'],$fill=null);
 		$this->DrawMulitpleLines(2,43,1,'h');
-		$this->DrawLine(1,'h',array(7,12));
-		$this->DrawLine(3,'v');
-		$this->DrawLine(7,'v');
-		$this->DrawLine(10,'v',array(1,42));
+		$this->DrawLine(5,'v');
+		$this->DrawLine(10,'v');
 		$this->DrawLine(13,'v');
-		$this->DrawLine(16,'v',array(1,42));
+		$this->DrawLine(16,'v');
 		
-		$this->centerText(0,1.3,'DATE',3,'');
-		$this->centerText(3,1.3,'DAY',4,'');
-		$this->centerText(7,0.7,'AM',6,'');
-		$this->centerText(7,1.7,'IN',3,'');
-		$this->centerText(10,1.7,'OUT',3,'');
-		$this->centerText(13,0.7,'PM',6,'');
-		$this->centerText(13,1.7,'IN',3,'');
-		$this->centerText(16,1.7,'OUT',3,'');
+		$this->centerText(0,1.3,'DATE',5,'');
+		$this->centerText(5,1.3,'DAY',5,'');
+		$this->centerText(10,1.3,'IN',3,'');
+		$this->centerText(13,1.3,'OUT',3,'');
+		$this->centerText(16,1.3,'REMARKS',3,'');
 		$y=1.8;
 		$prev_date = explode('-', $data[0]['rfid_studattendance']['date'])[2] - 1;
 
@@ -80,42 +75,17 @@ class StudentAttendanceReport extends Formsheet{
 			$curr_date =  explode('-', $d['rfid_studattendance']['date'])[2];
 			if($prev_date != $curr_date){
 				$y++;
-				$this->centerText(0,$y,date("M d", strtotime($d['rfid_studattendance']['date'])),3,'');	
+				$this->centerText(0,$y,date("M. d", strtotime($d['rfid_studattendance']['date'])),5,'');	
 				$date = new DateTime($d['rfid_studattendance']['date']);
-				$this->centerText(3,$y,$date->format('D'),4,'');
+				$this->centerText(5,$y,$date->format('D'),5,'');
 				
 			}
 			$prev_date = $curr_date;
+			$this->centerText(10,$y,$d['rfid_studattendance']['time_in'],3,'');
+			$this->centerText(13,$y,$d['rfid_studattendance']['time_out'],3,'');
+			$this->centerText(16,$y,$d['rfid_studattendance']['remarks'],3,'');
 			
-			if($d['rfid_studattendance']['time_in'] < '12:00:00' && $d['rfid_studattendance']['time_in'] != Null){
-				$tix = 7;
-				$tix2 = 13; 
-			}else if($d['rfid_studattendance']['time_in'] >= '12:00:00' && $d['rfid_studattendance']['time_in'] != Null) {
-				$tix = 13; 
-				$tix2 = 7; 
-			}else{
-				$tix = 7; 
-				$tix2 = 13; 
-				//pr('wew');exit;
-			}
-			
-			if ($d['rfid_studattendance']['time_out'] < '12:00:00' && $d['rfid_studattendance']['time_out'] != Null){
-				$tox = 10; 
-				$tox2 = 16; 
-			}else if($d['rfid_studattendance']['time_out'] >= '12:00:00' && $d['rfid_studattendance']['time_out'] != Null){
-				$tox = 16; 
-				$tox2 = 10; 
-			}else{
-				$tox = 10; 
-				$tox2 = 16; 
-			} 
-			
-			$this->centerText($tix,$y,$d['rfid_studattendance']['time_in'],3,'');
-			//$this->centerText($tix2,$y,'---',3,'');
-			$this->centerText($tox,$y,$d['rfid_studattendance']['time_out'],3,'');
-			//$this->centerText($tox2,$y,'---',3,'');
-			
-			if($tox == 16) $y++;
+		
 		}
 		
 	}
