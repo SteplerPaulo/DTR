@@ -1,22 +1,18 @@
  <?php
 App::import('Vendor','deped_report');
 
-$data = array_chunk($students,28,true);
+
+$chunk_data = array_chunk($data,28,true);
 $i = 1;
-//pr($data);
-//exit;
-
-
 $pr= new DepEdReport();
-foreach($data as $students){
+foreach($chunk_data as $dt){
 	$pr->hdr($SystemDefault,$hdr);
-	$pr->body($students);
-	$pr->ftr();
-	if(count($data) != ($i++)){
+	$pr->body($dt,$hdr);
+	//$pr->ftr();
+	if(count($chunk_data) != ($i++)){
 		$pr->createSheet();
 	}
 }
 $pr->output();
-
 
 ?>
