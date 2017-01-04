@@ -67,20 +67,7 @@ class MonthlyReport extends Formsheet{
 		
 		$this->centerText($x,$y,'MA',$x_ntrvl,'');
 		
-		$y = 1.7;
-		
-		for($day =1;$day<=31;$day++){
-			$date = $hdr['Date'].'-'.$day;
-			$this->centerText($x+=$x_ntrvl,0.7,date('D', strtotime($date)),$x_ntrvl,'');
-			$this->centerText($x,$y,$day,$x_ntrvl,'');
-			
-			if(date('N', strtotime($date)) >= 6){
-				$this->SetFillColor(0,0,0);
-				$this->DrawBox($x,2,1,28,'DF');
-			}
-			
-		}
-		
+	
 		$this->DrawMulitpleLines(12,47,1,'v');
 		
 		$y = 1.3;
@@ -94,16 +81,37 @@ class MonthlyReport extends Formsheet{
 		foreach($data as $key => $stud){
 			$this->leftText(0.1,$y,++$key.'.','','');
 			$this->leftText(1.1,$y++,$stud['StudentName'],'','');
-			if(isset($stud['Attendance'])){
-				foreach($stud['Attendance'] as $attnd){
-					$date = strtotime($attnd['Date']);
-					$day   = date('d',$date);
-					$this->centerText(12+$day,$y,$attnd['Remarks'],$x_ntrvl,'');
+			foreach($stud['Attendance'] as $attnd){
+				$date = strtotime($attnd['Date']);
+				$day   = date('d',$date);
+				
+				if($attnd['Remarks'] == "A"){
+					$this->SetTextColor(255,0,0);	
 				}
-			}else{
-				//$this->centerText(12,$y,'---',$x_ntrvl,'');
+				/*
+				else if($attnd['Remarks'] == "P"){
+					$this->SetTextColor(0,153,0);
+				}
+				*/
+				$this->centerText(12+$day,$y,$attnd['Remarks'],$x_ntrvl,'b');
+				$this->SetTextColor(0,0,0);	
 			}
+
 		}
+		$x=12;
+		$y = 1.7;
+		for($day =1;$day<=31;$day++){
+			$date = $hdr['Date'].'-'.$day;
+			$this->centerText($x+=$x_ntrvl,0.7,date('D', strtotime($date)),$x_ntrvl,'');
+			$this->centerText($x,$y,$day,$x_ntrvl,'');
+			
+			if(date('N', strtotime($date)) >= 6){
+				$this->SetFillColor(0,0,0);
+				$this->DrawBox($x,2,1,28,'DF');
+			}
+			
+		}
+		
 	}
 	
 	function ftr(){
