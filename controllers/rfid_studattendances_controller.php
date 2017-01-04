@@ -268,7 +268,12 @@ class RfidStudattendancesController extends AppController {
 		if(!empty($sectionId)){
 			$hdr = array('SectionName'=>$sectionName,'Date'=>$date);
 			
-			$monthly_report = $this->RfidStudattendance->monthly_report($sectionId,$date);
+			$month = date("m",strtotime($date));
+			$year = date("Y",strtotime($date));
+			$max_day = cal_days_in_month(CAL_GREGORIAN, $month, $year); // 31
+			
+			
+			$monthly_report = $this->RfidStudattendance->monthly_report($sectionId,$month,$year);
 			$students = $this->RfidStudattendance->sectionStudents($sectionId);
 			
 			$data = array();
@@ -277,19 +282,24 @@ class RfidStudattendancesController extends AppController {
 				$data[$s_key]['StudentName'] = $student[0]['full_name'];
 				$data[$s_key]['StudentRFID'] = $student['rfid_students']['dec_rfid'];
 				
+				for($day =1;$day<=$max_day;$day++){
+					$data[$s_key]['Attendance'][$day]['Date'] = $year.'-'.$month.'-'.$day;
+					$data[$s_key]['Attendance'][$day]['Remarks'] = 'A';
+				}
+				
 				foreach($monthly_report as $d_key => $monthly){
-					$i = 0;
 					if( $monthly['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
-						$data[$s_key]['Attendance'][$i]['Date'] = $monthly['rfid_studattendance']['date'];
-						$data[$s_key]['Attendance'][$i]['TimeIn'] = $monthly['rfid_studattendance']['time_in'];
-						$data[$s_key]['Attendance'][$i]['TimeOut'] = $monthly['rfid_studattendance']['time_out'];
-						$data[$s_key]['Attendance'][$i]['TimeInDate'] = $monthly['rfid_studattendance']['date'].' '.$monthly['rfid_studattendance']['time_in'];
-						$data[$s_key]['Attendance'][$i]['TimeOutDate'] = $monthly['rfid_studattendance']['date'].' '.$monthly['rfid_studattendance']['time_out'];
-						$data[$s_key]['Attendance'][$i]['Remarks'] = $monthly['rfid_studattendance']['remarks'];
+						$day = date("j",strtotime($monthly['rfid_studattendance']['date']));
+						$data[$s_key]['Attendance'][$day]['Date'] = $monthly['rfid_studattendance']['date'];
+						$data[$s_key]['Attendance'][$day]['TimeIn'] = $monthly['rfid_studattendance']['time_in'];
+						$data[$s_key]['Attendance'][$day]['TimeOut'] = $monthly['rfid_studattendance']['time_out'];
+						$data[$s_key]['Attendance'][$day]['TimeInDate'] = $monthly['rfid_studattendance']['date'].' '.$monthly['rfid_studattendance']['time_in'];
+						$data[$s_key]['Attendance'][$day]['TimeOutDate'] = $monthly['rfid_studattendance']['date'].' '.$monthly['rfid_studattendance']['time_out'];
+						$data[$s_key]['Attendance'][$day]['Remarks'] = $monthly['rfid_studattendance']['remarks'];
 					}
 				}
 			}
-			//pr($data);exit;
+			
 			$this->set(compact('data','hdr'));
 			$this->layout='pdf';
 			$this->render();
@@ -420,10 +430,13 @@ class RfidStudattendancesController extends AppController {
 	function init_remarks($sectionId = null, $sectionName = null, $date = null){
 		//$sectionId = 9;
 		//$date = '2016-11-16';
+		$month = date("m",strtotime($date));
+		$year = date("Y",strtotime($date));
+		
 		
 		$sy = date("Y",strtotime($date));
 		$sched =  $this->Schedule->find('first',array('conditions'=>array('Schedule.section_id'=>$sectionId,'Schedule.sy'=>$sy)));
-		$attendances = $this->RfidStudattendance->monthly_report($sectionId,$date);
+		$attendances = $this->RfidStudattendance->monthly_report($sectionId,$month,$year);
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
 	
 
