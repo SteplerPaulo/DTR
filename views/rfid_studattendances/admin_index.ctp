@@ -19,11 +19,11 @@
 				
 				<div  class="col-lg-6" ng-show="DailyReport">
 					<label>Date</label>
-					<input type="date" class="form-control input-sm" ng-model="Daily" max="{{Daily}}">
+					<input type="date" class="form-control input-sm" ng-model="Daily" max="<?php echo date('Y-m-d')?>">
 				</div>
 				<div  class="col-lg-6" ng-hide="DailyReport">
 					<label>Month</label>
-					<input type="month" class="form-control input-sm" ng-model="Monthly" max="{{Monthly}}">
+					<input type="month" class="form-control input-sm" ng-model="Monthly" max="<?php echo date('Y-m')?>">
 				</div>
 			</div>
 			<div class="row">
