@@ -15,38 +15,27 @@
 				<caption style="padding-bottom:10px;">
 					<h3 empno="<?php echo $empno; ?>" fromdate="<?php echo $fromDate; ?>" todate="<?php echo $toDate; ?>">
 						<span class="pull-left" id="EmployeeName"><?php echo $empname; ?></span>				
-						<div class="btn-group pull-right" role="group"> 
-							<a class="btn btn-primary" ng-click="AddNewEntry()" data-toggle="tooltip" title="Click refresh button after saving new entry"><i class="fa fa-plus-circle"> Add New Entry</i></a>
-							<a class="btn btn-default" ng-click="RefreshAttendance"><i class="fa fa-refresh"> </i></a>			
-						</div>
 					</h3><br/>
 				</caption>
 				<thead>
 					<tr>
-						<th class="text-center" rowspan="2">Date</th>
-						<th class="text-center" rowspan="2">Day</th>
-						<th class="text-center" rowspan="2">In</th>
-						<th class="text-center" rowspan="2">Out</th>
-						<th class="text-center" rowspan="2">Status</th>
-						<th class="text-center" rowspan="2">Actions</th>
+						<th class="text-center">Date</th>
+						<th class="text-center">Day</th>
+						<th class="text-center">In</th>
+						<th class="text-center">Out</th>
+						<th class="text-center">Remarks</th>
+						<th class="text-center">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr pagination-id="AdjustmetTable" dir-paginate="d in data | filter:q | itemsPerPage: pageSize" current-page="currentPage">
 						<td class="text-center">{{d.attendances.date |  date:"MMM. dd"}}</td>
 						<td class="text-center">{{d.attendances.date |  date:"EEE"}}</td>
-						<td class="text-center" rowspan="1">
-							<div ng-hide="editingData[d.attendances.id]">{{d[0].formated_timein | date:"mediumTime"}}</div>
-							<div ng-show="editingData[d.attendances.id]"><input type="time" step="any" class="form-control input-sm" ng-model="d.attendances.timein" /></div>
-						</td>
-						<td class="text-center">
-							<div ng-hide="editingData[d.attendances.id]">{{d[0].formated_timeout}}</div>
-							<div ng-show="editingData[d.attendances.id]"><input type="time" step="any" class="form-control input-sm" ng-model="d.attendances.timeout" /></div>
-						</td>
-						<td class="text-center">{{d.attendances.status}}</td>
+						<td class="text-center">{{d[0].formated_timein | date:"mediumTime"}}</td>
+						<td class="text-center">{{d[0].formated_timeout | date:"mediumTime"}}</td>
+						<td class="text-center">{{d.attendances.remarks}}</td>
 						<td class="text-center" ng-hide="{{d.attendances.status == posted}}" >
-							<a data-toggle="tooltip" title="Modify" ng-hide="editingData[d.attendances.id]" ng-click="modify(d)"><i class="fa fa-edit"></i></a>
-							<a data-toggle="tooltip" title="Update" ng-show="editingData[d.attendances.id]" ng-click="update(d)"><i class="fa fa-save"></i></a>&nbsp;
+							<a data-toggle="tooltip" title="Edit"  ng-click="open(d,'lg')"><i class="fa fa-edit"></i></a>		
 							<a data-toggle="tooltip" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
 						</td>
 					</tr>
@@ -67,7 +56,7 @@
 		</div>
 	</div><br/><br/>
 	
-	<!-- Modal -->
+	<!-- Modal 
 	<div class="modal fade" id="AddNewEntryModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
@@ -111,5 +100,52 @@
 			</div>
 		</div>
 	</div>
+	-->
+	
+	<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">{{$ctrl.o[0].full_name}}</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+           	<div class="row">
+				<div class="col-lg-12">
+					<table class="table table-bordered" id="EmployeeAttendanceTable">
+						<thead>	
+							<tr>
+								<td class="text-center">Time In</td>
+								<td class="text-center">Time Out</td>
+								<td class="text-center">Remarks</td>
+								<th class="text-center">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-form="$ctrl.AttendanceForm">
+								<td><input type="time" class="form-control input-sm" ng-disabled="!$ctrl.active" ng-model="$ctrl.TimeInDate"  ng-required="true"></input></td>
+								<td><input type="time" class="form-control input-sm" ng-disabled="!$ctrl.active" ng-model="$ctrl.TimeOutDate" ng-required="true"></input></td>
+								<td>
+									<select class="form-control input-sm" ng-model="$ctrl.SelectedRemark" ng-disabled="!$ctrl.active" ng-required="true">
+										<option value="">Select</option>
+										<option ng-selected="remark.Remark.alias == $ctrl.SelectedRemark" ng-repeat="remark in remarks" value="{{remark.Remark.alias}}" >{{remark.Remark.name}}</option>
+									<select>
+								</td>
+								<td class="text-center actions">
+									<a data-toggle="tooltip" title="Activate" ng-click="$ctrl.on()" ng-if="$ctrl.active == false">
+										<i class="fa fa-toggle-off" aria-hidden="true"></i>
+									</a>
+									<a data-toggle="tooltip" title="Activate" ng-click="$ctrl.off()" ng-if="$ctrl.active == true">
+										<i class="fa fa-toggle-on" aria-hidden="true"></i>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+        </div>
+        <div class="modal-footer">
+            <button id="SaveButton" class="btn btn-primary" ng-click="$ctrl.save()" ng-disabled="!$ctrl.AttendanceForm.$valid || !$ctrl.active">Save</button>
+            <button class="btn btn-warning" ng-click="$ctrl.cancel()">Cancel</button>
+		</div>
+    </script>
 </div>
-<?php echo $this->Html->script('controllers/attendance_adjustment',array('inline'=>false));?>
+<?php echo $this->Html->script('controllers/employee_attendance_adjustment',array('inline'=>false));?>
