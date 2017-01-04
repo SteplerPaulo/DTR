@@ -74,16 +74,20 @@ class RfidStudattendance extends AppModel {
 		);
 	}
 	
-	public function monthly_report($sectionId,$date){
+	public function monthly_report($sectionId,$month,$year){
 		
-		$month = date("m",strtotime($date));
-		$year = date("Y",strtotime($date));
-	
+		
 		return $this->query( 
 			"SELECT 
 			  `rfid_students`.`section_id`,
 			  `sections`.`name`,
-			  CONCAT(`rfid_students`.`first_name`,' ',`rfid_students`.`middle_name`,' ',`rfid_students`.`last_name`) AS full_name,
+			  CONCAT(
+					IFNULL(`rfid_students`.`first_name`,''),
+					', ',
+					IFNULL(`rfid_students`.`middle_name`,''),
+					' ',
+					IFNULL(`rfid_students`.`last_name`,'')
+				) AS full_name,
 			  `rfid_students`.`student_number`,
 			  `rfid_studattendance`.`id`,
 			  `rfid_studattendance`.`date`,
