@@ -50,24 +50,16 @@ class DailyReport extends Formsheet{
 		$this->GRID['font_size']=8;
 		$this->DrawBox(0,0,$metrics['cols'],$metrics['rows'],$fill=null);
 		$this->DrawMulitpleLines(2,42,1,'h');
-		$this->DrawLine(1,'h',array(15,12));
-		
-		$this->DrawLine(15,'v');
-		$this->DrawLine(18,'v',array(1,42));
-		$this->DrawLine(21,'v');
-		$this->DrawLine(24,'v',array(1,42));
-		$this->DrawLine(27,'v');
+		$this->DrawLine(18,'v');
+		$this->DrawLine(22,'v');
+		$this->DrawLine(26,'v');
 		
 		$this->centerText(0,1.3,'',3,'');
-		$this->centerText(0,1.3,'NAME',15,'');
-		$this->centerText(15,0.7,'AM',6,'');
-		$this->centerText(15,1.7,'In',3,'');
-		$this->centerText(18,1.7,'Out',3,'');
-		$this->centerText(21,0.7,'PM',6,'');
-		$this->centerText(21,1.7,'In',3,'');
-		$this->centerText(24,1.7,'Out',3,'');
+		$this->centerText(0,1.3,'NAME',18,'');
+		$this->centerText(18,1.3,'IN',4,'');
+		$this->centerText(22,1.3,'OUT',4,'');
 		$this->GRID['font_size']=6.5;
-		$this->centerText(27,1.3,'Remarks',3);
+		$this->centerText(26,1.3,'REMARKS',4);
 		
 		$y=2.8;
 		$prev_student = '';
@@ -75,6 +67,7 @@ class DailyReport extends Formsheet{
 		//pr($data);exit;
 		//pr($students);exit;
 		$i = 1;
+		
 		
 		foreach($students as $stud){
 			$isPresent = false;
@@ -88,61 +81,34 @@ class DailyReport extends Formsheet{
 						$y--;
 					}
 					
-					//Set Time In Column
-					if($d['rfid_studattendance']['time_in'] < '12:00:00' && $d['rfid_studattendance']['time_in'] != Null){
-						$tix = 15;
-						$tix2 = 21;
-					}else if($d['rfid_studattendance']['time_in'] >= '12:00:00' && $d['rfid_studattendance']['time_in'] != Null){
-						$tix = 21;
-						$tix2 = 15;
-					}else{
-						$tix = 15; 
-						$tix2 = 21; 
-					} 
-					//Set Time Out Column
-					if ($d['rfid_studattendance']['time_out'] < '12:00:00' && $d['rfid_studattendance']['time_out'] != Null){
-						$tox = 18;
-						$tox2 = 24;
-					}else if($d['rfid_studattendance']['time_out'] >= '12:00:00' && $d['rfid_studattendance']['time_out'] != Null){
-						$tox = 24; 	
-						$tox2 = 18; 	
-					}else{
-						$tox = 18;
-						$tox2 = 24;
-					}  
 					//View Time In Data
 					if(!empty($d['rfid_studattendance']['time_in'])){
-						$this->centerText($tix,$y,date('h:i', strtotime($d['rfid_studattendance']['time_in'])),3,'');
-						$this->centerText($tix2,$y,'---',3,'');
+						$this->centerText(18,$y,date('h:i', strtotime($d['rfid_studattendance']['time_in'])),4,'');
 					}else{
-						$this->centerText($tix,$y,'---',3,'');
-						$this->centerText($tix2,$y,'---',3,'');
+						$this->centerText(18,$y,'---',4,'');
 					}
 					//View Time Out Data
 					if(!empty($d['rfid_studattendance']['time_out'])){
-						$this->centerText($tox,$y,date('h:i', strtotime($d['rfid_studattendance']['time_out'])),3,'');
-						$this->centerText($tox2,$y,'---',3,'');
+						$this->centerText(22,$y,date('h:i', strtotime($d['rfid_studattendance']['time_out'])),4,'');
 					}else{
-						$this->centerText($tox,$y,'---',3,'');
-						$this->centerText($tox2,$y,'---',3,'');
+						$this->centerText(22,$y,'---',4,'');
 					}
 					//Remarks
-					$this->centerText(27,$y,$d['rfid_studattendance']['remarks'],3);
+					$this->centerText(26,$y,$d['rfid_studattendance']['remarks'],4);
 					$prev_student = $curr_student;
 					$isPresent = true; //Row Status
 				}
 			}
+		
 			//Check If Row Has Data
 			if(!$isPresent) {
-				$this->centerText(27,$y,'A',3);
-				$this->centerText(15,$y,'---',3);
-				$this->centerText(18,$y,'---',3);
-				$this->centerText(21,$y,'---',3);
-				$this->centerText(24,$y,'---',3);
+				$this->centerText(18,$y,'---',4);
+				$this->centerText(22,$y,'---',4);
+				$this->centerText(26,$y,'A',4);
 			}
-			//$isPresent = false;
 			$y++;
 		}
+		
 	}
 	
 	function divider(){
