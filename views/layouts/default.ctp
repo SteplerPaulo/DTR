@@ -118,7 +118,7 @@
 							</li>
 							<li>
 								<?php echo $this->Html->link("<i class='fa fa-file-archive-o'></i> Employee Attendance Report",
-											array('admin' => true,'controller'=>'attendances','action'=>'report'),
+											array('admin' => true,'controller'=>'attendances','action'=>'index'),
 											array('escape'=>false )
 										);?>
 							</li>
