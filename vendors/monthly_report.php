@@ -71,19 +71,16 @@ class MonthlyReport extends Formsheet{
 		
 		for($day =1;$day<=31;$day++){
 			$date = $hdr['Date'].'-'.$day;
-			
-			
 			$this->centerText($x+=$x_ntrvl,0.7,date('D', strtotime($date)),$x_ntrvl,'');
 			$this->centerText($x,$y,$day,$x_ntrvl,'');
 			
 			if(date('N', strtotime($date)) >= 6){
-				
 				$this->SetFillColor(0,0,0);
 				$this->DrawBox($x,2,1,28,'DF');
-				
 			}
 			
 		}
+		
 		$this->DrawMulitpleLines(12,47,1,'v');
 		
 		$y = 1.3;
