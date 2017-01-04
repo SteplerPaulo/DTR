@@ -53,10 +53,10 @@ App.controller('StudentAttendanceAdjustmentController',function($scope,$rootScop
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).then(function(response) {
 			$scope.data = response.data;
-			$scope.editingData = [];
-			$.each($scope.data,function(i,o){
-				 $scope.editingData[$scope.data[i].rfid_studattendance.id] = false;
-			});
+			//$scope.editingData = [];
+			//$.each($scope.data,function(i,o){
+			//	 $scope.editingData[$scope.data[i].rfid_studattendance.id] = false;
+			//});
 		});
     };
 	
