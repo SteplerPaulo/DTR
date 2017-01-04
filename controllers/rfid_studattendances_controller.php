@@ -289,7 +289,7 @@ class RfidStudattendancesController extends AppController {
 					}
 				}
 			}
-			
+			//pr($data);exit;
 			$this->set(compact('data','hdr'));
 			$this->layout='pdf';
 			$this->render();
@@ -368,44 +368,47 @@ class RfidStudattendancesController extends AppController {
 	}
 
 	function deped_report($sectionId = null, $sectionName = null, $date = null){
-		//$sectionId = 110;
-		//$sectionName = "Archdiocese of Manila";
-		//$date = "2016-11-10";
+		//$sectionId = 1;
+		//$sectionName = "BL P CALUNGSOD";
+		//$date = "2016-11";
 		
 		
-		$daily_report = $this->RfidStudattendance->daily_report($sectionId,$date);
-		$students = $this->RfidStudattendance->sectionStudents($sectionId);
-		
-		
-		foreach($daily_report as $d_key => $daily){
+		if(!empty($sectionId)){
+			$hdr = array('SectionName'=>$sectionName,'Date'=>$date);
+			
+			$monthly_report = $this->RfidStudattendance->monthly_report($sectionId,$date);
+			$students = $this->RfidStudattendance->sectionStudents($sectionId);
+			
+			$data = array();
 			foreach($students as $s_key => $student){
-				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
-					if($daily['rfid_studattendance']['time_in'] < '12:00:00' && $daily['rfid_studattendance']['time_in'] != Null){
-						$students[$s_key]['Attendance']['AM']['time_in'] = $daily['rfid_studattendance']['time_in'];
-					}else{
-						$students[$s_key]['Attendance']['PM']['time_in'] = $daily['rfid_studattendance']['time_in'];
+				$data[$s_key]['StudentNo'] = $student['rfid_students']['student_number'];
+				$data[$s_key]['StudentName'] = $student[0]['full_name'];
+				$data[$s_key]['StudentRFID'] = $student['rfid_students']['dec_rfid'];
+				
+				foreach($monthly_report as $d_key => $monthly){
+					$i = 0;
+					if( $monthly['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
+						$data[$s_key]['Attendance'][$i]['Date'] = $monthly['rfid_studattendance']['date'];
+						$data[$s_key]['Attendance'][$i]['TimeIn'] = $monthly['rfid_studattendance']['time_in'];
+						$data[$s_key]['Attendance'][$i]['TimeOut'] = $monthly['rfid_studattendance']['time_out'];
+						$data[$s_key]['Attendance'][$i]['TimeInDate'] = $monthly['rfid_studattendance']['date'].' '.$monthly['rfid_studattendance']['time_in'];
+						$data[$s_key]['Attendance'][$i]['TimeOutDate'] = $monthly['rfid_studattendance']['date'].' '.$monthly['rfid_studattendance']['time_out'];
+						$data[$s_key]['Attendance'][$i]['Remarks'] = $monthly['rfid_studattendance']['remarks'];
 					}
-					
-					
-					if ($daily['rfid_studattendance']['time_out'] < '12:00:00' && $daily['rfid_studattendance']['time_out'] != Null){
-						$students[$s_key]['Attendance']['AM']['time_out'] = $daily['rfid_studattendance']['time_out'];
-					}else{
-						$students[$s_key]['Attendance']['PM']['time_out'] = $daily['rfid_studattendance']['time_out'];
-					}
-					$students[$s_key]['Attendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
-					$students[$s_key]['Attendance']['date'] = $daily['rfid_studattendance']['date'];
 				}
 			}
+			
+			$this->set(compact('data','hdr'));
+			$this->layout='pdf';
+			$this->render();
+		}else{
+			$data = array();
+			$hdr = array();
+			$students = array();
+			$this->set(compact('data','hdr'));
+			$this->layout='pdf';
+			$this->render();
 		}
-		
-
-		$hdr = array();
-		$hdr['section_id'] = $sectionId;
-		$hdr['section_name'] = $sectionName;
-		$hdr['date'] = $date;
-		$this->set(compact('hdr','students'));
-		$this->layout='pdf';
-		$this->render();
 	
 	}
 
