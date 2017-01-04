@@ -1,4 +1,4 @@
-<div ng-controller="PerSectionDailyAdjustmentController as $ctr" ng-init="initializeController()">
+<div ng-controller="PerSectionDailyAdjustmentController as $ctrl" ng-init="initializeController()">
 	<div class="row">
 		<div class="col-lg-4 col-md-4 col-xs-4">
 			<label for="search">Search</label>
@@ -52,7 +52,7 @@
 							</div>
 						</td>
 						<td class="text-center actions">
-							<a data-toggle="tooltip" title="Edit" ng-click="$ctr.open(stud,'lg')"><i class="fa fa-edit"></i></a>
+							<a data-toggle="tooltip" title="Edit" ng-click="$ctrl.open(stud,'lg')"><i class="fa fa-edit"></i></a>
 						</td>
 					</tr>
 				</tbody>
