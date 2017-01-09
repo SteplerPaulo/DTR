@@ -34,9 +34,14 @@
 						<td class="text-center">{{d[0].formated_timein | date:"mediumTime"}}</td>
 						<td class="text-center">{{d[0].formated_timeout | date:"mediumTime"}}</td>
 						<td class="text-center">{{d.attendances.remarks}}</td>
-						<td class="text-center" ng-hide="{{d.attendances.status == posted}}" >
-							<a data-toggle="tooltip" title="Edit"  ng-click="open(d,'lg')"><i class="fa fa-edit"></i></a>		
-							<a data-toggle="tooltip" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
+						<td ng-switch on="d.attendances.status" class="text-center">
+							<div ng-switch-when="Posted">
+								POSTED
+							</div>
+							<div ng-switch-default>
+								<a data-toggle="tooltip" title="Edit"  ng-click="open(d,'lg')"><i class="fa fa-edit"></i></a>		
+								<a data-toggle="tooltip" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
+							</div>
 						</td>
 					</tr>
 				</tbody>
