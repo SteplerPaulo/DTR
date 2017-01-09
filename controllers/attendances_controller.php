@@ -26,8 +26,10 @@ class AttendancesController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) {
+		
 			date_default_timezone_set("Asia/Singapore");
 			$this->data['Attendance']['date'] = date('Y-m-d');
+			$this->data['Attendance']['datetime'] = date('Y-m-d h:i:s');
 			
 			$result = $this->Attendance->find('first',array(
 												'conditions'=>array(
@@ -77,7 +79,7 @@ class AttendancesController extends AppController {
 					$data = array('MessageOut'=>array(
 										'MessageFrom'=>$MessageFrom,
 										'MessageTo'=>$MessageTo,
-										'MessageText'=>'Welcome '.$this->data['Attendance']['employee_name'].' ! Good day!',
+										'MessageText'=>'Welcome '.$this->data['Attendance']['employee_name'].' ! Good day !'.$this->data['Attendance']['datetime'],
 										'MessageType'=>'IN',
 									));
 
@@ -85,7 +87,7 @@ class AttendancesController extends AppController {
 					$data = array('MessageOut'=>array(
 										'MessageFrom'=>$MessageFrom,
 										'MessageTo'=>$MessageTo,
-										'MessageText'=>'Goodbye '.$this->data['Attendance']['employee_name'].'! Take care!',
+										'MessageText'=>'Goodbye '.$this->data['Attendance']['employee_name'].'! Take care! '.$this->data['Attendance']['datetime'],
 										'MessageType'=>'OUT',
 									));
 								
