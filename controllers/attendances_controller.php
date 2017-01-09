@@ -85,7 +85,7 @@ class AttendancesController extends AppController {
 					$data = array('MessageOut'=>array(
 										'MessageFrom'=>$MessageFrom,
 										'MessageTo'=>$MessageTo,
-										'MessageText'=>'Goobye '.$this->data['Attendance']['employee_name'].'! Take care!',
+										'MessageText'=>'Goodbye '.$this->data['Attendance']['employee_name'].'! Take care!',
 										'MessageType'=>'OUT',
 									));
 								
