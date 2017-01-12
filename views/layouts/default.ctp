@@ -227,7 +227,7 @@
 						<ul class="dropdown-menu">
 						   <li >
 								<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-user fa-fw')).' '.
-											$this->Html->tag('span', 'Profile'),
+											$this->Html->tag('span', $this->Access->getmy('username')),
 											array('controller'=>'users','action'=>'view'),
 											array('escape' => false)
 											);  ?>
@@ -241,11 +241,19 @@
 							</li>
 							<li class="divider"></li>
 							<li>
+								<?php if($this->Access->getmy('username')):?>
 								<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-sign-out fa-fw')).' '.
 										$this->Html->tag('span', 'Logout'),
-										array('controller'=>'users','action'=>'logout'),
+										array('admin' => false,'controller'=>'users','action'=>'logout'),
 										array('escape' => false)
 										);  ?>
+								<?php else:?>
+									<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-sign-in fa-fw')).' '.
+										$this->Html->tag('span', 'Login'),
+										array('admin' => false,'controller'=>'users','action'=>'login'),
+										array('escape' => false)
+										);  ?>
+								<?php endif;?>
 							</li>
 						</ul>
 					</li>
