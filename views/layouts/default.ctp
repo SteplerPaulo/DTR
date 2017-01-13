@@ -225,13 +225,16 @@
 					<li class="dropdown" ng-hide="false">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-						   <li >
+						
+							<?php if($this->Access->getmy('username')):?>
+							<li >
 								<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-user fa-fw')).' '.
 											$this->Html->tag('span', $this->Access->getmy('username')),
 											array('controller'=>'users','action'=>'view'),
 											array('escape' => false)
 											);  ?>
 							</li>
+							
 							<li>
 								<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-gear fa-fw')).' '.
 											$this->Html->tag('span', 'Settings'),
@@ -240,6 +243,7 @@
 											);  ?>
 							</li>
 							<li class="divider"></li>
+							<?php endif;?>
 							<li>
 								<?php if($this->Access->getmy('username')):?>
 								<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-sign-out fa-fw')).' '.
@@ -251,6 +255,11 @@
 									<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-sign-in fa-fw')).' '.
 										$this->Html->tag('span', 'Login'),
 										array('admin' => false,'controller'=>'users','action'=>'login'),
+										array('escape' => false)
+										);  ?>
+									<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-pencil-square fa-fw')).' '.
+										$this->Html->tag('span', 'Register'),
+										array('admin' => false,'controller'=>'users','action'=>'register'),
 										array('escape' => false)
 										);  ?>
 								<?php endif;?>
