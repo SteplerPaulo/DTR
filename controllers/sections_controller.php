@@ -3,6 +3,7 @@ class SectionsController extends AppController {
 
 	var $name = 'Sections';
 	var $helpers = array('Access');
+	var $uses = array('Section','RfidStudent');
 
 	function index() {
 		$this->Section->recursive = 0;
@@ -64,5 +65,35 @@ class SectionsController extends AppController {
 		$sections = $this->Section->find('all');
 		echo json_encode($sections);
 		exit;
+	}
+	
+	function loading(){
+		
+		
+		$data = array();
+		if(!empty($this->data)){
+			$i=0;
+			foreach($this->data['Section']['section_id'] as $d ){
+				$data[$i]['Section']['employee_number'] = $this->data['Section']['employee_number'];
+				$data[$i]['Section']['id'] = $d;
+				$i++;
+			}
+			//pr($data);exit;
+			if ($this->Section->saveAll($data)) {
+				$this->Session->setFlash(__('The section has been assigned', true));
+				$this->redirect(array('action' => 'loading'));
+			
+			}
+			
+		}
+		
+		$employees = $this->RfidStudent->find('list',array(
+													'conditions'=>array('RfidStudent.type'=>2),
+													'fields'=>array('RfidStudent.employee_number','RfidStudent.full_name'),
+												));
+		//pr($employees);exit;
+		$sections = $this->Section->find('list');
+		$this->set(compact('sections','employees'));
+		
 	}
 }
