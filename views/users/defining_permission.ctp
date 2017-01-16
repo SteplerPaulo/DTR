@@ -12,7 +12,7 @@
 						echo $this->Session->flash('auth').'<br>';
 						echo $this->Form->input('roles',array('empty'=>'Select','required'=>'required'));
 						echo $this->Form->input('models',array('empty'=>'Select','required'=>'required'));
-						echo $this->Form->input('methods',array('required'=>'required','multiple'=>true,'size'=>'5'));
+						echo $this->Form->input('methods',array('multiple'=>true,'size'=>'5'));
 					
 					?>			
 					<?php echo $this->Form->submit(__('Submit', true), array('class'=>'btn btn-success pull-right'));?>
