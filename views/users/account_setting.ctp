@@ -35,7 +35,8 @@
 				<?php
 					echo $this->Form->input('last_name',array('value'=>$data['User']['last_name'],'disabled'=>'disabled','required'=>'required'));
 					echo $this->Form->input('first_name',array('value'=>$data['User']['first_name'],'disabled'=>'disabled','required'=>'required'));
-					echo $this->Form->input('middle_name',array('value'=>$data['User']['middle_name'],'disabled'=>'disabled'));
+					echo $this->Form->input('middle_name',array('value'=>$data['User']['middle_name'],'disabled'=>'disabled','required'=>'required'));
+					echo $this->Form->input('id_number',array('placeholder'=>'ID Number','value'=>$data['User']['id_number'],'disabled'=>'disabled','required'=>'required'));
 				?>	
 			</div>
 			<?php echo $this->Form->button('Submit', array('type'=>'button','id'=>'SubmitButton','class'=>'btn btn-primary','disabled'=>'disabled'));?>
