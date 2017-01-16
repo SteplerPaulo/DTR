@@ -1,0 +1,14 @@
+DIRECTOR
+	>> HR
+	>> GUIDANCE
+		>> EMPLOYEE
+			>> STUDENT
+			
+
+DIRECTOR - view,add,edit,delete all data
+
+HR			- can view,add,edit,delete employee attendance
+GUIDANCE	- can add,edit,delete student attendance
+EMPLOYEE 	- can view his/her attendance, can view his/her students' attendance
+STUDENT 	- can view his attendance
+
