@@ -16,9 +16,10 @@
 					<?php
 						echo $this->Form->input('last_name',array('placeholder'=>'Last Name','required'=>'required'));
 						echo $this->Form->input('first_name',array('placeholder'=>'First Name','required'=>'required'));
-						echo $this->Form->input('middle_name',array('placeholder'=>'MiddleName','required'=>'required'));
+						echo $this->Form->input('middle_name',array('placeholder'=>'Middle Name','required'=>'required'));
+						echo $this->Form->input('id_number',array('placeholder'=>'ID Number','required'=>'required'));
 					?>	
-					<?php echo $this->Form->submit(__('Submit', true), array('id'=>'SubmitButton','class'=>'btn btn-lg btn-success btn-block'));?>
+					<?php echo $this->Form->submit(__('Submit', true), array('id'=>'SubmitButton','class'=>'btn btn-success pull-right'));?>
 					<?php echo $this->Form->end();?>
 				</div>
 			</div>
