@@ -3,7 +3,7 @@ class AttendancesController extends AppController {
 
 	var $name = 'Attendances';
 	var $helpers = array('Access');
-	var $uses = array('Attendance','RfidStudent','SchoolYear','AttendanceCopy','MessageOut','Remark');
+	var $uses = array('Attendance','RfidStudent','SchoolYear','AttendanceCopy','MessageOut','Remark','User');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
@@ -139,8 +139,20 @@ class AttendancesController extends AppController {
 	}
 	
 	function employees(){
+		
+		if($this->Access->check('Attendance','*')){
+			$conditions = array('RfidStudent.type'=>2);
+		}else if($this->Access->check('Attendance','create','read','update','delete')){
+			$conditions = array('RfidStudent.type'=>2);
+		}else if($this->Access->check('Attendance','read')){
+			$userDtls =  $this->User->findById($this->Access->getmy('id'));
+			$conditions = array('RfidStudent.type'=>2,'RfidStudent.employee_number'=>$userDtls['User']['id_number']);
+		}//else{
+			//$conditions = array('RfidStudent.type'=>2,'RfidStudent.employee_number'=>'xxx');
+		//}
+		
 		$sy = $this->SchoolYear->findByIsDefault(1);
-		$employees = $this->RfidStudent->find('all',array('conditions'=>array('RfidStudent.type'=>2)));
+		$employees = $this->RfidStudent->find('all',array('conditions'=>$conditions));
 		echo json_encode($employees);
 		exit;
 	}
@@ -193,8 +205,9 @@ class AttendancesController extends AppController {
 	}
 
 	function admin_index(){
-		
-		
+		if(!$this->Access->check('Attendance','*') && !$this->Access->check('Attendance','create','read','update','delete') && !$this->Access->check('Attendance','read')){
+			DIE("You don't have permission to access that page.Pls. contact school's system administrator for further details. ");
+		}
 	}
 	
 	function doc_report($fromDate=null,$toDate=null,$empno=null,$empname=null){

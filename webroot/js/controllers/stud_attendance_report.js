@@ -1,29 +1,38 @@
 App.controller('StudentAttendanceReportController',function($scope,$rootScope,$http,$filter){
 	
+	
+	
 	$scope.initializeController = function(){
-		//GENERAL SCOPE
+		
 		$scope.currentPage = 1; 
 		$scope.pageSize = 5;
-		$scope.perSection = true;
 		$scope.DailyReport =  true;
-		
-		//PER SECTION SCOPE
 		$scope.types = [{id:1,name:"Daily Report"},{id:2,name:"Monthly Report"},{id:3,name:'DepEd Report'}];
-	
 		$scope.ReportURL =  '/DTR/rfid_studattendances/daily_report/';
 		$scope.Daily =  $filter("date")(Date.now(), 'yyyy-MM-dd');
 		$scope.Monthly = $filter("date")(Date.now(), 'yyyy-MM');
-		$http.get("/DTR/sections/all").success(function(response) {//SECTIONS
-			$scope.sections = response;
-		});
-		
-		//PER STUDENT SCOPE
 		$scope.fromDate =  $filter("date")(Date.now(), 'yyyy-MM-dd');
 		$scope.toDate = $filter("date")(Date.now(), 'yyyy-MM-dd');
-		$http.get("/DTR/rfid_students/all_student").success(function(response) {
-			$scope.students = response;
-			//console.log(response);
+
+		
+		$http.get("/DTR/rfid_studattendances/intent_report_data").success(function(response) {
+			$scope.students = response.students;
+			$scope.sections = response.sections;
+			
+			$scope.perStudent = $scope.perStudentOnly = response.perStudentOnly;
+			$scope.perSection = $scope.perSectionOnly = response.perSectionOnly;
+			console.log($scope.perSectionOnly);
+			console.log($scope.perStudentOnly);
+			if($scope.perStudentOnly == false && $scope.perSectionOnly == false){
+				$scope.perStudent = false;
+				$scope.perSection = true;
+				console.log('wew');
+			}
+		
 		});
+	
+		
+		
 	}
 	
 	$scope.perWhat = function(per){

@@ -1,4 +1,4 @@
-<div ng-controller="ReportController" ng-init="initializeController()">
+<div ng-controller="ReportController" ng-init="initializeController()" >
 	<section>
 		<div class=" col-lg-5">
 			<div class="row">
@@ -32,13 +32,16 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr pagination-id="Table" dir-paginate="d in data | filter:q | itemsPerPage: pageSize" current-page="currentPage">
+					<tr ng-if="data.length" pagination-id="Table" dir-paginate="d in data | filter:q | itemsPerPage: pageSize" current-page="currentPage">
 						<td class="text-center">{{d.RfidStudent.employee_number}}</td>
 						<td class="">{{d.RfidStudent.full_name}}</td>
 						<td class="text-center actions">
 							<a empno_adjust="{{d.RfidStudent.employee_number}}" ng-click="AdjustButton(fromDate,toDate,d.RfidStudent.full_name,d.RfidStudent.employee_number)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
 							<a ng-click="DateFilterModal(fromDate,toDate,d.RfidStudent.full_name,d.RfidStudent.employee_number)" data-toggle="tooltip" title="Print"><i class="fa fa-print"></a></i>
 						</td>
+					</tr>
+					<tr ng-if="!data.length">
+						<td colspan="3"> NO DATA</td>
 					</tr>
 				</tbody>
 				<tfoot>
