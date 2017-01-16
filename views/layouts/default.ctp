@@ -192,7 +192,7 @@
 					<?php if($this->Access->check('User','create','read','update','delete')): ?><li>
 						<?php  echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-gears fa-fw')).' '.
 										$this->Html->tag('span', 'Access Control', array('class' => 'module-label')),
-										array('controller'=>'pages','plugin'=>null,'action'=>'access_control'), array('escape' => false)
+										array('admin' => false,'controller'=>'pages','plugin'=>null,'action'=>'access_control'), array('escape' => false)
 										);  ?>	
 					</li>
 					<?php endif;  ?>
@@ -230,7 +230,7 @@
 							<li >
 								<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-user fa-fw')).' '.
 											$this->Html->tag('span', $this->Access->getmy('username')),
-											array('controller'=>'users','action'=>'view'),
+											array('admin' => false,'controller'=>'users','action'=>'view'),
 											array('escape' => false)
 											);  ?>
 							</li>
@@ -238,7 +238,7 @@
 							<li>
 								<?php echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-gear fa-fw')).' '.
 											$this->Html->tag('span', 'Settings'),
-											array('controller'=>'users','action'=>'account_setting'),
+											array('admin' => false,'controller'=>'users','action'=>'account_setting'),
 											array('escape' => false)
 											);  ?>
 							</li>
