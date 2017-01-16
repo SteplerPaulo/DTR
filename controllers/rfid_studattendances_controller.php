@@ -3,7 +3,7 @@ class RfidStudattendancesController extends AppController {
 
 	var $name = 'RfidStudattendances';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule');
+	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule','User','Section');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
@@ -69,7 +69,9 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function admin_index() {
-		
+		if(!$this->Access->check('RfidStudattendance','*') && !$this->Access->check('RfidStudattendance','create','read','update','delete') && !$this->Access->check('RfidStudattendance','read')){
+			DIE("You don't have permission to access that page.Pls. contact school's system administrator for further details. ");
+		}
 	}
 	
 	function admin_adjust($fromDate=null,$toDate=null,$sno=null,$sname=null){
@@ -141,7 +143,6 @@ class RfidStudattendancesController extends AppController {
 		}
 	}
 	
-
 	
 	function students(){
 		$students = $this->RfidStudent->find('all',array('conditions'=>array('RfidStudent.type'=>1)));
@@ -487,4 +488,46 @@ class RfidStudattendancesController extends AppController {
 		echo json_encode($remarks);
 		exit;
 	}
+	
+	
+	function intent_report_data(){
+		$data = array();
+		
+		//GET STUDENTS
+		
+		if($this->Access->check('RfidStudent','*') || $this->Access->check('RfidStudent','create','read','update','delete')){
+			$data['perStudentOnly'] = false;
+			$conditions = array('RfidStudent.type'=>1);
+		}else if($this->Access->check('RfidStudent','read')){
+			$userDtls =  $this->User->findById($this->Access->getmy('id'));
+			$conditions = array('RfidStudent.type'=>1,'RfidStudent.student_number'=>$userDtls['User']['id_number']);
+			$data['perStudentOnly'] = true;
+		}else{
+			$conditions = array('RfidStudent.type'=>3);
+			$data['perStudentOnly'] = false;
+		}
+		
+		$data['students'] = $this->RfidStudent->find('all',array('conditions'=>$conditions));
+		
+		//GET SECTIONS
+		
+		if($this->Access->check('Section','*') || $this->Access->check('Section','create','read','update','delete')){
+			$data['perSectionOnly'] = false;
+			$conditions = array();
+		}else if($this->Access->check('Section','read')){
+			$userDtls =  $this->User->findById($this->Access->getmy('id'));
+			$conditions = array('Section.employee_number'=>$userDtls['User']['id_number']);
+			$data['perSectionOnly'] = true;
+		}else{
+			$conditions = array();
+			$data['perSectionOnly'] = false;
+		}
+		$data['sections'] = $this->Section->find('all',array('conditions'=>$conditions));
+	
+		
+		echo json_encode($data);
+		exit;
+	}
+	
+
 }

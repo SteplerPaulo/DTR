@@ -1,9 +1,13 @@
 <div ng-controller="StudentAttendanceReportController" ng-init="initializeController()">
 	<section class="row">
 		<div class="col-lg-12">
-			<div class="btn-group btn-group-sm">
-				<button type="button" class="btn btn-warning" ng-class="{active: perSection}" ng-click="perWhat('Section')">Per Section Report</button>
-				<button type="button" class="btn btn-warning" ng-class="{active: perStudent}" ng-click="perWhat('Student')">Per Student Report</button>
+			<!--
+			Per Student Only: {{perStudentOnly}} <br/>
+			Per Section Only: {{perSectionOnly}}<br/>
+			-->
+			<div class="btn-group btn-group-sm" >
+				<button ng-if="perSectionOnly || (!perSectionOnly&&!perStudentOnly)" type="button" class="btn btn-warning" ng-class="{active: perSection}" ng-click="perWhat('Section')">Per Section Report</button>
+				<button ng-if="perStudentOnly || (!perSectionOnly&&!perStudentOnly)"type="button" class="btn btn-warning" ng-class="{active: perStudent}" ng-click="perWhat('Student')">Per Student Report</button>
 			</div>
 		</div>
 	</section>
@@ -51,7 +55,7 @@
 						<td class="text-center">{{d.Section.id}}</td>
 						<td class="">{{d.Section.name}}</td>
 						<td class="text-center actions">
-							<a ng-if="typeSelected.id == 1" ng-click="perSectionDailyReportAdjustButton(d.Section.id,d.Section.name,Daily)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
+							<a ng-if="typeSelected.id == 1 && !perSectionOnly" ng-click="perSectionDailyReportAdjustButton(d.Section.id,d.Section.name,Daily)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
 							<a ng-show="DailyReport" ng-click="printReport(d.Section.id,d.Section.name,Daily)" data-toggle="tooltip" title="Print"><i class="fa fa-print"></a></i>
 							<a ng-hide="DailyReport" ng-click="printReport(d.Section.id,d.Section.name,Monthly)" data-toggle="tooltip" title="Print"><i class="fa fa-print"></a></i>
 						</td>
@@ -108,7 +112,7 @@
 						<td class="text-center">{{d.RfidStudent.student_number}}</td>
 						<td class="">{{d.RfidStudent.full_name}}</td>
 						<td class="text-center actions">
-							<a empno_adjust="{{d.RfidStudent.student_number}}" ng-click="AdjustButton(fromDate,toDate,d.RfidStudent.full_name,d.RfidStudent.student_number)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
+							<a ng-if="!perStudentOnly" empno_adjust="{{d.RfidStudent.student_number}}" ng-click="AdjustButton(fromDate,toDate,d.RfidStudent.full_name,d.RfidStudent.student_number)" data-toggle="tooltip" title="Adjust"><i class="fa fa-edit"></a></i>&nbsp;
 							<a ng-click="DateFilterModal(fromDate,toDate,d.RfidStudent.full_name,d.RfidStudent.student_number)" data-toggle="tooltip" title="Print"><i class="fa fa-print"></a></i>
 						</td>
 					</tr>
