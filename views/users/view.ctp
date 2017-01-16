@@ -21,10 +21,11 @@
 			<div class="media-body col-lg-9">
 				<section>
 					<dl>
-						<dt><h4>Username: <?php echo $user['User']['username']; ?></h4></dt>
-						<dd><b>Last Name: </b><?php echo $user['User']['last_name']; ?></dd>
-						<dd><b>First Name: </b><?php echo $user['User']['first_name']; ?></dd>
-						<dd><b>Middle Name: </b><?php echo $user['User']['middle_name']; ?></dd>
+						<dt><h4>USERNAME: <?php echo $user['User']['username']; ?></h4></dt>
+						<dd><b>LAST NAME: </b><?php echo $user['User']['last_name']; ?></dd>
+						<dd><b>FIRST NAME: </b><?php echo $user['User']['first_name']; ?></dd>
+						<dd><b>MIDDLE NAME: </b><?php echo $user['User']['middle_name']; ?></dd>
+						<dd><b>ID NUMBER: </b><?php echo $user['User']['id_number']; ?></dd>
 					</dl>
 				</section><hr>
 				<section>
