@@ -23,7 +23,7 @@
 						<th class="text-center">Day</th>
 						<th class="text-center">In</th>
 						<th class="text-center">Out</th>
-						<th class="text-center">Remarks</th>
+						<th class="text-center hide">Remarks</th>
 						<th class="text-center">Actions</th>
 					</tr>
 				</thead>
@@ -33,7 +33,7 @@
 						<td class="text-center">{{d.attendances.date |  date:"EEE"}}</td>
 						<td class="text-center">{{d[0].formated_timein | date:"mediumTime"}}</td>
 						<td class="text-center">{{d[0].formated_timeout | date:"mediumTime"}}</td>
-						<td class="text-center">{{d.attendances.remarks}}</td>
+						<td class="text-center hide">{{d.attendances.remarks}}</td>
 						<td ng-switch on="d.attendances.status" class="text-center">
 							<div ng-switch-when="Posted">
 								POSTED
