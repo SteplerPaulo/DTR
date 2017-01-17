@@ -73,14 +73,16 @@ class AttendancesController extends AppController {
 				
 			
 				//SAVE TO MESSAGE OUT
-				$MessageFrom = '09175683891';
+				$MessageFrom = '+639554234823';
 				$MessageTo = $response['details']['RfidStudent']['employee_mobile_no'];
 				if(empty($response['data'][0]['Attendance']['timeout'])){
 					$data = array('MessageOut'=>array(
 										'MessageFrom'=>$MessageFrom,
 										'MessageTo'=>$MessageTo,
 										'MessageText'=>'Welcome '.$this->data['Attendance']['employee_name'].' ! Good day !'.$this->data['Attendance']['datetime'],
-										'MessageType'=>'IN',
+										//'MessageType'=>'IN',
+										'Gateway'=>'Globe',
+										'Port'=>'6',
 									));
 
 				}else{
@@ -88,7 +90,9 @@ class AttendancesController extends AppController {
 										'MessageFrom'=>$MessageFrom,
 										'MessageTo'=>$MessageTo,
 										'MessageText'=>'Goodbye '.$this->data['Attendance']['employee_name'].'! Take care! '.$this->data['Attendance']['datetime'],
-										'MessageType'=>'OUT',
+										//'MessageType'=>'OUT',
+										'Gateway'=>'Globe',
+										'Port'=>'6',
 									));
 								
 				}
@@ -402,7 +406,7 @@ class AttendancesController extends AppController {
 		
 	
 	
-		$MessageFrom = '09175683891';
+		$MessageFrom = '+639554234823';
 		$MessageTo = $response['details']['RfidStudent']['employee_mobile_no'];
 		
 		if(empty($response['data'][0]['Attendance']['timeout'])){
@@ -411,7 +415,9 @@ class AttendancesController extends AppController {
 					'MessageFrom'=>$MessageFrom,
 					'MessageTo'=>$MessageTo,
 					'MessageText'=>'Welcome <Name> ! Good day!',
-					'MessageType'=>'IN',
+					//'MessageType'=>'IN',					
+					'Gateway'=>'Globe',
+					'Port'=>'6',
 				));
 			
 		}else{
@@ -420,7 +426,10 @@ class AttendancesController extends AppController {
 					'MessageFrom'=>$MessageFrom,
 					'MessageTo'=>$MessageTo,
 					'MessageText'=>'Goobye <Name>! Take care!',
-					'MessageType'=>'OUT',
+					//'MessageType'=>'OUT',
+					'Gateway'=>'Globe',
+					'Port'=>'6',
+				
 				));
 			
 		}
