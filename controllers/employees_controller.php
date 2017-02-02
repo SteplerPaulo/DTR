@@ -23,6 +23,9 @@ class EmployeesController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) {
+			$this->data['Employee']['mobile'] = '+63'.$this->data['Employee']['mobile'];
+			$this->data['Employee']['emergency_contact_no'] = '+63'.$this->data['Employee']['emergency_contact_no'];
+			
 			$this->Employee->create();
 			if ($this->Employee->save($this->data)) {
 				$this->Session->setFlash(__('The employee has been saved', true));
