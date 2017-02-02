@@ -21,7 +21,7 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 		
 		$http.get("/DTR/attendances/sms_port").success(function (response) {
 			$scope.SmsPort = response.SmsPort;
-			console.log(response);
+			console.log($scope.SmsPort);
 		});
 		
 	}
@@ -49,9 +49,9 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 									'rfid':$scope.RFID,
 								},
 								'SmsPort':{
-									'MessageFrom':$scope.SmsPort.Gateway,
-									'Gateway':$scope.SmsPort.SimType,
-									'Port':$scope.SmsPort.Port
+									'MessageFrom':($scope.SmsPort !=  undefined)?$scope.SmsPort.Gateway:'',
+									'Gateway':($scope.SmsPort !=  undefined)?$scope.SmsPort.SimType:'',
+									'Port':($scope.SmsPort !=  undefined)?$scope.SmsPort.Port:''
 								}
 							}}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -80,9 +80,9 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 									'rfid':$scope.RFID,
 								},
 								'SmsPort':{
-									'MessageFrom':$scope.SmsPort.Gateway,
-									'Gateway':$scope.SmsPort.SimType,
-									'Port':$scope.SmsPort.Port
+									'MessageFrom':($scope.SmsPort !=  undefined)?$scope.SmsPort.Gateway:'',
+									'Gateway':($scope.SmsPort !=  undefined)?$scope.SmsPort.SimType:'',
+									'Port':($scope.SmsPort !=  undefined)?$scope.SmsPort.Port:''
 								}
 							}}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}

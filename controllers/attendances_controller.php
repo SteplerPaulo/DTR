@@ -70,9 +70,9 @@ class AttendancesController extends AppController {
 															));
 				
 				$response['details'] = $this->RfidStudent->findByEmployeeNumber($this->data['Attendance']['employee_number']);
-				//pr($response['details']);exit;
 			
-				//SAVE TO MESSAGE OUT
+			
+				//SAVE TO MESSAGE OUT IF EMPLOYEE DATA FOUND
 				if(!empty($response['details'])){
 					$MessageFrom = $this->data['SmsPort']['MessageFrom'];
 					$MessageTo = $response['details']['RfidStudent']['employee_mobile_no'];
