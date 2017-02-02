@@ -61,7 +61,7 @@
 		//echo $this->Html->script(array('template/plugins/jasny/jasny-bootstrap')); //Bootstrap Jasny JavaScript
 		//echo $this->Html->script(array('template/plugins/jasny/jasny-modal-patch')); //Patch modal z-index
 		//echo $this->Html->script(array('template/plugins/wizard/wizard'));
-		echo $this->Html->script(array('template/angular.min'));	
+		echo $this->Html->script(array('template/angular.min'));	// Angular v1.5.9 (Dependencies for bootstrap modal)
 		echo $this->Html->script(array('template/bootstrap-datepicker'));
 		echo $this->Html->script(array('template/jqueryForm'));
 		echo $this->Html->script(array('biz/app'));

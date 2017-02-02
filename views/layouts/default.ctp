@@ -46,7 +46,6 @@
 		echo $this->Html->css('template/plugins/wizard'); //Custom CSS
 		echo $this->Html->css('template/patches/side-nav'); //Custom CSS
 		echo $this->Html->css('template\font-awesome-4.4.0\css\font-awesome'); //Custom Fonts
-		echo $this->Html->css('template\jquery-ui-1.11.2.custom\jquery-ui'); //Custom Fonts
 		echo $this->Html->css('ss/ssMetrics'); //Submodule CSS
 		echo $this->Html->css('submodule'); //Submodule CSS
 		echo $this->Html->css('datepicker'); 
