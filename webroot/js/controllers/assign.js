@@ -176,6 +176,8 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 							$scope.Field.employee_mobile_no = d.Employee.mobile.substring(3, 13);
 							$scope.Field.emergency_contact_no = d.Employee.emergency_contact_no.substring(3, 13);
 							$scope.Field.emergency_contact_person = d.Employee.emergency_contact;
+							console.log(d.Employee.mobile);
+							console.log(d.Employee.mobile.substring(3, 13));
 						}else{
 							$scope.No201=true;
 						}
@@ -192,6 +194,8 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 					$scope.Field.emergency_contact_person = d.RfidStudent.emergency_contact_person;
 					$scope.Field.source_rfid = d.RfidStudent.source_rfid;
 					$scope.HaveAnExistingRFID = true;
+					console.log(d.Employee.mobile);
+					console.log(d.Employee.mobile.substring(3, 13));
 				}
 			});
 		}
