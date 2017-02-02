@@ -3,16 +3,15 @@ class AttendancesController extends AppController {
 
 	var $name = 'Attendances';
 	var $helpers = array('Access');
-	var $uses = array('Attendance','RfidStudent','SchoolYear','AttendanceCopy','MessageOut','Remark','User');
+	var $uses = array('Attendance','RfidStudent','SchoolYear','AttendanceCopy','MessageOut','Remark','User','SmsPort');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy','admin_add','modal','admin_posting'));	
+		$this->Auth->allow(array('index','employees','add','checking','report','datetime','admin_report','doc_report','admin_adjust','data','admin_update','admin_delete','admin_copy','admin_add','modal','admin_posting','sms_port'));	
     } 
 
 	function index() {
-		
 		
 	}
 
@@ -26,6 +25,7 @@ class AttendancesController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) {
+			//pr($this->data['SmsPort']['MessageFrom']);exit;
 		
 			date_default_timezone_set("Asia/Singapore");
 			$this->data['Attendance']['date'] = date('Y-m-d');
@@ -73,16 +73,15 @@ class AttendancesController extends AppController {
 				
 			
 				//SAVE TO MESSAGE OUT
-				$MessageFrom = '+639554234823';
+				$MessageFrom = $this->data['SmsPort']['MessageFrom'];
 				$MessageTo = $response['details']['RfidStudent']['employee_mobile_no'];
 				if(empty($response['data'][0]['Attendance']['timeout'])){
 					$data = array('MessageOut'=>array(
 										'MessageFrom'=>$MessageFrom,
 										'MessageTo'=>$MessageTo,
 										'MessageText'=>'Welcome '.$this->data['Attendance']['employee_name'].' ! Good day !'.$this->data['Attendance']['datetime'],
-										//'MessageType'=>'IN',
-										'Gateway'=>'Globe',
-										'Port'=>'6',
+										'Gateway'=>$this->data['SmsPort']['Gateway'],
+										'Port'=>$this->data['SmsPort']['Port'],
 									));
 
 				}else{
@@ -90,9 +89,8 @@ class AttendancesController extends AppController {
 										'MessageFrom'=>$MessageFrom,
 										'MessageTo'=>$MessageTo,
 										'MessageText'=>'Goodbye '.$this->data['Attendance']['employee_name'].'! Take care! '.$this->data['Attendance']['datetime'],
-										//'MessageType'=>'OUT',
-										'Gateway'=>'Globe',
-										'Port'=>'6',
+										'Gateway'=>$this->data['SmsPort']['Gateway'],
+										'Port'=>$this->data['SmsPort']['Port'],
 									));
 								
 				}
@@ -143,7 +141,7 @@ class AttendancesController extends AppController {
 	}
 	
 	function employees(){
-		
+		$conditions = array();
 		if($this->Access->check('Attendance','*')){
 			$conditions = array('RfidStudent.type'=>2);
 		}else if($this->Access->check('Attendance','create','read','update','delete')){
@@ -151,14 +149,15 @@ class AttendancesController extends AppController {
 		}else if($this->Access->check('Attendance','read')){
 			$userDtls =  $this->User->findById($this->Access->getmy('id'));
 			$conditions = array('RfidStudent.type'=>2,'RfidStudent.employee_number'=>$userDtls['User']['id_number']);
-		}//else{
-			//$conditions = array('RfidStudent.type'=>2,'RfidStudent.employee_number'=>'xxx');
-		//}
+		}else{//NOT LOGIN
+			$conditions = array('RfidStudent.type'=>2);
+		}
 		
 		$sy = $this->SchoolYear->findByIsDefault(1);
 		$employees = $this->RfidStudent->find('all',array('conditions'=>$conditions));
 		echo json_encode($employees);
 		exit;
+
 	}
 	
 	function test(){
@@ -492,4 +491,9 @@ class AttendancesController extends AppController {
 		exit;
 	}
 
+	function sms_port(){
+		$sms_port = $this->SmsPort->find('first',array('conditions'=>array('SmsPort.DeviceStatus'=>'Online','SmsPort.DeviceState'=>'Active')));
+		echo json_encode($sms_port);
+		exit;
+	}
 }

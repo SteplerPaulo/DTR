@@ -4,6 +4,7 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 		$scope.pageSize = 15;
 		
 		$http.get("/DTR/attendances/employees").success(function (data) {
+			console.log(data);
 			var employees = [];
 			angular.forEach(data, function(o, i) {
 				employees[(o.RfidStudent.source_rfid).toLowerCase()] = {
@@ -16,6 +17,11 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 				}
 			}, employees);
 			$scope.Employees = employees;
+		});
+		
+		$http.get("/DTR/attendances/sms_port").success(function (response) {
+			$scope.SmsPort = response.SmsPort;
+			console.log(response);
 		});
 		
 	}
@@ -36,11 +42,18 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 				$http({
 					method: 'POST',
 					url: '/DTR/attendances/add',
-					data: $.param({data:{'Attendance':{
+					data: $.param({data:{
+								'Attendance':{
 									'employee_number':$scope.empno,
 									'employee_name':$scope.empname,
 									'rfid':$scope.RFID,
-								}}}),
+								},
+								'SmsPort':{
+									'MessageFrom':$scope.SmsPort.Gateway,
+									'Gateway':$scope.SmsPort.SimType,
+									'Port':$scope.SmsPort.Port
+								}
+							}}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				}).then(function(response) {
 					$scope.RFID = '';
