@@ -78,7 +78,13 @@ App.controller('AttendanceController',function($scope,$rootScope,$http,$timeout,
 					data: $.param({data:{'Attendance':{
 									'employee_number':'',
 									'rfid':$scope.RFID,
-								}}}),
+								},
+								'SmsPort':{
+									'MessageFrom':$scope.SmsPort.Gateway,
+									'Gateway':$scope.SmsPort.SimType,
+									'Port':$scope.SmsPort.Port
+								}
+							}}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				}).then(function(response) {
 					$scope.RFID = '';

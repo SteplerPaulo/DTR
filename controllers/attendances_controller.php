@@ -70,34 +70,35 @@ class AttendancesController extends AppController {
 															));
 				
 				$response['details'] = $this->RfidStudent->findByEmployeeNumber($this->data['Attendance']['employee_number']);
-				
+				//pr($response['details']);exit;
 			
 				//SAVE TO MESSAGE OUT
-				$MessageFrom = $this->data['SmsPort']['MessageFrom'];
-				$MessageTo = $response['details']['RfidStudent']['employee_mobile_no'];
-				if(empty($response['data'][0]['Attendance']['timeout'])){
-					$data = array('MessageOut'=>array(
-										'MessageFrom'=>$MessageFrom,
-										'MessageTo'=>$MessageTo,
-										'MessageText'=>'Welcome '.$this->data['Attendance']['employee_name'].' ! Good day !'.$this->data['Attendance']['datetime'],
-										'Gateway'=>$this->data['SmsPort']['Gateway'],
-										'Port'=>$this->data['SmsPort']['Port'],
-									));
+				if(!empty($response['details'])){
+					$MessageFrom = $this->data['SmsPort']['MessageFrom'];
+					$MessageTo = $response['details']['RfidStudent']['employee_mobile_no'];
+					if(empty($response['data'][0]['Attendance']['timeout'])){
+						$data = array('MessageOut'=>array(
+											'MessageFrom'=>$MessageFrom,
+											'MessageTo'=>$MessageTo,
+											'MessageText'=>'Welcome '.$this->data['Attendance']['employee_name'].' ! Good day !'.$this->data['Attendance']['datetime'],
+											'Gateway'=>$this->data['SmsPort']['Gateway'],
+											'Port'=>$this->data['SmsPort']['Port'],
+										));
 
-				}else{
-					$data = array('MessageOut'=>array(
-										'MessageFrom'=>$MessageFrom,
-										'MessageTo'=>$MessageTo,
-										'MessageText'=>'Goodbye '.$this->data['Attendance']['employee_name'].'! Take care! '.$this->data['Attendance']['datetime'],
-										'Gateway'=>$this->data['SmsPort']['Gateway'],
-										'Port'=>$this->data['SmsPort']['Port'],
-									));
-								
+					}else{
+						$data = array('MessageOut'=>array(
+											'MessageFrom'=>$MessageFrom,
+											'MessageTo'=>$MessageTo,
+											'MessageText'=>'Goodbye '.$this->data['Attendance']['employee_name'].'! Take care! '.$this->data['Attendance']['datetime'],
+											'Gateway'=>$this->data['SmsPort']['Gateway'],
+											'Port'=>$this->data['SmsPort']['Port'],
+										));
+									
+					}
+					$this->MessageOut->save($data['MessageOut']);
 				}
-				$this->MessageOut->save($data['MessageOut']);
-				//END SAVING TO MESSAGE OUT
-
-													
+				
+				//END SAVING TO MESSAGE OUT		
 				echo json_encode($response);
 				exit();
 			} else {
