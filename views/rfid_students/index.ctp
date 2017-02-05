@@ -16,7 +16,7 @@
 				<th>Student Number</th>
 				<th>Name</th>
 				<th>Student Mobile No</th>
-				<th>Guardian MObile No</th>
+				<th>Guardian Mobile No</th>
 				<th>Relationship</th>
 				<th class="actions text-center">Action</th>
 			</tr>
@@ -29,7 +29,7 @@
 				<td>{{stud.RfidStudent.guardian_mobile_no}}</td>
 				<td>{{stud.RfidStudent.relationship}}</td>
 				<td class="actions text-center">
-					<a href="/DTR/rfid_students/edit/{{stud.RfidStudent.id}}"><i class="fa fa-edit"></i></a>
+					<a href="/DTR/rfid_students/edit/{{stud.RfidStudent.id}}" data-toggle="tooltip" title="Add or edit contact informations"><i class="fa fa-edit"></i></a>
 				</td>
 		
 			</tr>
