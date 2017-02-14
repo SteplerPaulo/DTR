@@ -13,7 +13,7 @@
 		<thead>
 			<tr>
 				<td colspan="3"></td>
-				<td colspan="1" class="text-right"><a class="btn btn-warning btn-sm " href="/DTR/student201s/add">Create New Section 201</a></td>
+				<td colspan="1" class="text-right"><a class="btn btn-warning btn-sm " href="/DTR/sections/add">Create New Section 201</a></td>
 			</tr>
 			<tr>
 				<th>Section Code</th>
