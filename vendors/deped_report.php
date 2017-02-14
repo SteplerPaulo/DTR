@@ -113,7 +113,7 @@ class DepEdReport extends Formsheet{
 		$y=2.8;
 		foreach($data as $key => $stud){
 			$this->leftText(0.1,$y,++$key.'.','','');
-			$this->leftText(1.1,$y++,$stud['StudentName'],'','');
+			$this->leftText(1.1,$y++,strtoupper($stud['StudentName']),'','');
 		
 			
 			foreach($stud['Attendance'] as $attnd){
