@@ -32,8 +32,9 @@ class Student201sController extends AppController {
 		}
 		
 		$relationships = array('Parent'=>'Parent','Guardian'=>'Guardian');
-		$levels = $this->Level->find('all');
+		$levels = $this->Level->find('all',array('order'=>array('Level.index_order'=>'ASC')));
 		$sections = $this->Section->find('all');
+		///pr($sections);exit;
 		$genders = array('M'=>'Male','F'=>'Female');
 		//pr($levels );exit;
 		$this->set(compact('relationships','sections','levels','genders'));
