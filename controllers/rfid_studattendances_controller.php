@@ -3,7 +3,7 @@ class RfidStudattendancesController extends AppController {
 
 	var $name = 'RfidStudattendances';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule','User','Section');
+	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule','User','Section','SchoolYear');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
@@ -442,12 +442,18 @@ class RfidStudattendancesController extends AppController {
 		$month = date("m",strtotime($date));
 		$year = date("Y",strtotime($date));
 		
+		$default_sy =  $this->SchoolYear->find('first',array('conditions'=>array('SchoolYear.is_default'=>1)));
+		$sy = $default_sy['SchoolYear']['id'];
+		//pr($default_sy );exit;
 		
-		$sy = date("Y",strtotime($date));
+		
 		$sched =  $this->Schedule->find('first',array('conditions'=>array('Schedule.section_id'=>$sectionId,'Schedule.sy'=>$sy)));
 		$attendances = $this->RfidStudattendance->monthly_report($sectionId,$month,$year);
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
-	
+		//pr($sched);
+		//pr($month);
+		//pr($year);
+		//pr($attendances );exit;
 
 		$data =  array();
 		$i =  0;
