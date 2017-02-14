@@ -72,7 +72,7 @@ class DailyReport extends Formsheet{
 		foreach($students as $stud){
 			$isPresent = false;
 			$this->GRID['font_size']=6.5;
-			$this->leftText(0.2,$y,$i++.'. '.$stud[0]['full_name'],15,'');
+			$this->leftText(0.2,$y,$i++.'. '.strtoupper($stud[0]['full_name']),15,'');
 			foreach($data as $d){
 				if($stud['rfid_students']['student_number'] == $d['rfid_students']['student_number']){
 					$curr_student =  $d['rfid_students']['student_number'];
