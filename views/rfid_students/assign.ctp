@@ -74,7 +74,7 @@
 						</div>
 					</div>
 					<div class="col-lg-3">
-						<label for="emergency_contact_no">In Case of Emergency No.</label>
+						<label for="emergency_contact_no">Emergency Contact No.</label>
 						<div class="input-group">
 							<span class="input-group-addon">+63</span>
 							<input ng-disabled="HaveAnExistingRFID" name="data[RfidStudent][emergency_contact_no]" type="text" class="form-control" maxlength="10" ng-model="Field.emergency_contact_no"/>
