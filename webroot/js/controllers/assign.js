@@ -10,8 +10,8 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 		middle_name: null,
 		student_mobile_no: null,
 		guardian_mobile_no: null,
-		relationship: null,
 		section_id: null,
+		gender: null,
 		source_rfid: null,
 		employee_id:null,
 		employee_number:null,
@@ -110,10 +110,12 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 							$scope.Field.first_name = d.Student201.first_name;
 							$scope.Field.middle_name = d.Student201.middle_name;
 							$scope.Field.student_mobile_no = (d.Student201.mobile != null)?d.Student201.mobile.substring(3, 13):'';
-							$scope.Field.guardian_mobile_no = (d.Student201.primary_mobile_no != null)?d.Student201.primary_mobile_no.substring(3, 13):'';
+							scope.Field.guardian_mobile_no = (d.Student201.primary_mobile_no != null)?d.Student201.primary_mobile_no.substring(3, 13):'';
 							$scope.Field.relationship = d.Student201.primary_relationship;
 							$scope.Field.level_id = d.Student201.level_id;
 							$scope.Field.section_id = d.Student201.section_code;
+							$scope.Field.gender = d.Student201.gender;
+							console.log(d.Student201.mobile);
 							
 						}else{			//IF NO DATA FOUND
 							$scope.No201=true;
@@ -129,13 +131,12 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 					$scope.Field.last_name = d.RfidStudent.last_name;
 					$scope.Field.first_name = d.RfidStudent.first_name;
 					$scope.Field.middle_name = d.RfidStudent.middle_name;
-					$scope.Field.student_mobile_no = d.RfidStudent.student_mobile_no.substring(3, 13);
-					$scope.Field.guardian_mobile_no = d.RfidStudent.guardian_mobile_no.substring(3, 13);
+					$scope.Field.student_mobile_no = (d.RfidStudent.student_mobile_no != null)?d.RfidStudent.student_mobile_no.substring(3, 13):'';; 
+					$scope.Field.guardian_mobile_no = (d.RfidStudent.guardian_mobile_no != null)?d.RfidStudent.guardian_mobile_no.substring(3, 13):''; 
 					$scope.Field.relationship = d.RfidStudent.relationship;
 					$scope.Field.source_rfid = d.RfidStudent.source_rfid;
+					$scope.Field.gender = d.RfidStudent.gender;
 					$scope.HaveAnExistingRFID = true;
-					
-							
 				}
 			});
 			

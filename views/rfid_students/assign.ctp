@@ -1,5 +1,5 @@
 <div class="row" ng-controller="AssignRFIDController" ng-init="initializeController()">
-	<div class="col-md-6 col-md-offset-3">
+	<div class="col-md-8 col-md-offset-2">
 		<div class="login-panel panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">	
@@ -9,10 +9,10 @@
 			<?php echo $this->Form->create('RfidStudent',array('action'=>'save'));?>
 			<div class="panel-body">
 				<div class="row" >
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<?php echo $this->Form->input('sy',array('options'=>$sy,'label'=>'SY','class'=>'form-control'));?>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<label for="type">Type</label>
 						<select  ng-disabled="HaveAnExistingRFID" class="form-control" ng-model="typeSelected" ng-change="changedType(typeSelected)"  data-ng-options="type as type.name for type in types">
 						</select>
@@ -32,13 +32,13 @@
 				</div>
 				<hr/>
 				<div class="row" ng-if="StudentMode">
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<?php echo $this->Form->input('student_number',array('ng-disabled'=>'HaveAnExistingRFID','ng-blur'=>'getStudDetails(Field.student_number)','required'=>'required','label'=>'Student No','class'=>'form-control','ng-model'=>'Field.student_number'));?>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<?php echo $this->Form->input('level_id',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','options'=>$levels,'empty'=>'Select','class'=>'form-control','ng-model'=>'Field.level_id'));?>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-lg-6">
 						<?php echo $this->Form->input('section_id',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','options'=>$sections,'empty'=>'Select','class'=>'form-control ','ng-model'=>'Field.section_id'));?>
 					</div>
 				</div>
@@ -49,14 +49,18 @@
 				</div>
 				<br/>
 				<div class="row">
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<?php echo $this->Form->input('last_name',array('ng-disabled'=>'HaveAnExistingRFID','readonly'=>'readonly','class'=>'form-control','ng-model'=>'Field.last_name'));?>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<?php echo $this->Form->input('first_name',array('ng-disabled'=>'HaveAnExistingRFID','readonly'=>'readonly','class'=>'form-control','ng-model'=>'Field.first_name'));?>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<?php echo $this->Form->input('middle_name',array('ng-disabled'=>'HaveAnExistingRFID','readonly'=>'readonly','class'=>'form-control','ng-model'=>'Field.middle_name'));?>
+					</div>
+					
+					<div class="col-lg-3">
+						<?php echo $this->Form->input('gender',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','options'=>$genders,'empty'=>'Select','class'=>'form-control ','ng-model'=>'Field.gender'));?>
 					</div>
 				</div>
 				
@@ -83,21 +87,21 @@
 				
 				<div class="row" ng-if="StudentMode">
 					<br/>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<label for="student_mobile_no">Student Mobile No</label>
 						<div class="input-group">
 							<span class="input-group-addon">+63</span>
 							<input ng-readonly="HaveAnExistingRFID" name="data[RfidStudent][student_mobile_no]" type="text" class="form-control" maxlength="10" ng-model="Field.student_mobile_no"/>
 						</div>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<label for="guardian_mobile_no">Guardian Mobile No</label>
 						<div class="input-group">
 							<span class="input-group-addon">+63</span>
 							<input ng-readonly="HaveAnExistingRFID" name="data[RfidStudent][guardian_mobile_no]" type="text" class="form-control ng-pristine ng-valid" maxlength="10" ng-model="Field.guardian_mobile_no"/>
 						</div>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<?php echo $this->Form->input('relationship',array('ng-disabled'=>'HaveAnExistingRFID','options'=>$relationships,'empty'=>'Select','class'=>'form-control','ng-model'=>'Field.relationship'));?>
 					</div>	
 				</div>

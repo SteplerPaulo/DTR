@@ -85,9 +85,10 @@ class RfidStudentsController extends AppController {
 		$relationships = array('Parent'=>'Parent','Guardian'=>'Guardian');
 		$levels = $this->Level->find('list');
 		$sections = $this->Section->find('list');
+		$genders = array('M'=>'Male','F'=>'Female');
 		$sy = $this->SchoolYear->find('list',array('conditions'=>array('SchoolYear.is_default'=>1)));
 		
-		$this->set(compact('relationships','sections','sy','levels'));
+		$this->set(compact('relationships','sections','sy','levels','genders'));
 	}
 	
 	function save(){
