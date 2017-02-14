@@ -43,7 +43,7 @@
 					</div>
 				</div>
 				<div class="row" ng-if="EmployeeMode">
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<?php echo $this->Form->input('employee_number',array('ng-disabled'=>'HaveAnExistingRFID','ng-blur'=>'getEmpDetails(Field.employee_number)','required'=>'required','label'=>'Employee No','class'=>'form-control','ng-model'=>'Field.employee_number'));?>
 					</div>
 				</div>
@@ -59,28 +59,28 @@
 						<?php echo $this->Form->input('middle_name',array('ng-disabled'=>'HaveAnExistingRFID','readonly'=>'readonly','class'=>'form-control','ng-model'=>'Field.middle_name'));?>
 					</div>
 					
-					<div class="col-lg-3">
+					<div class="col-lg-3" ng-if="StudentMode">
 						<?php echo $this->Form->input('gender',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','options'=>$genders,'empty'=>'Select','class'=>'form-control ','ng-model'=>'Field.gender'));?>
 					</div>
 				</div>
 				
 				<div class="row" ng-if="EmployeeMode">
 					<br/>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<label for="employee_mobile_no">Employee Mobile No</label>
 						<div class="input-group">
 							<span class="input-group-addon">+63</span>
 							<input ng-disabled="HaveAnExistingRFID" name="data[RfidStudent][employee_mobile_no]" type="text" class="form-control" maxlength="10" ng-model="Field.employee_mobile_no"/>
 						</div>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<label for="emergency_contact_no">In Case of Emergency No.</label>
 						<div class="input-group">
 							<span class="input-group-addon">+63</span>
 							<input ng-disabled="HaveAnExistingRFID" name="data[RfidStudent][emergency_contact_no]" type="text" class="form-control" maxlength="10" ng-model="Field.emergency_contact_no"/>
 						</div>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<?php echo $this->Form->input('emergency_contact_person',array('ng-disabled'=>'HaveAnExistingRFID','label'=>'Person to Contact','class'=>'form-control ','ng-model'=>'Field.emergency_contact_person'));?>
 					</div>
 				</div>
@@ -107,7 +107,7 @@
 				</div>
 				
 				<div class="row"><br/>
-					<div class="col-lg-4">
+					<div class="col-lg-3">
 						<?php echo $this->Form->input('source_rfid',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','label'=>'RFID','class'=>'form-control','ng-model'=>'Field.source_rfid','my-enter'=>'CheckRFID(Field.source_rfid)'));?>
 					</div>
 					<div class="col-lg-8">
