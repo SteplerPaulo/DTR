@@ -462,7 +462,7 @@ class RfidStudattendancesController extends AppController {
 				
 				$data[$i]['RfidStudattendance']['id'] = $att['rfid_studattendance']['id'];
 
-				if($att['rfid_studattendance']['time_in'] <= $sched['Schedule']['start_time']){
+				if($att['rfid_studattendance']['time_in'] <= $sched['Schedule']['start_time'] && $att['rfid_studattendance']['time_in'] != null){
 					$data[$i]['RfidStudattendance']['remarks'] = 'P';
 				}else{
 					$data[$i]['RfidStudattendance']['remarks'] = 'L';
