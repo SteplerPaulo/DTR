@@ -115,7 +115,7 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 							$scope.Field.level_id = d.Student201.level_id;
 							$scope.Field.section_id = d.Student201.section_code;
 							$scope.Field.gender = d.Student201.gender;
-							console.log(d.Student201.mobile);
+						
 							
 						}else{			//IF NO DATA FOUND
 							$scope.No201=true;
