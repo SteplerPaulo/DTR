@@ -209,6 +209,7 @@ class RfidStudattendancesController extends AppController {
 		//$date = '2016-11-30';
 		
 		$daily_report = $data['DailyReport'] = $this->RfidStudattendance->daily_report($sectionId,$date);
+		//pr($daily_report);exit;
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
 	
 		$data = array();
@@ -218,6 +219,7 @@ class RfidStudattendancesController extends AppController {
 			$data[$s_key]['StudentName'] = $student[0]['full_name'];
 			$data[$s_key]['StudentRFID'] = $student['rfid_students']['dec_rfid'];
 			
+			
 			foreach($daily_report as $d_key => $daily){
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
 					$data[$s_key]['Attendance'][$d_key]['Date'] = $daily['rfid_studattendance']['date'];
@@ -226,7 +228,13 @@ class RfidStudattendancesController extends AppController {
 					$data[$s_key]['Attendance'][$d_key]['TimeInDate'] = $daily['rfid_studattendance']['date'].' '.$daily['rfid_studattendance']['time_in'];
 					$data[$s_key]['Attendance'][$d_key]['TimeOutDate'] = $daily['rfid_studattendance']['date'].' '.$daily['rfid_studattendance']['time_out'];
 					$data[$s_key]['Attendance'][$d_key]['Remarks'] = $daily['rfid_studattendance']['remarks'];
+					$data[$s_key]['Attendance'][$d_key]['RemarkName'] = $daily['remarks']['name'];
 				}
+			}
+			
+			if(!isset($data[$s_key]['Attendance'])){
+				$data[$s_key]['Attendance'][0]['Remarks'] = 'A';		
+				$data[$s_key]['Attendance'][0]['RemarkName'] = 'Absent';	
 			}
 		}
 		echo json_encode($data);

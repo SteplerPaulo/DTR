@@ -13,11 +13,12 @@ App.controller('StudentAttendanceAdjustmentController',function($scope,$rootScop
 		
 		$http.get('/DTR/rfid_studattendances/data/'+$scope.fromDate+'/'+$scope.toDate+'/'+$scope.sno+'/'+$scope.sname).success(function(response) {	
 			$scope.data = response;
+			console.log(response);
 		});	
 		
 		$http.get('/DTR/rfid_studattendances/remarks/').success(function(response) {	
 			$rootScope.remarks = response;
-			console.log(response);
+			
 		});	
 		
 	}

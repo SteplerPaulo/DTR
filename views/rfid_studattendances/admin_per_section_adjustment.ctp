@@ -26,29 +26,26 @@
 					<tr pagination-id="PerSectionDailyAdjustmentTable" dir-paginate="stud in Students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
 						<td>{{stud.StudentName}}</td>
 						<td>
-							<div  ng-if="stud.Attendance !== undefined" ng-repeat="attend in stud.Attendance">
+							<div ng-if="stud.Attendance[0].Remarks !== 'A'" ng-repeat="attend in stud.Attendance">
 								<span class="badge" ng-if="attend.TimeInDate.length == '19'">{{attend.TimeInDate | cmdate:'hh:mm a'}}</span>
 								<span class="badge-red" ng-if="attend.TimeInDate.length == '11'">No Time In</span>
 							</div>
-							<div ng-if="stud.Attendance === undefined">
+							<div ng-if="stud.Attendance[0].Remarks === 'A'">
 								<span class="badge-red">No Time In</span>
 							</div>
 						</td>
 						<td>
-							<div ng-if="stud.Attendance !== undefined" ng-repeat="attend in stud.Attendance">
+							<div ng-if="stud.Attendance[0].Remarks !== 'A'" ng-repeat="attend in stud.Attendance">
 								<span class="badge" ng-if="attend.TimeOutDate.length == '19'">{{attend.TimeOutDate | cmdate:'hh:mm a'}}</span>
 								<span class="badge-red" ng-if="attend.TimeOutDate.length == '11'">No Time Out</span>
 							</div>
-							<div ng-if="stud.Attendance === undefined">
+							<div ng-if="stud.Attendance[0].Remarks === 'A'">
 								<span class="badge-red">No Time Out</span>
 							</div>
 						</td>
 						<td>
-							<div ng-if="stud.Attendance" ng-repeat="attend in stud.Attendance" ng-class=" attend.Remarks == 'P' ? 'badge-green' : 'badge-yellow'">
+							<div ng-if="stud.Attendance" ng-repeat="attend in stud.Attendance" ng-class="attend.Remarks == 'P' ? 'badge-green' : (attend.Remarks == 'L' ? 'badge-yellow' : 'badge-red')">																
 								{{attend.Remarks}}
-							</div>
-							<div ng-if="stud.Attendance === undefined">
-								<span class="badge-red">A</span>
 							</div>
 						</td>
 						<td class="text-center actions">

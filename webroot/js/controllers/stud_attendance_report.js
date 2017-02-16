@@ -21,12 +21,11 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 			
 			$scope.perStudent = $scope.perStudentOnly = response.perStudentOnly;
 			$scope.perSection = $scope.perSectionOnly = response.perSectionOnly;
-			console.log($scope.perSectionOnly);
-			console.log($scope.perStudentOnly);
+			//console.log($scope.perSectionOnly);
+			//console.log($scope.perStudentOnly);
 			if($scope.perStudentOnly == false && $scope.perSectionOnly == false){
 				$scope.perStudent = false;
 				$scope.perSection = true;
-				console.log('wew');
 			}
 		
 		});

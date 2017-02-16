@@ -3,7 +3,8 @@ class RfidStudattendance extends AppModel {
 	var $name = 'RfidStudattendance';
 	var $useDbConfig = 'gatekeeper';
 	var $useTable = 'rfid_studattendance';	
-		
+	
+	
 	public function per_student($from,$to,$sno,$gatekeeper_db){
 		//pr($from);exit;
 		
@@ -55,7 +56,8 @@ class RfidStudattendance extends AppModel {
 				`rfid_studattendance`.`date`,
 				`rfid_studattendance`.`time_in`,
 				`rfid_studattendance`.`time_out`,
-				`rfid_studattendance`.`remarks`
+				`rfid_studattendance`.`remarks`,
+				`remarks`.`name`
 			FROM
 				`rfid_students` 
 					INNER JOIN `sections` 
@@ -65,6 +67,10 @@ class RfidStudattendance extends AppModel {
 					INNER JOIN `rfid_studattendance` 
 					ON (
 					  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
+					) 
+					INNER JOIN `gatekeeper_demo`.`remarks` 
+					ON (
+					  `rfid_studattendance`.`remarks` = `remarks`.`alias`
 					) 
 				WHERE (
 					`rfid_students`.`section_id` = '$sectionId'
