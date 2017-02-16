@@ -68,7 +68,7 @@ class RfidStudattendance extends AppModel {
 					ON (
 					  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
 					) 
-					INNER JOIN `gatekeeper_demo`.`remarks` 
+					INNER JOIN `remarks` 
 					ON (
 					  `rfid_studattendance`.`remarks` = `remarks`.`alias`
 					) 
