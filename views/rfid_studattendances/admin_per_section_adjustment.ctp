@@ -6,7 +6,7 @@
 		</div>
 		<div class="col-lg-3 col-md-3 col-xs-3 col-lg-offset-5 col-md-offset-5 col-xs-offset-5">
 			<label for="Remarks">Remark Filter</label>
-			<select class='form-control' ng-model='remark'>
+			<select class='form-control input-sm' ng-model='remark'>
 				<option value="">All</option>
 				<option ng-repeat="d in remarks">{{d.Remark.name}}</option>
 			</select>
