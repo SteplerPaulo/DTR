@@ -115,7 +115,7 @@ class RemarksController extends AppController {
 	}
 
 	function active(){
-		$remarks = $this->Remark->find('all');//,array('conditions'=>array('Reamark.isActive'=>1)));
+		$remarks = $this->Remark->find('all',array('conditions'=>array('Remark.is_active'=>1)));
 		echo json_encode($remarks);
 		exit;
 	}

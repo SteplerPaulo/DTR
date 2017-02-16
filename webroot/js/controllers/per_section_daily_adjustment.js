@@ -13,6 +13,11 @@ App.controller('PerSectionDailyAdjustmentController',function($scope,$rootScope,
 			$rootScope.Students = response;
 			console.log(response);
 		});	
+		
+		$http.get('/DTR/remarks/active/').success(function(response) {
+			$rootScope.remarks = response;
+			$scope.remark = '';
+		});	
 	}
 	
 	$ctrl.open = function (data,size, parentSelector) {

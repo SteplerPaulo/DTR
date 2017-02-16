@@ -4,6 +4,13 @@
 			<label for="search">Search</label>
 			<input ng-model="q" id="search" class="form-control input-sm" placeholder="Filter text">
 		</div>
+		<div class="col-lg-3 col-md-3 col-xs-3 col-lg-offset-5 col-md-offset-5 col-xs-offset-5">
+			<label for="Remarks">Remark Filter</label>
+			<select class='form-control' ng-model='remark'>
+				<option value="">All</option>
+				<option ng-repeat="d in remarks">{{d.Remark.name}}</option>
+			</select>
+		</div>
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
@@ -23,7 +30,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr pagination-id="PerSectionDailyAdjustmentTable" dir-paginate="stud in Students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
+					<tr pagination-id="PerSectionDailyAdjustmentTable" dir-paginate="stud in Students | filter:q | filter:remark| itemsPerPage: pageSize" current-page="currentPage">
 						<td>{{stud.StudentName}}</td>
 						<td>
 							<div ng-if="stud.Attendance[0].Remarks !== 'A'" ng-repeat="attend in stud.Attendance">
