@@ -216,7 +216,7 @@ class RfidStudattendancesController extends AppController {
 		foreach($students as $s_key => $student){
 			
 			$data[$s_key]['StudentNo'] = $student['rfid_students']['student_number'];
-			$data[$s_key]['StudentName'] = $student[0]['full_name'];
+			$data[$s_key]['StudentName'] = strToUpper($student[0]['full_name']);
 			$data[$s_key]['StudentRFID'] = $student['rfid_students']['dec_rfid'];
 			
 			
