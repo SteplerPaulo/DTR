@@ -287,7 +287,7 @@
 		echo $this->Html->script(array('template/plugins/jasny/jasny-modal-patch')); //Patch modal z-index
 		echo $this->Html->script(array('template/plugins/wizard/wizard'));
 		echo $this->Html->script(array('template/angular'));	
-		echo $this->Html->script(array('template/bootstrap-datepicker'));
+		//echo $this->Html->script(array('template/bootstrap-datepicker'));
 		echo $this->Html->script(array('template/jqueryForm'));
 		echo $this->Html->script(array('biz/app'));
 		echo $this->Html->script(array('test/data'));
