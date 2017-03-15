@@ -242,10 +242,10 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function admin_per_section_saving(){
-		$this->RfidStudattendance->deleteAll([
+		$this->RfidStudattendance->deleteAll(array(
 				'RfidStudattendance.student_number' => $this->data['sno'], 
 				'RfidStudattendance.date' => $this->data['date']
-			]);
+			));
 			
 		$data =  array();
 		
@@ -274,6 +274,8 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function monthly_report($sectionId = null, $sectionName = null, $date = null){
+		//pr($date);exit;
+		
 		if(!empty($sectionId)){
 			$hdr = array('SectionName'=>$sectionName,'Date'=>$date);
 			
