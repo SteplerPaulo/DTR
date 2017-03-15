@@ -1,6 +1,6 @@
 <div class="schedules index">
 	<h2><?php __('Schedules');?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table class="table table-bordered table-condensed">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('section_id');?></th>
