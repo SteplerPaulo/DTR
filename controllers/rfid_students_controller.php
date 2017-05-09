@@ -189,6 +189,7 @@ class RfidStudentsController extends AppController {
 		$conditions = array('RfidStudent.source_rfid'=>$this->data['RfidStudent']['source_rfid']);
 		
 		$response = $this->RfidStudent->find('first',array('conditions'=>$conditions));
+		
 		echo json_encode($response);
 		exit();
 	}	
@@ -263,4 +264,31 @@ class RfidStudentsController extends AppController {
 		echo json_encode($students);
 		exit;
 	}
+	
+	function admin_reset(){
+		
+	}
+	
+	function reset_initial_data(){
+		$data = array();
+		$data['levels'] = $this->Level->find('all',array('order'=>array('Level.index_order'=>'asc')));
+		$data['sections'] = $this->Section->find('all',array('order'=>array('Section.order_index'=>'asc')));
+		echo json_encode($data);
+		exit;
+	}
+	
+	function reset_data(){
+		
+		$data  = $this->RfidStudent->reset_data();
+		//$data = $this->RfidStudent->find('all',array(
+		//									'recursive'=>3,
+		//									'conditions'=>array('RfidStudent.type'=>1),
+		//									'order'=>array('RfidStudent.full_name'=>'asc')
+		//								));
+		//pr($data);
+		//exit;
+		echo json_encode($data);
+		exit;
+	}
+	
 }
