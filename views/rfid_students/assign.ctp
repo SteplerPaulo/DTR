@@ -112,7 +112,7 @@
 					</div>
 					<div class="col-lg-8">
 						<div class="panel panel-warning" ng-show="HaveAnExistingRFID">
-							<div class="panel-heading"><b>Warning</b></div>
+							<div class="panel-heading"><b>Alert</b></div>
 							<div class="panel-body">
 								Record found. What would you like to do?
 							</div>
@@ -122,13 +122,13 @@
 							</div>
 						</div>
 						<div class="panel panel-warning" ng-show="DuplicatedRFID">
-							<div class="panel-heading"><b>Warning</b></div>
+							<div class="panel-heading"><b>Alert</b></div>
 							<div class="panel-body">
 								Duplicate RFID No. Found
 							</div>
 						</div>
 						<div class="panel panel-warning" ng-show="No201">
-							<div class="panel-heading"><b>Warning</b></div>
+							<div class="panel-heading"><b>Alert</b></div>
 							<div class="panel-body">
 								Not on the 201 list. Register new student/employee?
 							</div>
