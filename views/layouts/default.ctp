@@ -188,7 +188,21 @@
 						</ul>
 					</li>
 					
-					<?php if($this->Access->check('User','create','read','update','delete')): ?><li>
+					<?php if($this->Access->check('User','create','read','update','delete')): ?>
+					
+					<li>
+						<a href="javascript:void(0)" data-toggle="collapse" data-target="#AdminMenu"><i class="fa fa-user fa-fw "></i> Admin Menu <i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="AdminMenu" class="collapse">
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-pencil-square fa-fw'></i> Reset RFID No.",
+											array('admin' => true,'controller'=>'rfid_students','action'=>'reset'),
+											array('escape'=>false )
+										);?>
+							</li>
+						</ul>
+					</li>
+					
+					<li>
 						<?php  echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-gears fa-fw')).' '.
 										$this->Html->tag('span', 'Access Control', array('class' => 'module-label')),
 										array('admin' => false,'controller'=>'pages','plugin'=>null,'action'=>'access_control'), array('escape' => false)
