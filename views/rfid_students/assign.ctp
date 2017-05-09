@@ -111,7 +111,7 @@
 						<?php echo $this->Form->input('source_rfid',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','label'=>'RFID','class'=>'form-control','ng-model'=>'Field.source_rfid','my-enter'=>'CheckRFID(Field.source_rfid)'));?>
 					</div>
 					<div class="col-lg-8">
-						<div class="panel panel-warning" ng-show="HaveAnExistingRFID">
+						<div class="panel panel-danger" ng-show="HaveAnExistingRFID">
 							<div class="panel-heading"><b>Alert</b></div>
 							<div class="panel-body">
 								Record found. What would you like to do?
@@ -121,13 +121,13 @@
 								<button type="button" class="btn btn-info btn-sm" ng-click="update()">Update</button>
 							</div>
 						</div>
-						<div class="panel panel-warning" ng-show="DuplicatedRFID">
+						<div class="panel panel-danger" ng-show="DuplicatedRFID">
 							<div class="panel-heading"><b>Alert</b></div>
 							<div class="panel-body">
 								Duplicate RFID No. Found
 							</div>
 						</div>
-						<div class="panel panel-warning" ng-show="No201">
+						<div class="panel panel-danger" ng-show="No201">
 							<div class="panel-heading"><b>Alert</b></div>
 							<div class="panel-body">
 								Not on the 201 list. Register new student/employee?
