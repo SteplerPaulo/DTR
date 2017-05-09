@@ -130,7 +130,7 @@
 						<div class="panel panel-danger" ng-show="No201">
 							<div class="panel-heading"><b>Alert</b></div>
 							<div class="panel-body">
-								Not on the 201 list. Register new student/employee?
+								Student Number not found in the 201 list.  Register as new student/employee?
 							</div>
 							
 							<div class="panel-footer text-right">
