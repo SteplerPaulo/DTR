@@ -65,6 +65,7 @@ class RfidStudent extends AppModel {
 	function reset_data(){
 		return $this->query( 
 			"SELECT 
+			  `rfid_students`.`id`,
 			  `rfid_students`.`student_number`,
 			  CONCAT(
 				IFNULL(`rfid_students`.`last_name`, ''),

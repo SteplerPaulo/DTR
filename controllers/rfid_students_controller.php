@@ -280,15 +280,29 @@ class RfidStudentsController extends AppController {
 	function reset_data(){
 		
 		$data  = $this->RfidStudent->reset_data();
-		//$data = $this->RfidStudent->find('all',array(
-		//									'recursive'=>3,
-		//									'conditions'=>array('RfidStudent.type'=>1),
-		//									'order'=>array('RfidStudent.full_name'=>'asc')
-		//								));
-		//pr($data);
-		//exit;
 		echo json_encode($data);
 		exit;
 	}
 	
+	
+	function reset_this(){
+		
+		
+		$data = array();
+		foreach($this->data as $k => $d){
+			$data[$k]['RfidStudent'] = array(
+							'id'=>$d['rfid_students']['id'],
+							'source_rfid'=>null,
+							'dec_rfid'=>null,
+							'rfid'=>null,
+						) ;
+			
+		}
+		
+		if($this->RfidStudent->saveAll($data)){
+			//pr($data);exit;
+		}else{
+			//pr('wew');exit;
+		}
+	}
 }

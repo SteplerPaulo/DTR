@@ -8,6 +8,7 @@
 			</div>
 			<?php echo $this->Form->create('RfidStudent',array('action'=>'reset'));?>
 			<div class="panel-body">
+				<!--
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="btn-group">
@@ -24,6 +25,7 @@
 						</div>
 					</div>
 				</div>
+				-->
 				<div class="row">
 					<div class="col-lg-2">
 						<label for="GradeLevel">Grade/Level</label>
@@ -54,7 +56,8 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="d in data | filter:selected.level:true | filter:selected.section:true">
+							
+							<tr ng-repeat="d in (filteredData = (data | filter:selected.level:true | filter:selected.section:true))">
 									<td>{{d.rfid_students.student_number}}</td>
 									<td>{{d[0].full_name}}</td>
 									<td>{{d.rfid_students.source_rfid}}</td>
@@ -75,7 +78,7 @@
 			<div class="panel-footer">	
 				<div class="text-right">
 					<button class="btn btn-default" type="reset">Cancel</button>
-					<button class="btn btn-primary" type="submit">Reset</button>
+					<button class="btn btn-primary" type="button" ng-click="go()">Go Reset</button>
 				</div>
 			</div>
 			
