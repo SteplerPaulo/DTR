@@ -130,7 +130,8 @@ class RfidStudattendance extends AppModel {
 						IFNULL(`rfid_students`.`middle_name`,'')
 						) AS full_name,
 						`rfid_students`.`student_number` ,
-						`rfid_students`.`dec_rfid`
+						`rfid_students`.`dec_rfid`,
+						`rfid_students`.`gender`
 					FROM
 					  rfid_students 
 					WHERE section_id = '$sectionId' 
