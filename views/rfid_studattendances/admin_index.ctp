@@ -17,7 +17,7 @@
 			<div class="row">
 				<div  class="col-lg-6" >
 					<label>Report Type</label>
-					<select class="form-control" ng-model="typeSelected" ng-change="changedType(typeSelected)" ng-init="typeSelected = types[0]"  data-ng-options="type as type.name for type in types">
+					<select class="form-control input-sm" ng-model="typeSelected" ng-change="changedType(typeSelected)" ng-init="typeSelected = types[0]"  data-ng-options="type as type.name for type in types">
 					</select>
 				</div>
 				
