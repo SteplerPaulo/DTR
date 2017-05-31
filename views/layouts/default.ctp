@@ -83,6 +83,12 @@
 									);  ?>
 					</li>
 					<li>
+						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Attendance Daily Checking',
+									array('admin' => false,'controller'=>'rfid_studattendances','action'=>'daily_checking'),
+									array('escape'=>false )
+								);?>
+					</li>
+					<li>
 						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Employee Daily Time Record',
 									array('admin' => false,'controller'=>'attendances','action'=>'/'),
 									array('escape'=>false )
