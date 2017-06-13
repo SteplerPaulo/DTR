@@ -563,35 +563,59 @@ class RfidStudattendancesController extends AppController {
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
 	
 		$data = array();
+			//pr($daily_report);exit;
 		foreach($students as $s_key => $student){
 			
-			$data[$s_key]['StudentNo'] = $student['rfid_students']['student_number'];
-			$data[$s_key]['StudentName'] = strToUpper($student[0]['full_name']);
-			$data[$s_key]['StudentRFID'] = $student['rfid_students']['dec_rfid'];
+			$data[$s_key]['RfidStudattendance']['student_number'] = $student['rfid_students']['student_number'];
+			$data[$s_key]['RfidStudattendance']['student_name'] = strToUpper($student[0]['full_name']);
+			$data[$s_key]['RfidStudattendance']['rfid'] = $student['rfid_students']['dec_rfid'];
 			
 			
 			foreach($daily_report as $d_key => $daily){
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
 					//REMINDER: GET LAST DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY
-					$data[$s_key]['Attendance']['Date'] = $daily['rfid_studattendance']['date'];
-					$data[$s_key]['Attendance']['TimeIn'] = $daily['rfid_studattendance']['time_in'];
-					$data[$s_key]['Attendance']['TimeOut'] = $daily['rfid_studattendance']['time_out'];
-					$data[$s_key]['Attendance']['TimeInDate'] = $daily['rfid_studattendance']['date'].' '.$daily['rfid_studattendance']['time_in'];
-					$data[$s_key]['Attendance']['TimeOutDate'] = $daily['rfid_studattendance']['date'].' '.$daily['rfid_studattendance']['time_out'];
-					$data[$s_key]['Attendance']['Remarks'] = $daily['rfid_studattendance']['remarks'];
-					$data[$s_key]['Attendance']['RemarkName'] = $daily['remarks']['name'];
-					//USE THIS IF GOT TO GET ALL DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY
-					//$data[$s_key]['Attendance'][$d_key]['RemarkName'] = $daily['remarks']['name'];
+					$data[$s_key]['RfidStudattendance']['id'] = $daily['rfid_studattendance']['id'];
+					$data[$s_key]['RfidStudattendance']['date'] = $daily['rfid_studattendance']['date'];
+					$data[$s_key]['RfidStudattendance']['time_in'] = $daily['rfid_studattendance']['time_in'];
+					$data[$s_key]['RfidStudattendance']['time_out'] = $daily['rfid_studattendance']['time_out'];
+					$data[$s_key]['RfidStudattendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
+					$data[$s_key]['RfidStudattendance']['remark_name'] = $daily['remarks']['name'];
+					$data[$s_key]['RfidStudattendance']['is_posted'] = true;
+					//USE THIS IF GOT TO GET ALL DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY  "$d_key"
+					//$data[$s_key]['RfidStudattendance'][$d_key]['remarks'] = $daily['remarks']['name'];
 				}
 			}
 			
-			if(!isset($data[$s_key]['Attendance'])){
-				$data[$s_key]['Attendance']['Remarks'] = 'A';		
-				$data[$s_key]['Attendance']['RemarkName'] = 'Absent';	
+			if(!isset($data[$s_key]['RfidStudattendance']['id'])){
+				$data[$s_key]['RfidStudattendance']['date'] = $date;
+				$data[$s_key]['RfidStudattendance']['time_in'] = null;
+				$data[$s_key]['RfidStudattendance']['time_out'] = null;
+				$data[$s_key]['RfidStudattendance']['remarks'] = 'A';
+				$data[$s_key]['RfidStudattendance']['remark_name'] = 'Absent';
+				$data[$s_key]['RfidStudattendance']['status'] = 'S';
+				$data[$s_key]['RfidStudattendance']['is_posted'] = false;
 			}
 		}
 		echo json_encode($data);
 		exit;
+		
+	}
+	
+	function daily_checking_posting(){
+		if (!empty($this->data)) {
+			$this->RfidStudattendance->create();
+			if ($this->RfidStudattendance->saveAll($this->data)) {
+				$data['message'] = 'Daily attendance successfuly posted!';
+			    $data['status'] = 1;
+			    echo json_encode($data);
+			    exit;
+			} else {
+			    $data['message'] = 'Error on updating daily attendance. Pls. contact your system administrator.';
+			    $data['status'] = 0; 
+			    echo json_encode($data);
+			    exit;
+			}
+		}
 		
 	}
 }
