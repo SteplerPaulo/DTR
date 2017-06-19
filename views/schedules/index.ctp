@@ -1,57 +1,56 @@
-<div class="schedules index">
-	<h2><?php __('Schedules');?></h2>
-	<table class="table table-bordered table-condensed">
-	<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('section_id');?></th>
-			<th><?php echo $this->Paginator->sort('start_time');?></th>
-			<th><?php echo $this->Paginator->sort('end_time');?></th>
-			<th><?php echo $this->Paginator->sort('sy');?></th>
-			<th class="actions"><?php __('Actions');?></th>
-	</tr>
-	<?php
-	$i = 0;
-	foreach ($schedules as $schedule):
-		$class = null;
-		if ($i++ % 2 == 0) {
-			$class = ' class="altrow"';
-		}
-	?>
-	<tr<?php echo $class;?>>
-		<td><?php echo $schedule['Schedule']['id']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($schedule['Section']['name'], array('controller' => 'sections', 'action' => 'view', $schedule['Section']['id'])); ?>
-		</td>
-		<td><?php echo $schedule['Schedule']['start_time']; ?>&nbsp;</td>
-		<td><?php echo $schedule['Schedule']['end_time']; ?>&nbsp;</td>
-		<td><?php echo $schedule['Schedule']['sy']; ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $schedule['Schedule']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $schedule['Schedule']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $schedule['Schedule']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $schedule['Schedule']['id'])); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
-	));
-	?>	</p>
-
-	<div class="paging">
-		<?php echo $this->Paginator->prev('<< ' . __('previous', true), array(), null, array('class'=>'disabled'));?>
-	 | 	<?php echo $this->Paginator->numbers();?>
- |
-		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
+<div ng-controller="SchedulesController" ng-init="initializeController()" class="row">
+	<div class="col-lg-8 col-lg-offset-2">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="panel-title">Schedules</span>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-lg-5 col-md-5 col-xs-5">
+						<label for="search">Search</label>
+						<input ng-model="q" class="form-control input-sm" placeholder="Filter text">
+					</div>
+					<div class="col-lg-2 col-md-2 col-xs-2 col-lg-offset-5 col-md-offset-5 col-xs-offset-5">
+						<label for="search">Items per page</label>
+						<input type="number" min="1" max="100" class="form-control input-sm" ng-model="pageSize">
+					</div>
+				</div><br/>
+				<table class="table table-bordered table-condensed table-striped">
+					<thead>
+						<tr>
+							<th class="text-right" colspan="5">
+								<a href="<?php echo $this->base;?>/schedules/add" class="btn btn-warning btn-sm" >Add Schedule</a>
+							</th>
+						</tr>
+						<tr>
+							<th class="text-center">Section</th>
+							<th class="text-center">Start Time</th>
+							<th class="text-center">End Time</th>
+							<th class="text-center">S.Y.</th>
+							<th class="text-center actions w8">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr pagination-id="SchedulesTable" dir-paginate="(i,o) in schedules | filter:q | itemsPerPage: pageSize">
+							<td>{{o.Section.name}}</td>
+							<td class="text-center">{{o.Schedule.start_time}}</td>
+							<td class="text-center">{{o.Schedule.end_time}}</td>
+							<td class="text-center">{{o.SchoolYear.name}}</td>
+							<td class="text-center">
+								<a href="/DTR/schedules/edit/{{o.Schedule.id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="5" class="text-center">
+								<dir-pagination-controls pagination-id="SchedulesTable"></dir-pagination-controls>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Schedule', true), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Sections', true), array('controller' => 'sections', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Section', true), array('controller' => 'sections', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+<?php echo $this->Html->script('controllers/schedules',array('inline'=>false)); ?>

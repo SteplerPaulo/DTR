@@ -27,8 +27,9 @@ class SchedulesController extends AppController {
 				$this->Session->setFlash(__('The schedule could not be saved. Please, try again.', true));
 			}
 		}
-		$sections = $this->Schedule->Section->find('list');
-		$this->set(compact('sections'));
+		$sections = $this->Schedule->Section->find('list',array('order'=>'name'));
+		$schoolYears = $this->Schedule->SchoolYear->find('list',array('order'=>'id DESC'));
+		$this->set(compact('sections','schoolYears'));
 	}
 
 	function edit($id = null) {
@@ -47,8 +48,9 @@ class SchedulesController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->Schedule->read(null, $id);
 		}
-		$sections = $this->Schedule->Section->find('list');
-		$this->set(compact('sections'));
+		$sections = $this->Schedule->Section->find('list',array('order'=>'name'));
+		$schoolYears = $this->Schedule->SchoolYear->find('list',array('order'=>'id DESC'));
+		$this->set(compact('sections','schoolYears'));
 	}
 
 	function delete($id = null) {
@@ -121,5 +123,11 @@ class SchedulesController extends AppController {
 		}
 		$this->Session->setFlash(__('Schedule was not deleted', true));
 		$this->redirect(array('action' => 'index'));
+	}
+	
+	function init_data(){
+		$data = $this->Schedule->find('all',array('order'=>'Section.name'));
+		echo json_encode($data);
+		exit;
 	}
 }
