@@ -141,6 +141,12 @@
 							</li>
 							<?php endif;  ?>
 							<li>
+								<?php echo $this->Html->link("<i class='fa fa-user-plus fa-fw'></i> Section Loading",
+											array('admin' => false,'controller'=>'sections','action'=>'loading'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
 								<?php echo $this->Html->link("<i class='fa fa-calendar fa-fw'></i> Sections Schedule",
 											array('admin' => false,'controller'=>'schedules'),
 											array('escape'=>false )
