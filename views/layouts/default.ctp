@@ -43,9 +43,9 @@
 		echo $this->Html->css('template/plugins/jasny-bootstrap'); //Custom CSS
 		echo $this->Html->css('template/plugins/jasny-navmenu-reveal'); //Custom CSS
 		echo $this->Html->css('template/plugins/listgroup-tile'); //Custom CSS
-		echo $this->Html->css('template/plugins/wizard'); //Custom CSS
+		echo $this->Html->css('template/plugins/wizard'); //Custom CSS 
 		echo $this->Html->css('template/patches/side-nav'); //Custom CSS
-		echo $this->Html->css('template\font-awesome-4.4.0\css\font-awesome'); //Custom Fonts
+		echo $this->Html->css('template\font-awesome-4.7.0\css\font-awesome'); //Custom Fonts
 		echo $this->Html->css('ss/ssMetrics'); //Submodule CSS
 		echo $this->Html->css('submodule'); //Submodule CSS
 		echo $this->Html->css('datepicker'); 
@@ -83,7 +83,7 @@
 									);  ?>
 					</li>
 					<li>
-						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Attendance Daily Checking',
+						<?php echo $this->Html->link("<i class='fa fa-calendar-check-o fa-fw'></i> Attendance Daily Checking",
 									array('admin' => false,'controller'=>'rfid_studattendances','action'=>'daily_checking'),
 									array('escape'=>false )
 								);?>
@@ -91,24 +91,6 @@
 					<li>
 						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Employee Daily Time Record',
 									array('admin' => false,'controller'=>'attendances','action'=>'/'),
-									array('escape'=>false )
-								);?>
-					</li>
-					<li>
-						<?php echo $this->Html->link("<i class='fa fa-tag'></i> Assign RFID",
-									array('admin' => false,'controller'=>'rfid_students','action'=>'assign'),
-									array('escape'=>false )
-								);?>
-					</li>
-					<li>
-						<?php echo $this->Html->link("<i class='fa fa-tags'></i> Assign Fetcher",
-									array('admin' => false,'controller'=>'fetchers','action'=>'assigning'),
-									array('escape'=>false )
-								);?>
-					</li>
-					<li>
-						<?php echo $this->Html->link("<i class='fa fa-mobile fa-fw'></i> Set Student's Mobile No",
-									array('admin' => false,'controller'=>'rfid_students','action'=>'/'),
 									array('escape'=>false )
 								);?>
 					</li>
@@ -124,6 +106,43 @@
 							<li>
 								<?php echo $this->Html->link("<i class='fa fa-file-archive-o'></i> Employee Attendance Report",
 											array('admin' => true,'controller'=>'attendances','action'=>'index'),
+											array('escape'=>false )
+										);?>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0)" data-toggle="collapse" data-target="#AdminMenu"><i class="fa fa-user-circle-o fa-fw "></i> Admin Menu <i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="AdminMenu" class="collapse">
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-id-card-o'></i> Assign RFID",
+											array('admin' => false,'controller'=>'rfid_students','action'=>'assign'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-bus'></i>  Assign Fetcher",
+											array('admin' => false,'controller'=>'fetchers','action'=>'assigning'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-mobile fa-fw'></i> Set Student's Mobile No",
+											array('admin' => false,'controller'=>'rfid_students','action'=>'/'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<?php if($this->Access->check('User','create','read','update','delete')): ?>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-pencil-square fa-fw'></i> Reset RFID No.",
+											array('admin' => true,'controller'=>'rfid_students','action'=>'reset'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<?php endif;  ?>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-calendar fa-fw'></i> Sections Schedule",
+											array('admin' => false,'controller'=>'schedules'),
 											array('escape'=>false )
 										);?>
 							</li>
@@ -159,7 +178,7 @@
 						</ul>
 					</li>
 					<li>
-						<a href="javascript:void(0)" data-toggle="collapse" data-target="#MessagesLinks"><i class="fa fa-folder-open fa-fw "></i> Messages <i class="fa fa-fw fa-caret-down"></i></a>
+						<a href="javascript:void(0)" data-toggle="collapse" data-target="#MessagesLinks"><i class="fa fa-folder fa-fw "></i> Messages <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="MessagesLinks" class="collapse">
 							<li>
 								<?php echo $this->Html->link("<i class='fa fa-edit fa-fw'></i> Create",
@@ -193,21 +212,7 @@
 							</li>
 						</ul>
 					</li>
-					
 					<?php if($this->Access->check('User','create','read','update','delete')): ?>
-					
-					<li>
-						<a href="javascript:void(0)" data-toggle="collapse" data-target="#AdminMenu"><i class="fa fa-user fa-fw "></i> Admin Menu <i class="fa fa-fw fa-caret-down"></i></a>
-						<ul id="AdminMenu" class="collapse">
-							<li>
-								<?php echo $this->Html->link("<i class='fa fa-pencil-square fa-fw'></i> Reset RFID No.",
-											array('admin' => true,'controller'=>'rfid_students','action'=>'reset'),
-											array('escape'=>false )
-										);?>
-							</li>
-						</ul>
-					</li>
-					
 					<li>
 						<?php  echo $this->Html->link( 	$this->Html->tag('i', '', array('class' => 'fa fa-gears fa-fw')).' '.
 										$this->Html->tag('span', 'Access Control', array('class' => 'module-label')),
