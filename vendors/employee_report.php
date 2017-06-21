@@ -73,6 +73,7 @@ class EmplAttendanceReport extends Formsheet{
 		$this->centerText(13,1.7,'IN',3,'');
 		$this->centerText(16,1.7,'OUT',3,'');
 		$y=2.8;
+		
 		$prev_date = $data[0]['attendances']['date'];
 		$timein_ctr = $timeout_ctr = 0;
 		foreach($data as $d){
@@ -93,8 +94,9 @@ class EmplAttendanceReport extends Formsheet{
 				$this->centerText(16,$y,$d['attendances']['timeout'],3,'');
 				$timeout_ctr++;
 			}
+			$date = explode('-', $d['attendances']['date']);
+			$curr_date = $date[2];
 			
-			$curr_date = explode('-', $d['attendances']['date'])[2];
 			if($prev_date != $curr_date){
 				$this->centerText(0,$y,date("M d", strtotime($d['attendances']['date'])),3,'');	
 				$date = new DateTime($d['attendances']['date']);
