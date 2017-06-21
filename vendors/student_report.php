@@ -44,6 +44,7 @@ class StudentAttendanceReport extends Formsheet{
 	}
 	
 	function table($x=0,$hdr,$data){
+	
 		$metrics = array(
 			'base_x'=> 0.125+$x,
 			'base_y'=> 2,
@@ -68,11 +69,14 @@ class StudentAttendanceReport extends Formsheet{
 		$this->centerText(13,1.3,'OUT',3,'');
 		$this->centerText(16,1.3,'REMARKS',3,'');
 		$y=1.8;
-		$prev_date = explode('-', $data[0]['rfid_studattendance']['date'])[2] - 1;
-
+		$date =explode('-',$data[0]['rfid_studattendance']['date']);
+	
+		$prev_date = $date[2] - 1;
+		//pr($prev_date);exit;
 		//pr($data);exit;
 		foreach($data as $d){
-			$curr_date =  explode('-', $d['rfid_studattendance']['date'])[2];
+			$date = explode('-', $d['rfid_studattendance']['date']);
+			$curr_date =  $date[2];
 			if($prev_date != $curr_date){
 				$y++;
 				$this->centerText(0,$y,date("M. d", strtotime($d['rfid_studattendance']['date'])),5,'');	
