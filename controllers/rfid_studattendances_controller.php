@@ -456,7 +456,7 @@ class RfidStudattendancesController extends AppController {
 		//pr($default_sy );exit;
 		
 		
-		$sched =  $this->Schedule->find('first',array('conditions'=>array('Schedule.section_id'=>$sectionId,'Schedule.sy'=>$sy)));
+		$sched =  $this->Schedule->find('first',array('conditions'=>array('Schedule.section_id'=>$sectionId,'Schedule.school_year_id'=>$sy)));
 		$attendances = $this->RfidStudattendance->monthly_report($sectionId,$month,$year);
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
 		//pr($sched);
