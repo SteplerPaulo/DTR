@@ -67,7 +67,7 @@ class DailyReport extends Formsheet{
 		//pr($data);exit;
 		//pr($students);exit;
 		$i = 1;
-		
+		$tox =0;
 		
 		foreach($students as $stud){
 			$isPresent = false;
@@ -78,6 +78,7 @@ class DailyReport extends Formsheet{
 					$curr_student =  $d['rfid_students']['student_number'];
 					
 					if($prev_student == $curr_student && $tox == 24){
+					//if($prev_student == $curr_student){
 						$y--;
 					}
 					
