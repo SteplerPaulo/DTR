@@ -60,7 +60,7 @@
 						</div>
 					</div>
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('mobile',array('between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Mobile No','class'=>'form-control','required'=>'required','maxlength'=>10));?>
+						<?php echo $this->Form->input('mobile',array('between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Mobile No','class'=>'form-control','maxlength'=>10));?>
 					</div>
 				</div><br/>
 				
@@ -74,7 +74,13 @@
 						<?php echo $this->Form->input('primary_relationship',array('options'=>$relationships,'empty'=>'Select','label'=>'Relationship','class'=>'form-control','required'=>'required'));?>
 					</div>
 					<div class="col-lg-4">
-						<?php echo $this->Form->input('primary_mobile_no',array('between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Contact Mobile No','class'=>'form-control','required'=>'required','maxlength'=>10));?>
+						<?php echo $this->Form->input('primary_mobile_no',array('between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Contact Mobile No','class'=>'form-control','maxlength'=>10));?>
+					</div>
+				</div>
+				<br/>
+				<div class="row" >
+					<div class="col-lg-12">
+						<?php echo $this->Form->input('primary_address',array('type'=>'textarea','label'=>'Address','class'=>'form-control'));?>
 					</div>
 				</div>
 			</div>

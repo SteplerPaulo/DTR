@@ -105,6 +105,12 @@
 						<?php echo $this->Form->input('relationship',array('ng-disabled'=>'HaveAnExistingRFID','options'=>$relationships,'empty'=>'Select','class'=>'form-control','ng-model'=>'Field.relationship'));?>
 					</div>	
 				</div>
+				<br/>
+				<div class="row" >
+					<div class="col-lg-12">
+						<?php echo $this->Form->input('primary_address',array('type'=>'textarea','label'=>'Address','class'=>'form-control'));?>
+					</div>
+				</div>
 				
 				<div class="row"><br/>
 					<div class="col-lg-3">
