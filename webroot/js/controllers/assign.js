@@ -18,6 +18,8 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 		employee_mobile_no:null,
 		emergency_contact_no:null,
 		emergency_contact_person:null,
+		guardian_address:null,
+		LRN:null,
 	};
 
 	//FORM RESET
@@ -115,11 +117,15 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 							$scope.Field.level_id = d.Student201.level_id;
 							$scope.Field.section_id = d.Student201.section_code;
 							$scope.Field.gender = d.Student201.gender;
+							$scope.Field.guardian_address = d.Student201.primary_address;
+							$scope.Field.LRN = d.Student201.LRN;
+						
 						
 							
 						}else{			//IF NO DATA FOUND
 							$scope.No201=true;
 						}
+						console.log(d);
 					});
 				//IF HAS AN EXISTING RFID	
 				}else{ 		
@@ -136,10 +142,14 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 					$scope.Field.relationship = d.RfidStudent.relationship;
 					$scope.Field.source_rfid = d.RfidStudent.source_rfid;
 					$scope.Field.gender = d.RfidStudent.gender;
+					$scope.Field.guardian_address = d.RfidStudent.primary_address;
+					$scope.Field.LRN = d.RfidStudent.LRN;
+						
 					$scope.HaveAnExistingRFID = true;
+					console.log(d);
 				}
 				
-				console.log(d);
+				
 			});
 			
 		}
@@ -223,11 +233,11 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 	};
 	
 }).directive('myEnter', function () {
-	return function (scope, element, attrs) {
+	return function ($scope, element, attrs) {
 		element.bind("keydown keypress", function (event) {
 			if(event.which === 13) {
-				scope.$apply(function (){
-					scope.$eval(attrs.myEnter);
+				$scope.$apply(function (){
+					$scope.$eval(attrs.myEnter);
 				});
 				event.preventDefault();
 			}

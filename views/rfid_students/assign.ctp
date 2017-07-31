@@ -36,10 +36,10 @@
 						<?php echo $this->Form->input('student_number',array('ng-disabled'=>'HaveAnExistingRFID','ng-blur'=>'getStudDetails(Field.student_number)','required'=>'required','label'=>'Student No','class'=>'form-control','ng-model'=>'Field.student_number'));?>
 					</div>
 					<div class="col-lg-3">
-						<?php echo $this->Form->input('level_id',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','options'=>$levels,'empty'=>'Select','class'=>'form-control','ng-model'=>'Field.level_id'));?>
+						<?php echo $this->Form->input('level_id',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','options'=>$levels,'empty'=>'--Select--','class'=>'form-control','ng-model'=>'Field.level_id'));?>
 					</div>
 					<div class="col-lg-6">
-						<?php echo $this->Form->input('section_id',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','options'=>$sections,'empty'=>'Select','class'=>'form-control ','ng-model'=>'Field.section_id'));?>
+						<?php echo $this->Form->input('section_id',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','options'=>$sections,'empty'=>'--Select--','class'=>'form-control ','ng-model'=>'Field.section_id'));?>
 					</div>
 				</div>
 				<div class="row" ng-if="EmployeeMode">
@@ -88,6 +88,9 @@
 				<div class="row" ng-if="StudentMode">
 					<br/>
 					<div class="col-lg-3">
+						<?php echo $this->Form->input('LRN',array('class'=>'form-control','ng-model'=>'Field.LRN'));?>
+					</div>
+					<div class="col-lg-3">
 						<label for="student_mobile_no">Student Mobile No</label>
 						<div class="input-group">
 							<span class="input-group-addon">+63</span>
@@ -108,7 +111,7 @@
 				<br/>
 				<div class="row" >
 					<div class="col-lg-12">
-						<?php echo $this->Form->input('primary_address',array('type'=>'textarea','label'=>'Address','class'=>'form-control'));?>
+						<?php echo $this->Form->input('guardian_address',array('type'=>'text','class'=>'form-control','ng-model'=>'Field.guardian_address'));?>
 					</div>
 				</div>
 				
