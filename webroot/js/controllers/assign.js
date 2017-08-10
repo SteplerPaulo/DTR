@@ -233,11 +233,11 @@ App.controller('AssignRFIDController',function($scope,$rootScope,$http,$filter){
 	};
 	
 }).directive('myEnter', function () {
-	return function ($scope, element, attrs) {
+	return function (scope, element, attrs) {
 		element.bind("keydown keypress", function (event) {
 			if(event.which === 13) {
-				$scope.$apply(function (){
-					$scope.$eval(attrs.myEnter);
+				scope.$apply(function (){
+					scope.$eval(attrs.myEnter);
 				});
 				event.preventDefault();
 			}
