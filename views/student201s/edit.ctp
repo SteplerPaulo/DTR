@@ -15,6 +15,11 @@
 				</div>
 				<div class="row" >
 					<div class="col-lg-4">
+						<?php echo $this->Form->input('LRN',array('class'=>'form-control'));?>
+					</div>
+				</div><br/>
+				<div class="row" >
+					<div class="col-lg-4">
 						<?php echo $this->Form->input('student_number',array('class'=>'form-control','required'=>'required'));?>
 					</div>
 					<div class="col-lg-4">
@@ -64,6 +69,12 @@
 						<?php echo $this->Form->input('primary_mobile_no',array('value'=>substr($this->data['Student201']['primary_mobile_no'],3,11),'between'=>'<div class="input-group"><span class="input-group-addon">+63</span>','after' => '</div>','label'=>'Contact Mobile No','class'=>'form-control','required'=>'required','maxlength'=>10));?>
 					</div>
 					
+				</div>
+				<br/>
+				<div class="row" >
+					<div class="col-lg-12">
+						<?php echo $this->Form->input('primary_address',array('type'=>'text','label'=>'Address','class'=>'form-control'));?>
+					</div>
 				</div>
 			</div>
 			<div class="panel-footer">	
