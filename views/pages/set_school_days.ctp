@@ -24,6 +24,9 @@
 	sup{
 		float: right;
 	}
+	.fa-toggle-off,.fa-toggle-on{
+		cursor:pointer;
+	}
 </style>
 <div ng-controller="SetSchoolDaysController" ng-init="initializeController()">
 	<div class="row">
@@ -42,169 +45,28 @@
 							<?php echo $this->Form->input('period',array('value'=>'1st Period','readonly'=>'readonly','class'=>'form-control inline input-sm'));?>
 						</div>
 					</div><br/>
+					
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-3" ng-repeat="d in data">
 							<table class="table table-bordered">
-								<caption><b>JULY, 2017</b></caption>
+								<caption><b>{{d.month}}, {{d.year}}</b></caption>
 								<thead>
 									<tr>
-										<th class="text-center">Sun</th>
-										<th class="text-center">Mon</th>
-										<th class="text-center">Tue</th>
-										<th class="text-center">Wed</th>
-										<th class="text-center">Thu</th>
-										<th class="text-center">Fri</th>
-										<th class="text-center">Sat</th>
+										<th class="text-center w5">Date</th>
+										<th class="text-center">Day</th>
+										<th class="text-center">Status</th>
+										<th class="text-center"></th>
+								
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td></td>
-										<td>
-											<a href="#" title="Regular School Day">1</a> 
-											<a href="#" title="Click to toggle">
-												<sup><i class="fa fa-check"></i></sup>
-											</a>
-										</td>
-										<td>
-											<a href="#" title="Regular Holiday">2</a> 
-											<a href="#" title="Click to toggle">
-												<sup><i class="fa fa-close"></i></sup>
-											</a>
-										</td>
-										<td>3 <sup><i class="fa fa-check"></i></sup></td>
-										<td>4 <sup><i class="fa fa-check"></i></sup></td>
-										<td>5 <sup><i class="fa fa-check"></i></sup></td>
-										<td>6 <sup><i class="fa fa-question"></i></sup></td>
-									</tr>
-									<tr>
-										<td>7 <sup><i class="fa fa-question"></i></sup></td>
-										<td>8 <sup><i class="fa fa-check"></i></sup></td>
-										<td>9 <sup><i class="fa fa-check"></i></sup></td>
-										<td>10 <sup><i class="fa fa-check"></i></sup></td>
-										<td>11 <sup><i class="fa fa-check"></i></sup></td>
-										<td>12 <sup><i class="fa fa-check"></i></sup></td>
-										<td>13 <sup><i class="fa fa-question"></i></sup></td>
-									</tr>
-									<tr>
-										<td>14 <sup><i class="fa fa-question"></i></sup></td>
-										<td>15 <sup><i class="fa fa-check"></i></sup></td>
-										<td>16 <sup><i class="fa fa-check"></i></sup></td>
-										<td>17 <sup><i class="fa fa-check"></i></sup></td>
-										<td>18 <sup><i class="fa fa-check"></i></sup></td>
-										<td>19 <sup><i class="fa fa-check"></i></sup></td>
-										<td>20 <sup><i class="fa fa-question"></i></sup></td>
-									</tr>
-									<tr>
-										<td>21 <sup><i class="fa fa-question"></i></sup></td>
-										<td>22 <sup><i class="fa fa-check"></i></sup></td>
-										<td>23 <sup><i class="fa fa-check"></i></sup></td>
-										<td>24 <sup><i class="fa fa-check"></i></sup></td>
-										<td>25 <sup><i class="fa fa-check"></i></sup></td>
-										<td>26 <sup><i class="fa fa-check"></i></sup></td>
-										<td>27 <sup><i class="fa fa-question"></i></sup></td>
-									</tr>
-									<tr>
-										<td>28 <sup><i class="fa fa-question"></i></sup></td>
-										<td>29 <sup><i class="fa fa-check"></i></sup></td>
-										<td>30 <sup><i class="fa fa-check"></i></sup></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+									<tr ng-repeat="days in d.days" >
+										<td class="text-center">{{days.date}}</td>
+										<td>{{days.day}}</td>
+										<td><span ng-if="days.isWeekend">No Class<span></td>
+										<td class="text-center"><i ng-class="days.isWeekend?'fa fa-toggle-on':'fa fa-toggle-off'" ng-model="toggle" ng-click="toggle()"></i></td>
 									</tr>
 								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="7" class="text-right">
-											<button class="btn btn-sm btn-default" type="reset">Reset</button>
-											<button class="btn btn-sm btn-primary">Save</button>
-										</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					
-					
-						<div class="col-md-4">
-							<table class="table table-bordered">
-								<caption><b>AUGUST, 2017</b></caption>
-								<thead>
-									<tr>
-										<th class="text-center">Sun</th>
-										<th class="text-center">Mon</th>
-										<th class="text-center">Tue</th>
-										<th class="text-center">Wed</th>
-										<th class="text-center">Thu</th>
-										<th class="text-center">Fri</th>
-										<th class="text-center">Sat</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td></td>
-										<td>
-											<a href="#" title="Regular School Day">1</a> 
-											<a href="#" title="Click to toggle">
-												<sup><i class="fa fa-check"></i></sup>
-											</a>
-										</td>
-										<td>
-											<a href="#" title="Regular Holiday">2</a> 
-											<a href="#" title="Edit">
-												<sup><i class="fa fa-close"></i></sup>
-											</a>
-										</td>
-										<td>3 <sup><i class="fa fa-check"></i></sup></td>
-										<td>4 <sup><i class="fa fa-check"></i></sup></td>
-										<td>5 <sup><i class="fa fa-check"></i></sup></td>
-										<td>6 <sup><i class="fa fa-question"></i></sup></td>
-									</tr>
-									<tr>
-										<td>7 <sup><i class="fa fa-question"></i></sup></td>
-										<td>8 <sup><i class="fa fa-check"></i></sup></td>
-										<td>9 <sup><i class="fa fa-check"></i></sup></td>
-										<td>10 <sup><i class="fa fa-check"></i></sup></td>
-										<td>11 <sup><i class="fa fa-check"></i></sup></td>
-										<td>12 <sup><i class="fa fa-check"></i></sup></td>
-										<td>13 <sup><i class="fa fa-question"></i></sup></td>
-									</tr>
-									<tr>
-										<td>14 <sup><i class="fa fa-question"></i></sup></td>
-										<td>15 <sup><i class="fa fa-check"></i></sup></td>
-										<td>16 <sup><i class="fa fa-check"></i></sup></td>
-										<td>17 <sup><i class="fa fa-check"></i></sup></td>
-										<td>18 <sup><i class="fa fa-check"></i></sup></td>
-										<td>19 <sup><i class="fa fa-check"></i></sup></td>
-										<td>20 <sup><i class="fa fa-question"></i></sup></td>
-									</tr>
-									<tr>
-										<td>21 <sup><i class="fa fa-question"></i></sup></td>
-										<td>22 <sup><i class="fa fa-check"></i></sup></td>
-										<td>23 <sup><i class="fa fa-check"></i></sup></td>
-										<td>24 <sup><i class="fa fa-check"></i></sup></td>
-										<td>25 <sup><i class="fa fa-check"></i></sup></td>
-										<td>26 <sup><i class="fa fa-check"></i></sup></td>
-										<td>27 <sup><i class="fa fa-question"></i></sup></td>
-									</tr>
-									<tr>
-										<td>28 <sup><i class="fa fa-question"></i></sup></td>
-										<td>29 <sup><i class="fa fa-check"></i></sup></td>
-										<td>30 <sup><i class="fa fa-check"></i></sup></td>
-										<td>31 <sup><i class="fa fa-check"></i></sup></td>
-										<td></td>
-										<td></td>
-										<td></td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="7" class="text-right">
-											<button class="btn btn-sm btn-default" type="reset">Reset</button>
-											<button class="btn btn-sm btn-primary">Save</button>
-										</td>
-									</tr>
-								</tfoot>
 							</table>
 						</div>
 					</div>
