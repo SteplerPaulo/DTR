@@ -36,13 +36,16 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-2">
-							<?php echo $this->Form->input('sy',array('value'=>'2017-2018','readonly'=>'readonly','label'=>'S.Y','class'=>'form-control inline input-sm'));?>
+							<?php echo $this->Form->input('school_year_id',array('value'=>'2017-2018','readonly'=>'readonly','label'=>'S.Y','class'=>'form-control inline input-sm'));?>
 						</div>
 						<div class="col-md-2">
-							<?php echo $this->Form->input('grade_level',array('value'=>'Grade 1','readonly'=>'readonly','class'=>'form-control inline input-sm'));?>
+							<?php echo $this->Form->input('curriculum_id',array('value'=>'Grade 1','readonly'=>'readonly','class'=>'form-control inline input-sm'));?>
 						</div>
 						<div class="col-md-2">
-							<?php echo $this->Form->input('period',array('value'=>'1st Period','readonly'=>'readonly','class'=>'form-control inline input-sm'));?>
+							<?php echo $this->Form->input('level_id',array('value'=>'Grade 1','readonly'=>'readonly','class'=>'form-control inline input-sm'));?>
+						</div>
+						<div class="col-md-2">
+							<?php echo $this->Form->input('period_id',array('value'=>'1st Period','readonly'=>'readonly','class'=>'form-control inline input-sm'));?>
 						</div>
 					</div><br/>
 					
