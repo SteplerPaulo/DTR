@@ -34,4 +34,21 @@ class SchoolCalendar extends AppModel {
 			'order' => ''
 		)
 	);
+
+	var $hasMany = array(
+		'SchoolDay' => array(
+			'className' => 'SchoolDay',
+			'foreignKey' => 'school_calendar_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
+
 }
