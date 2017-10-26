@@ -35,7 +35,7 @@ App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filte
 		semMonth[2] = {'year':2017,'month':10};
 		semMonth[3] = {'year':2017,'month':11};
 		semMonth[4] = {'year':2018,'month':0};
-		
+		console.log(semMonth);
 		
 		$scope.data = new Array();
 		$.each(semMonth,function(ctr,obj){
@@ -70,6 +70,7 @@ App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filte
 			
 		});
 		console.log($scope.data);
+		
 		/*
 		var date = new Date(semMonth[0]['year'],semMonth[0]['month'], 1);
 		
