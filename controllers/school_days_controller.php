@@ -1,0 +1,67 @@
+<?php
+class SchoolDaysController extends AppController {
+
+	var $name = 'SchoolDays';
+	var $helpers = array('Access');
+
+	function index() {
+		$this->SchoolDay->recursive = 0;
+		$this->set('schoolDays', $this->paginate());
+	}
+
+	function view($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid school day', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->set('schoolDay', $this->SchoolDay->read(null, $id));
+	}
+
+	function add() {
+		if (!empty($this->data)) {
+			$this->SchoolDay->create();
+			if ($this->SchoolDay->save($this->data)) {
+				$this->Session->setFlash(__('The school day has been saved', true));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The school day could not be saved. Please, try again.', true));
+			}
+		}
+		$schoolCalendars = $this->SchoolDay->SchoolCalendar->find('list');
+		$this->set(compact('schoolCalendars'));
+	}
+
+	function edit($id = null) {
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid school day', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		if (!empty($this->data)) {
+			if ($this->SchoolDay->save($this->data)) {
+				$this->Session->setFlash(__('The school day has been saved', true));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The school day could not be saved. Please, try again.', true));
+			}
+		}
+		if (empty($this->data)) {
+			$this->data = $this->SchoolDay->read(null, $id);
+		}
+		$schoolCalendars = $this->SchoolDay->SchoolCalendar->find('list');
+		$this->set(compact('schoolCalendars'));
+	}
+
+	function delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for school day', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		if ($this->SchoolDay->delete($id)) {
+			$this->Session->setFlash(__('School day deleted', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		$this->Session->setFlash(__('School day was not deleted', true));
+		$this->redirect(array('action' => 'index'));
+	}
+	
+}
