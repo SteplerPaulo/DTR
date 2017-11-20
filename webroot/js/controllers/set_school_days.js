@@ -1,6 +1,8 @@
 App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filter){
 	
 	$scope.initializeController = function(){
+		$scope.semMonth =  new Array();
+		$scope.data = new Array();
 		
 		var weekday = new Array(7);
 		weekday[0] =  "Sun";
@@ -25,79 +27,108 @@ App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filte
 		month[10] = "November";
 		month[11] = "December";
 		
-		
-		
-		
-		
-		var semMonth = new Array();
-		semMonth[0] = {'year':2017,'month':8};
-		semMonth[1] = {'year':2017,'month':9};
-		semMonth[2] = {'year':2017,'month':10};
-		semMonth[3] = {'year':2017,'month':11};
-		semMonth[4] = {'year':2018,'month':0};
-		console.log(semMonth);
-		
-		$scope.data = new Array();
-		$.each(semMonth,function(ctr,obj){
-			var date = new Date(obj['year'],obj['month'], 1);
+		if(window.location.pathname.split('/')[4]){
+			$scope.school_calendar_id = window.location.pathname.split('/')[4].split(':')[1];		
 			
-			
-			$scope.data[ctr]={
-				'count':new Date(obj['year'], obj['month'] + 1, 0).getDate(),
-				'month':month[date.getMonth()],
-				'year':date.getFullYear(),
-				'days':new Array(),
+			$http({
+				method: 'POST',
+				url: '/DTR/school_days/calendar',
+				data: $.param({data:$scope.school_calendar_id}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).then(function(sc) {
 				
-			}
+				var sc = sc.data;
+				var dateFromYear = parseInt(sc['SchoolCalendar']['date_from'].split('-')[0]);
+				var dateFromMonth = parseInt(sc['SchoolCalendar']['date_from'].split('-')[1])-1;
+				var startDate = parseInt(sc['SchoolCalendar']['date_from'].split('-')[2]);
+				var dateToYear = parseInt(sc['SchoolCalendar']['date_to'].split('-')[0]);
+				var dateToMonth = parseInt(sc['SchoolCalendar']['date_to'].split('-')[1])-1;
+				var endDate = parseInt(sc['SchoolCalendar']['date_to'].split('-')[2]);
+				
+				var FromDate = new Date(dateFromYear,dateFromMonth, 1);
+				var ToDate = new Date(dateToYear,dateToMonth, 1);
+				
+				var ctr =  0;
+				
+				do{	
+					var date = new Date(dateFromYear,dateFromMonth, 1);// SET DATE
+					console.log(date);
+					console.log(new Date(dateFromYear, dateFromMonth+1, 0).getDate());
+					//SET DATA 
+					$scope.data[ctr]={
+						'count':new Date(dateFromYear, dateFromMonth+1, 0).getDate(),
+						'month':month[date.getMonth()],
+						'year':date.getFullYear(),
+						'days':new Array(),
+					}
+					
+					//GET DAYS OF THE MONTH
+					var d = date.getDay();
+					var daysofmonth = false;
+					var monthdayscount = $scope.data[ctr].count;
+					var daysctr = 1;
+					
+					for($i=0;$i<42;$i++){
+						if(weekday[d] == 'Mon' && !daysofmonth){
+							daysofmonth = true;
+							$scope.data[ctr].days[$i++] = {"isDummy":true};
+						}else if(weekday[d] == 'Tue' && !daysofmonth){
+							daysofmonth = true;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+						}else if(weekday[d] == 'Wed' && !daysofmonth){
+							daysofmonth = true;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+						}else if(weekday[d] == 'Thu' && !daysofmonth){
+							daysofmonth = true;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+						}else if(weekday[d] == 'Fri' && !daysofmonth){
+							daysofmonth = true;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+						}else if(weekday[d] == 'Sat' && !daysofmonth){
+							daysofmonth = true;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+							$scope.data[ctr].days[$i++] = null;
+						}else{
+							daysofmonth = true;
+						}
+						//console.log(daysctr+' = '+monthdayscount);
+						
+						if(daysofmonth){
+							if(daysctr <= monthdayscount){
+								$scope.data[ctr].days[$i] = {
+								"date":daysctr++,
+								"day":weekday[d],
+								"year":dateFromYear,
+								}
+							}
+						}
+						d++;
+						if(d == 7){d = 0;}
+					}
+					//END
+					
+	
+					ctr++;
+					FromDate = new Date(dateFromYear,dateFromMonth++, 1);// ADD 1 MONTH EVERY LOOP	
+				}while(FromDate < ToDate);
+				
+				console.log($scope.data);
+			});
 			
-			
-
-			
-			var d = date.getDay();
-			for($i=0;$i<$scope.data[ctr].count;$i++){
-				weekday[d]
-				$scope.data[ctr].days[$i] = {
-					"date":$i+1,
-					"day":weekday[d],
-					"year":obj['year'],
-					"isWeekend":(weekday[d] == 'Sat' || weekday[d] == 'Sun' )?true:false,
-				}
-				d++;
-				if(d == 7){
-					d = 0;
-				}
-			}
-			
-		});
-		console.log($scope.data);
-		
-		/*
-		var date = new Date(semMonth[0]['year'],semMonth[0]['month'], 1);
-		
-		
-		$scope.count = new Date(2017, 8 + 1, 0).getDate();
-		$scope.month = month[date.getMonth()];
-		$scope.year = date.getFullYear();
-		
-
-		
-		$scope.days = new Array();
-		var d = date.getDay();
-		for($i=0;$i<$scope.count;$i++){
-			$scope.weekday[d]
-			$scope.days[$i] = {
-				"date":$i+1,
-				"day":$scope.weekday[d],
-				"year":$scope.year,
-				"isWeekend":($scope.weekday[d] == 'Sat' || $scope.weekday[d] == 'Sun' )?true:false,
-			}
-			d++;
-			if(d == 7){
-				d = 0;
-			}
 		}
-		*/
 	}
-	
-	
 });

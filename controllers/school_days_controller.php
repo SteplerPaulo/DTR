@@ -3,6 +3,7 @@ class SchoolDaysController extends AppController {
 
 	var $name = 'SchoolDays';
 	var $helpers = array('Access');
+	var $uses = array('SchoolDay','SchoolCalendar');
 
 	function index() {
 		$this->SchoolDay->recursive = 0;
@@ -17,15 +18,20 @@ class SchoolDaysController extends AppController {
 		$this->set('schoolDay', $this->SchoolDay->read(null, $id));
 	}
 
-	function add() {
+	function add($school_calendar_id = null) {
+		//$data =  array('school_calendar_id'=>$school_calendar_id);
+		//pr($school_calendar_id);
+		//echo json_encode($data);
+		//exit;
 		if (!empty($this->data)) {
+			/*
 			$this->SchoolDay->create();
 			if ($this->SchoolDay->save($this->data)) {
 				$this->Session->setFlash(__('The school day has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The school day could not be saved. Please, try again.', true));
-			}
+			}*/
 		}
 		$schoolCalendars = $this->SchoolDay->SchoolCalendar->find('list');
 		$this->set(compact('schoolCalendars'));
@@ -64,4 +70,9 @@ class SchoolDaysController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 	
+	function calendar(){
+		$data = $this->SchoolCalendar->find('first',array('conditions'=>array('SchoolCalendar.id'=>$this->data)));
+		echo json_encode($data);
+		exit;
+	}
 }

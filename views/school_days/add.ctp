@@ -2,30 +2,17 @@
 	$sy =array('2016'=>'2016-2017','2017'=>'2017-2018');
 ?>
 <style>
-	.fa-check{
-		color:#428bca;
-	}
-	.fa-question{
-		color:#ff9200;
-	}
-	.fa-close{
-		color:#ff0000;
-	}
-	a{
-		color: black;
-	}
-	a:hover{
-		color: black;
-		text-decoration: none;
-	}
-	tbody td:hover{
+	.isActive:hover{
 		background-color: #e1e6ea;
-	}
-	sup{
-		float: right;
-	}
-	.fa-toggle-off,.fa-toggle-on{
 		cursor:pointer;
+	}
+	.noClass{
+		background-color: #bd1818;
+		color: white;
+	}
+	
+	.weekend{
+		color:#b33838;
 	}
 </style>
 <div ng-controller="SetSchoolDaysController" ng-init="initializeController()">
@@ -50,6 +37,83 @@
 					</div><br/>
 					
 					<div class="row">
+						<div class="col-md-4" ng-repeat="d in data">
+							<table class="table table-bordered">
+								<caption><h2><b>{{d.month}}, {{d.year}}</b></h2></caption>
+								<thead>
+									<tr>
+										<th class="text-center weekend">Sun</th>
+										<th class="text-center">Mon</th>
+										<th class="text-center">Tue</th>
+										<th class="text-center">Wed</th>
+										<th class="text-center">Thu</th>
+										<th class="text-center">Fri</th>
+										<th class="text-center weekend">Sat</th>
+								</thead>
+								<tbody>
+									<tr class="text-center">
+										<td ng-class="(d.days[0])?'isActive':''" class="weekend">{{d.days[0].date}}</td>
+										<td ng-class="(d.days[1])?'isActive':''">{{d.days[1].date}}</td>
+										<td ng-class="(d.days[2])?'isActive':''">{{d.days[2].date}}</td>
+										<td ng-class="(d.days[3])?'isActive':''">{{d.days[3].date}}</td>
+										<td ng-class="(d.days[4])?'isActive':''">{{d.days[4].date}}</td>
+										<td ng-class="(d.days[5])?'isActive':''">{{d.days[5].date}}</td>
+										<td ng-class="(d.days[6])?'isActive':''" class="weekend">{{d.days[6].date}}</td>
+									</tr>
+									<tr class="text-center">
+										<td ng-class="(d.days[7])?'isActive':''" class="weekend">{{d.days[7].date}}</td>
+										<td ng-class="(d.days[8])?'isActive':''">{{d.days[8].date}}</td>
+										<td ng-class="(d.days[9])?'isActive':''">{{d.days[9].date}}</td>
+										<td ng-class="(d.days[10])?'isActive':''">{{d.days[10].date}}</td>
+										<td ng-class="(d.days[11])?'isActive':''">{{d.days[11].date}}</td>
+										<td ng-class="(d.days[12])?'isActive':''">{{d.days[12].date}}</td>
+										<td ng-class="(d.days[13])?'isActive':''" class="weekend">{{d.days[13].date}}</td>
+									</tr>
+									<tr class="text-center">
+										<td ng-class="(d.days[14])?'isActive':''" class="weekend">{{d.days[14].date}}</td>
+										<td ng-class="(d.days[15])?'isActive':''">{{d.days[15].date}}</td>
+										<td ng-class="(d.days[16])?'isActive':''">{{d.days[16].date}}</td>
+										<td ng-class="(d.days[17])?'isActive':''">{{d.days[17].date}}</td>
+										<td ng-class="(d.days[18])?'isActive':''">{{d.days[18].date}}</td>
+										<td ng-class="(d.days[19])?'isActive':''">{{d.days[19].date}}</td>
+										<td ng-class="(d.days[20])?'isActive':''" class="weekend">{{d.days[20].date}}</td>
+									</tr>
+									<tr class="text-center">
+										<td ng-class="(d.days[21])?'isActive':''" class="weekend">{{d.days[21].date}}</td>
+										<td ng-class="(d.days[22])?'isActive':''">{{d.days[22].date}}</td>
+										<td ng-class="(d.days[23])?'isActive':''">{{d.days[23].date}}</td>
+										<td ng-class="(d.days[24])?'isActive':''">{{d.days[24].date}}</td>
+										<td ng-class="(d.days[25])?'isActive':''">{{d.days[25].date}}</td>
+										<td ng-class="(d.days[26])?'isActive':''">{{d.days[26].date}}</td>
+										<td ng-class="(d.days[27])?'isActive':''" class="weekend">{{d.days[27].date}}</td>
+									</tr>
+									<tr class="text-center">
+										<td ng-class="(d.days[28])?'isActive':''" class="weekend">{{d.days[28].date}}</td>
+										<td ng-class="(d.days[29])?'isActive':''">{{d.days[29].date}}</td>
+										<td ng-class="(d.days[30])?'isActive':''">{{d.days[30].date}}</td>
+										<td ng-class="(d.days[31])?'isActive':''">{{d.days[31].date}}</td>
+										<td ng-class="(d.days[32])?'isActive':''">{{d.days[32].date}}</td>
+										<td ng-class="(d.days[33])?'isActive':''">{{d.days[33].date}}</td>
+										<td ng-class="(d.days[34])?'isActive':''" class="weekend">{{d.days[34].date}}</td>
+									</tr>
+									<tr ng-if="(d.days[35])" class="text-center">
+										<td ng-class="(d.days[35])?'isActive':''" class="weekend">{{d.days[35].date}}</td>
+										<td ng-class="(d.days[36])?'isActive':''">{{d.days[36].date}}</td>
+										<td ng-class="(d.days[37])?'isActive':''">{{d.days[37].date}}</td>
+										<td ng-class="(d.days[38])?'isActive':''">{{d.days[38].date}}</td>
+										<td ng-class="(d.days[39])?'isActive':''">{{d.days[39].date}}</td>
+										<td ng-class="(d.days[40])?'isActive':''">{{d.days[40].date}}</td>
+										<td ng-class="(d.days[41])?'isActive':''" class="weekend">{{d.days[41].date}}</td>
+									</tr>
+									<tr ng-if="(!d.days[35])">
+										<td colspan="7" >&nbsp;</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!--
+					<div class="row">
 						<div class="col-md-3" ng-repeat="d in data">
 							<table class="table table-bordered">
 								<caption><b>{{d.month}}, {{d.year}}</b></caption>
@@ -72,37 +136,10 @@
 								</tbody>
 							</table>
 						</div>
-					</div>
+					</div>-->
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
 <?php echo $this->Html->script('controllers/set_school_days',array('inline'=>false)); ?>
-
-
-<!--
-<div class="schoolDays form">
-<?php echo $this->Form->create('SchoolDay');?>
-	<fieldset>
-		<legend><?php __('Add School Day'); ?></legend>
-	<?php
-		echo $this->Form->input('school_calendar_id');
-		echo $this->Form->input('date');
-		echo $this->Form->input('status');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
-</div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('List School Days', true), array('action' => 'index'));?></li>
-		<li><?php echo $this->Html->link(__('List School Calendars', true), array('controller' => 'school_calendars', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New School Calendar', true), array('controller' => 'school_calendars', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
--->
