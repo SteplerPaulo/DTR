@@ -99,7 +99,6 @@ class SchoolCalendarsController extends AppController {
 		
 	}
 	
-	
 	function sy_data(){
 		$school_years = $this->SchoolCalendar->SchoolYear->find('all',array('recursive'=>0,'order' => array('SchoolYear.id' => 'DESC')));
 		$levels = $this->Level->find('all',array('recursive'=>0,'order'=>'index_order'));
