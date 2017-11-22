@@ -1,7 +1,7 @@
 App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filter,$timeout){
 	
 	$scope.initializeController = function(){
-		
+		$scope.preventDoubleClick = false;
 		$scope.semMonth =  new Array();
 		$scope.data = new Array();
 		$scope.calendarObject = new Array();
@@ -14,7 +14,8 @@ App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filte
 					{"id":"1","name":"Regular Day","alias":"RD","act_as":"RD"},
 					{"id":"2","name":"No Class","alias":"NC","act_as":"NC"},
 				]
-			
+		
+		//$scope.tdClass="clickable noClassToday"
 		
 		var weekday = new Array(7);
 		weekday[0] =  "Sun";
@@ -48,15 +49,19 @@ App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filte
 				data: $.param({data:$scope.school_calendar_id}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).then(function(sc) {
-				
 				var sc = sc.data;
-				var dateFromYear = parseInt(sc['SchoolCalendar']['date_from'].split('-')[0]);
-				var dateFromMonth = parseInt(sc['SchoolCalendar']['date_from'].split('-')[1])-1;
-				var dateToYear = parseInt(sc['SchoolCalendar']['date_to'].split('-')[0]);
-				var dateToMonth = parseInt(sc['SchoolCalendar']['date_to'].split('-')[1])-1;
+				var StartDate = parseInt(sc['SchoolCalendar']['date_from'].split('-')[2]);
+				var LastDay = parseInt(sc['SchoolCalendar']['date_to'].split('-')[2]);
 				
-				var FromDate = new Date(dateFromYear,dateFromMonth, 1);
-				var ToDate = new Date(dateToYear,dateToMonth, 1);
+				var FromYear = parseInt(sc['SchoolCalendar']['date_from'].split('-')[0]);
+				var FromMonth = parseInt(sc['SchoolCalendar']['date_from'].split('-')[1])-1;
+				var ToYear = parseInt(sc['SchoolCalendar']['date_to'].split('-')[0]);
+				var ToMonth = parseInt(sc['SchoolCalendar']['date_to'].split('-')[1])-1;
+				
+				var FromDate = Date(sc['SchoolCalendar']['date_from']);
+				var ToDate = new Date(ToYear,ToMonth, 1);
+				
+				
 				
 				var monthCtr =  0;
 				do{	
@@ -64,10 +69,10 @@ App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filte
 						$scope.dayStatus[monthCtr] == '';
 					}
 					
-					var date = new Date(dateFromYear,dateFromMonth, 1);// SET DATE
+					var date = new Date(FromYear,FromMonth, 1);// SET 1ST DATE OF THE MONTH
 					//SET DATA 
 					$scope.data[monthCtr]={
-						'count':new Date(dateFromYear, dateFromMonth+1, 0).getDate(),
+						'count':new Date(FromYear, FromMonth+1, 0).getDate(),//month last day
 						'month':month[date.getMonth()],
 						'year':date.getFullYear(),
 						'days':new Array(),
@@ -78,6 +83,7 @@ App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filte
 					var daysofmonth = false;
 					var monthdayscount = $scope.data[monthCtr].count;
 					var daysCtr = 1;
+					
 					
 					for($i=0;$i<42;$i++){
 						if(weekday[d] == 'Mon' && !daysofmonth){
@@ -113,48 +119,75 @@ App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filte
 							$scope.data[monthCtr].days[$i++] = null;
 							$scope.data[monthCtr].days[$i++] = null;
 							$scope.data[monthCtr].days[$i++] = null;
-						}else{
-							daysofmonth = true;
-						}
+						}else{daysofmonth = true}
+						
+						
 						
 						if(daysofmonth){
 							if(daysCtr <= monthdayscount){
+								
+								tdClass = "grey";
+								if(weekday[d] == 'Sun' || weekday[d] == 'Sat'){
+									tdClass+= ' clickable noclass';
+								}else{
+									tdClass+= ' clickable';
+								}
+								
+								//ADD CLASS TO FIRST MONTH EXLUDED DAYS
+								if((monthCtr==0 && daysCtr < StartDate)){
+									tdClass += ' notIncluded ';
+								}
+								//ADD CLASS TO LAST MONTH EXCLUDED DAYS
+								if(date.getTime() === ToDate.getTime() && daysCtr > LastDay){
+									tdClass += ' notIncluded ';
+								}
+								
 								$scope.data[monthCtr].days[$i] = {
-									"date":daysCtr++,
+									//"full_date":Date(year, month, daysCtr),
+									"date":daysCtr,
 									"day":weekday[d],
 									"year":date.getFullYear(),
 									'month':((date.getMonth()+1) < 10) ? ("0" + (date.getMonth()+1)) : date.getMonth()+1,
 									"status":(weekday[d] == 'Sun' || weekday[d] == 'Sat')?'No Class':'Regular Day',
 									"remarks":(weekday[d] == 'Sun' || weekday[d] == 'Sat')?'Weekend':'',
+									"included":((monthCtr==0 && daysCtr < StartDate) || (date.getTime() === ToDate.getTime() && daysCtr > LastDay))?false:true,
+									"tdClass":tdClass,
 								}
+								daysCtr++;
 							}
 						}
 						d++;
 						if(d == 7){d = 0;}
 					}//END LOOP
 					monthCtr++;//increment month counter 
-					FromDate = new Date(dateFromYear,dateFromMonth++, 1);// ADD 1 MONTH EVERY LOOP	
+					FromDate = new Date(FromYear,FromMonth++, 1);// ADD 1 MONTH EVERY LOOP	
 				}while(FromDate < ToDate);
 			});
+			
+			console.log($scope.data);
 		}
 	}
 	
-	$scope.setDate = function(i,o,data){
-		if(data){
-			var d = $scope.data[i].days[o];
-			var date = (d.date < 10)?"0"+d.date:d.date;
-			
-			$scope.calendarDate[i] = d.year+'-'+d.month+'-'+date;
-			$scope.calendarObject[i] = o;
-			$scope.dayStatus[i] = '';
-			
-			
-			$scope.class[i] = "focus";
-			$timeout(function(e){$scope.class[i] = null;}, 500);
+	$scope.setDate = function(i,o){
+		if($scope.data[i].days[o]){
+			if($scope.data[i].days[o].included){
+				var d = $scope.data[i].days[o];
+				var date = (d.date < 10)?"0"+d.date:d.date;
+				
+				$scope.calendarDate[i] = d.year+'-'+d.month+'-'+date;
+				$scope.calendarObject[i] = o;
+				$scope.dayStatus[i] = '';
+				
+				$scope.class[i] = "focus";
+				$timeout(function(e){$scope.class[i] = null;}, 500);
+			}
 		}
 	}
 	
 	$scope.add = function(i,o){
+		if($scope.dayStatus[i].name == 'No Class') $scope.data[i].days[o].tdClass ="grey clickable noclass"
+		else $scope.data[i].days[o].tdClass ="grey clickable"
+		
 		$scope.data[i].days[o].status = $scope.dayStatus[i].name;
 		$scope.data[i].days[o].remarks = $scope.dayRemark[i];
 		
@@ -165,9 +198,36 @@ App.controller('SetSchoolDaysController',function($scope,$rootScope,$http,$filte
 	}
 	
 	$scope.save = function(){
+		//$scope.preventDoubleClick =  true;
 		console.log($scope.data);
-	
 		
+		
+		var i = 0;
+		var FormData = {};
+			FormData[i] = {};
+			
+		$.each($scope.data,function(monthCtr,month){
+			//console.log(month);
+			//return;
+			
+			$.each(month.days,function(dayCtr,day){
+				if(day){
+					var date = (day.date < 10)?"0"+day.date:day.date;
+					
+					FormData[i] = {'SchoolDay':{
+										'school_calendar_id':$scope.school_calendar_id,
+										'date':day.year+'-'+day.month+'-'+date,
+										'status':day.status,
+										'remarks':day.remarks,
+									}};
+					
+					i++;
+				}
+			});
+		});
+		
+	
+		console.log(FormData);
 	}
 	
 });
