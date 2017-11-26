@@ -24,17 +24,23 @@ class SchoolDaysController extends AppController {
 		//echo json_encode($data);
 		//exit;
 		if (!empty($this->data)) {
-			/*
+			//pr($this->data);
+			//exit;
+			
+			
 			$this->SchoolDay->create();
-			if ($this->SchoolDay->save($this->data)) {
-				$this->Session->setFlash(__('The school day has been saved', true));
-				$this->redirect(array('action' => 'index'));
+			if ($this->SchoolDay->saveAll($this->data)) {
+				$this->data['status'] = true;
+				echo json_encode($this->data);
+				exit;
 			} else {
-				$this->Session->setFlash(__('The school day could not be saved. Please, try again.', true));
-			}*/
+				$this->data['status'] = false;
+				echo json_encode($this->data);
+				exit;
+			}
 		}
-		$schoolCalendars = $this->SchoolDay->SchoolCalendar->find('list');
-		$this->set(compact('schoolCalendars'));
+		//$schoolCalendars = $this->SchoolDay->SchoolCalendar->find('list');
+		//$this->set(compact('schoolCalendars'));
 	}
 
 	function edit($id = null) {

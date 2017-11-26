@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default" ng-form="SchoolCalendarForm">
-				<div class="panel-heading">SET SCHOOL CALENDAR</div>
+				<div class="panel-heading">ADD SCHOOL CALENDAR</div>
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-2">
