@@ -12,7 +12,7 @@
 						<label>&nbsp;</label>
 						<div class="text-right">
 							<a href="/DTR/school_calendars/add" class="btn btn-warning btn-sm">
-								Set School Calendar <i class="fa fa-calendar" aria-hidden="true"></i>
+								Add School Calendar <i class="fa fa-calendar" aria-hidden="true"></i>
 							</a>
 						</div>
 					</div>
@@ -34,49 +34,45 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="(k,d) in data">
-									<td>{{k}} {{d[1].id}}</td>
+									<td>{{k}}</td>
 									<td class="text-center">
-										<a ng-if="d != null && d[1]" href="/DTR/pages/edit_school_days" title="Set school days">{{d[1].date_from | date:'MMM dd,yyyy'}} - {{d[1].date_to | date:'MMM dd,yyyy'}}</a>
-										<span ng-if="d == null || !d[1]"> No data </span>
+										<a ng-if="d != null && d[1]">{{d[1].date_from | date:'MMM dd,yyyy'}} - {{d[1].date_to | date:'MMM dd,yyyy'}}</a>
+										<span ng-if="d == null || !d[1]">----</span>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<a ng-if="d[1]" href="/DTR/school_calendars/edit/{{d[1].id}}" title="Edit start/end date" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
-											<a ng-if="d[1].is_posted == 0" href="javascript:void()" title="Post" class="btn btn-xs btn-default" ><i class="fa fa-gavel"></i></a>
-											<a ng-if="d[1].is_posted == 1"  href="/DTR/school_days/add/school_calendar_id:{{d[1].id}}" title="Set School Days" class="btn btn-xs btn-default" ><i class="fa fa-calendar-check-o"></i></a>
+										<div class="btn-group" ng-if="d != null && d[1]">
+											<a href="/DTR/school_calendars/edit/{{d[1].id}}" title="Edit start/end date" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
+											<a href="/DTR/school_days/add/school_calendar_id:{{d[1].id}}" title="Set School Days" class="btn btn-xs btn-default"><i class="fa fa-calendar-check-o"></i></a>
 										</div>
 									</td>
 									<td class="text-center">
-										<a ng-if="d != null && d[2]" href="/DTR/pages/edit_school_days" title="Set school days">{{d[2].date_from | date:'MMM dd,yyyy'}} - {{d[2].date_to | date:'MMM dd,yyyy'}}</a>
-										<span ng-if="d == null || !d[2]"> No data </span>
+										<a ng-if="d != null && d[2]">{{d[2].date_from | date:'MMM dd,yyyy'}} - {{d[2].date_to | date:'MMM dd,yyyy'}}</a>
+										<span ng-if="d == null || !d[2]">----</span>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<a ng-if="d[2]" href="/DTR/school_calendars/edit/{{d[2].id}}" title="Edit start/end date" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
-											<a ng-if="d[2].is_posted == 0" href="javascript:void()" title="Post" class="btn btn-xs btn-default" ><i class="fa fa-gavel"></i></a>
-											<a ng-if="d[2].is_posted == 1" href="/DTR/school_days/add" title="Set School Days" class="btn btn-xs btn-default" ><i class="fa fa-calendar-check-o"></i></a>
+										<div class="btn-group" ng-if="d != null && d[2]">
+											<a href="/DTR/school_calendars/edit/{{d[2].id}}" title="Edit start/end date" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
+											<a href="/DTR/school_days/add/school_calendar_id:{{d[2].id}}" title="Set School Days" class="btn btn-xs btn-default" ><i class="fa fa-calendar-check-o"></i></a>
 										</div>
 									</td>	
 									<td class="text-center">
-										<a ng-if="d != null && d[3]" href="/DTR/pages/edit_school_days" title="Set school days">{{d[3].date_from | date:'MMM dd,yyyy'}} - {{d[3].date_to | date:'MMM dd,yyyy'}}</a>
-										<span ng-if="d == null || !d[3]"> No data </span>
+										<a ng-if="d != null && d[3]">{{d[3].date_from | date:'MMM dd,yyyy'}} - {{d[3].date_to | date:'MMM dd,yyyy'}}</a>
+										<span ng-if="d == null || !d[3]">----</span>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<a ng-if="d[3]" href="/DTR/school_calendars/edit/{{d[3].id}}" title="Edit start/end date" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
-											<a ng-if="d[3].is_posted == 0" href="javascript:void()" title="Post" class="btn btn-xs btn-default" ><i class="fa fa-gavel"></i></a>
-											<a ng-if="d[3].is_posted == 1" href="/DTR/school_days/add" title="Set School Days" class="btn btn-xs btn-default" ><i class="fa fa-calendar-check-o"></i></a>
+										<div class="btn-group" ng-if="d != null && d[3]">
+											<a href="/DTR/school_calendars/edit/{{d[3].id}}" title="Edit start/end date" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
+											<a href="/DTR/school_days/add/school_calendar_id:{{d[3].id}}" title="Set School Days" class="btn btn-xs btn-default" ><i class="fa fa-calendar-check-o"></i></a>
 										</div>
 									</td>
 									<td class="text-center">
-										<a ng-if="d != null && d[4]" href="/DTR/pages/edit_school_days" title="Set school days">{{d[4].date_from | date:'MMM dd,yyyy'}} - {{d[4].date_to | date:'MMM dd,yyyy'}}</a>
-										<span ng-if="d == null || !d[4]"> No data </span>
+										<a ng-if="d != null && d[4]">{{d[4].date_from | date:'MMM dd,yyyy'}} - {{d[4].date_to | date:'MMM dd,yyyy'}}</a>
+										<span ng-if="d == null || !d[4]">----</span>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<a ng-if="d[4]" href="/DTR/school_calendars/edit/{{d[4].id}}" title="Edit start/end date" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
-											<a ng-if="d[4].is_posted == 0" href="javascript:void()" title="Post" class="btn btn-xs btn-default" ><i class="fa fa-gavel"></i></a>
-											<a ng-if="d[4].is_posted == 1" href="/DTR/school_days/add" title="Set School Days" class="btn btn-xs btn-default" ><i class="fa fa-calendar-check-o"></i></a>
+										<div class="btn-group" ng-if="d != null && d[4]">
+											<a href="/DTR/school_calendars/edit/{{d[4].id}}" title="Edit start/end date" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
+											<a href="/DTR/school_days/add/school_calendar_id:{{d[4].id}}" title="Set School Days" class="btn btn-xs btn-default" ><i class="fa fa-calendar-check-o"></i></a>
 										</div>
 									</td>
 								</tr>
