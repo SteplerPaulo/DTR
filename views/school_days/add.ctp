@@ -20,11 +20,20 @@
 	.clickable:hover{
 		background-color: #b3bbc1;
 	}
+	
 	.clickable.noclass:hover{
 		background-color: #6f0c0c !important;
 	}
 	.noclass{
 		background-color: #a42525 !important;
+		color: #ffffff;
+	}
+	
+	.clickable.adjustedPeriod:hover{
+		background-color: #05607b  !important;
+	}
+	.adjustedPeriod{
+		background-color: #1fa5cd !important;
 		color: #ffffff;
 	}
 	
@@ -52,6 +61,16 @@
 						</div>
 						<div class="col-md-2">
 							<?php echo $this->Form->input('period',array('value'=>'1st Period','readonly'=>'readonly','class'=>'form-control inline input-sm'));?>
+						</div>
+						<div class="col-md-4">
+							
+							<div class="text-right">
+								<div class="btn-group">
+									<a href="/DTR/school_calendars" class="btn btn-default">Cancel</a>
+									<button class="btn btn-success" type="button" ng-click="save()" ng-disabled="preventDoubleClick">Save</button>
+								</div>
+							</div>
+						
 						</div>
 					</div><br/>
 					<div class="row">
@@ -146,10 +165,15 @@
 													<input type="date" ng-model="calendarDate[i]" class="form-control"  ng-class="class[i]" readonly="readonly">
 												</div>
 												<div class="col-md-12">
+													
 													<label>Status</label>
-													<select ng-disabled="(!calendarObject[i])?true:false" ng-model="dayStatus[i]" ng-options="d.name for d in statuses" class="form-control input-sm">
+													<select ng-options="status as status.name for status in statuses track by status.id" ng-model="dayStatus[i]" ng-disabled="(!calendarObject[i])?true:false" ng-change="changeStatus(i)" class="form-control input-sm">
 														<option value="">-- Select --</option>
 													</select>
+												</div>
+												<div class="col-md-12" ng-if="dayStatus[i].name =='Adjusted Period'">
+													<label>Start Time</label>
+													<input type="time" ng-model="dayStartTime[i]" class="form-control input-sm">
 												</div>
 												<div class="col-md-12">
 													<label>Remarks</label>
@@ -166,9 +190,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="panel-footer">
-					<div class="text-right">
-						<button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="preventDoubleClick">Save Calendar</button>
+				<div class="panel-footer text-right">
+					<div class="btn-group">
+						<a href="/DTR/school_calendars" class="btn btn-default">Cancel</a>
+						<button class="btn btn-success" type="button" ng-click="save()" ng-disabled="preventDoubleClick">Save</button>
 					</div>
 				</div>
 			</div>
