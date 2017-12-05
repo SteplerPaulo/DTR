@@ -306,6 +306,7 @@ class RfidStudentsController extends AppController {
 		}
 	}
 
+	function decimal_octal_update(){
 		$data = $this->RfidStudent->find('all',array('recursive'=>0,'fields'=>array('id','source_rfid','rfid','dec_rfid')));
 		pr($data);exit;
 		
