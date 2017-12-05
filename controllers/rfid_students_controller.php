@@ -305,4 +305,53 @@ class RfidStudentsController extends AppController {
 			//pr('wew');exit;
 		}
 	}
+
+		$data = $this->RfidStudent->find('all',array('recursive'=>0,'fields'=>array('id','source_rfid','rfid','dec_rfid')));
+		pr($data);exit;
+		
+		foreach($data as $k => $d){
+			if($d['RfidStudent']['source_rfid'] != null){
+				//pr($d['RfidStudent']['source_rfid'].' => '.$d['RfidStudent']['dec_rfid']);
+				
+				$rfid = $d['RfidStudent']['source_rfid'];
+				if(strlen($rfid) <= 8){
+					$dec = hexdec ($rfid);
+					$octal = decoct($dec);
+					
+					if(strlen($dec) == 7){
+						$dec = '000'.$dec;
+					}else if(strlen($dec) == 8){
+						$dec = '00'.$dec;
+					}else if(strlen($dec) == 9){
+						$dec = '0'.$dec;
+					}
+					
+				}else{
+					$octal = decoct($rfid);
+					$dec = $rfid;
+					if(strlen($dec) == 7){
+						$dec = '000'.$dec;
+					}else if(strlen($dec) == 8){
+						$dec = '00'.$dec;
+					}else if(strlen($dec) == 9){
+						$dec = '0'.$dec;
+					}
+				}
+				
+				$data[$k]['RfidStudent']['rfid'] = $octal;
+				$data[$k]['RfidStudent']['dec_rfid'] = $dec;
+				
+			}
+		
+			
+		}
+		if($this->RfidStudent->saveAll($data)){
+			echo 'Success';
+			exit;
+		}else{
+			echo 'Pls. try again.';
+			exit;
+		}
+		exit;
+	}
 }
