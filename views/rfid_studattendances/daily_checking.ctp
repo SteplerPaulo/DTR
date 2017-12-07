@@ -64,7 +64,7 @@
 				</div>
 			</section>
 			<section class="row" ng-if="th">
-				<div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="d in students | filter:q">
+				<div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="(k,d) in students | filter:q">
 					<div class="thumbnail">
 						<img src="http://placehold.it/400x250" alt="...">
 						<div class="caption" style="height:110px">

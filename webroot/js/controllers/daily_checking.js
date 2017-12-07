@@ -16,7 +16,7 @@ App.controller('DailyCheckingController',function($scope,$rootScope,$http,$filte
 		$scope.students = [];
 		$http.get("/DTR/rfid_studattendances/daily_checking_data/"+section+'/'+date).success(function(response) {
 			$scope.students = response;
-			console.log(response);
+			//console.log(response);
 		});
 	}
 	
