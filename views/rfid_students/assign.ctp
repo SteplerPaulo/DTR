@@ -107,9 +107,8 @@
 					<div class="col-lg-3">
 						<?php echo $this->Form->input('relationship',array('ng-disabled'=>'HaveAnExistingRFID','options'=>$relationships,'empty'=>'Select','class'=>'form-control','ng-model'=>'Field.relationship'));?>
 					</div>	
-				</div>
-				<br/>
-				<div class="row" >
+				</div>	
+				<div class="row" ng-if="StudentMode" ><br/>
 					<div class="col-lg-12">
 						<?php echo $this->Form->input('guardian_address',array('type'=>'text','class'=>'form-control','ng-model'=>'Field.guardian_address'));?>
 					</div>
