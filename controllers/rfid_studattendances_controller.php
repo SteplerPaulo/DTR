@@ -467,7 +467,7 @@ class RfidStudattendancesController extends AppController {
 		$data =  array();
 		$i =  0;
 		foreach($attendances as $att){
-			if(empty($att['rfid_studattendance']['remarks'])){
+			//if(empty($att['rfid_studattendance']['remarks'])){
 				
 				$data[$i]['RfidStudattendance']['id'] = $att['rfid_studattendance']['id'];
 
@@ -478,9 +478,10 @@ class RfidStudattendancesController extends AppController {
 				}
 				
 				$i++;
-			}
+			//}
 			
 		}
+		
 		
 		//pr($data);exit;
 		
