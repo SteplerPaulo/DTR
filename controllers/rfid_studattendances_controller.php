@@ -581,7 +581,7 @@ class RfidStudattendancesController extends AppController {
 					$data[$s_key]['RfidStudattendance']['time_out'] = $daily['rfid_studattendance']['time_out'];
 					$data[$s_key]['RfidStudattendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
 					$data[$s_key]['RfidStudattendance']['remark_name'] = $daily['remarks']['name'];
-					$data[$s_key]['RfidStudattendance']['is_posted'] = true;
+					//$data[$s_key]['RfidStudattendance']['is_posted'] = true;
 					//USE THIS IF GOT TO GET ALL DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY  "$d_key"
 					//$data[$s_key]['RfidStudattendance'][$d_key]['remarks'] = $daily['remarks']['name'];
 				}
@@ -594,7 +594,7 @@ class RfidStudattendancesController extends AppController {
 				$data[$s_key]['RfidStudattendance']['remarks'] = 'A';
 				$data[$s_key]['RfidStudattendance']['remark_name'] = 'Absent';
 				$data[$s_key]['RfidStudattendance']['status'] = 'S';
-				$data[$s_key]['RfidStudattendance']['is_posted'] = false;
+				//$data[$s_key]['RfidStudattendance']['is_posted'] = false;
 			}
 		}
 		echo json_encode($data);

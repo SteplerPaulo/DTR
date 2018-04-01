@@ -1,6 +1,45 @@
 <div ng-controller="ReportController" ng-init="initializeController()" >
-	<section>
+	<section ng-if="summary">
+		<div class=" col-lg-2">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="btn-group btn-group-sm" >
+						<button class="btn btn-sm btn-default active" ng-click="toggle(true)">Summary</button>
+						<button class="btn btn-sm btn-default" ng-click="toggle(false)">Per Employee</button>
+					</div>
+				</div>
+			</div><hr/>
+			<div class="row">
+				<div  class="col-lg-12" >
+					<label>Date From</label>
+					<input type="date" class="form-control input-sm" id="FromDate" ng-model="fromDate" max="{{toDate}}">
+				</div>
+				<div  class="col-lg-12" >
+					<label>Date To</label>
+					<input type="date" class="form-control input-sm" id="ToDate" ng-model="toDate" max="{{toDate}}">
+				</div>
+			</div></br>
+			<div class="row">
+				<div  class="col-lg-12">
+					<button class="btn btn-sm btn-primary pull-right" ng-click="printSummary(fromDate,toDate)">Print</button>
+				</div>
+			</div>
+		</div>
+		<div class=" col-lg-10">
+			<iframe src="/DTR/attendances/summary_report"  width="1080" height="600"></iframe>
+		</div>
+	</section>
+	<section  ng-if="!summary">
 		<div class=" col-lg-5">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="btn-group btn-group-sm" >
+						<button class="btn btn-sm btn-default" ng-click="toggle(true)">Summary</button>
+						<button class="btn btn-sm btn-default active" ng-click="toggle(false)">Per Employee</button>
+					</div>
+				</div>
+			</div><hr/>
+		
 			<div class="row">
 				<div  class="col-lg-6" >
 					<label>Date From</label>
@@ -11,7 +50,7 @@
 					<input type="date" class="form-control input-sm" id="ToDate" ng-model="toDate" max="{{toDate}}">
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" >
 				<div  class="col-lg-12" >
 					<label>Search</label>
 					<input ng-model="q" id="search" class="form-control input-sm" placeholder="Filter text">
@@ -53,7 +92,7 @@
 				</tfoot>
 			</table>
 		</div>
-		<div class=" col-lg-7">
+		<div class=" col-lg-7" ng-if="!summary">
 			<iframe src="/DTR/attendances/doc_report"  width="750" height="600"></iframe>
 		</div>
 	</section>

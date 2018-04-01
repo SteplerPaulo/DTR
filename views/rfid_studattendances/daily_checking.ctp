@@ -1,6 +1,7 @@
 <style>
-.active{
-	background-color:lawngreen !important;
+table .active,.thumbnail .active{
+	background-color: #bcc2e9 !important;
+    border-color: #81839833 !important;
 }
 </style>
 <div ng-controller="DailyCheckingController" ng-init="initializeController()">
@@ -50,9 +51,9 @@
 								<td>{{d.RfidStudattendance.student_name}}</td>
 								<td class="text-right" ng-if="!d.RfidStudattendance.is_posted">
 									<div class="btn-group-vertical">
-										<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks == 'P'?'active':''" ng-click="remark(k,'P','Present')">Present</button>
-										<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks == 'L'?'active':''" ng-click="remark(k,'L','Late')">Late</button>
-										<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks == 'A'?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
+										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks == 'P'?'active':''" ng-click="remark(k,'P','Present')">Present</button>
+										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks == 'L'?'active':''" ng-click="remark(k,'L','Late')">Late</button>
+										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks == 'A'?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
 									</div>
 								</td>
 								<td class="text-right" ng-if="d.RfidStudattendance.is_posted">
@@ -70,9 +71,9 @@
 						<div class="caption" style="height:110px">
 							<h6 style="padding-bottom:2px">{{d.StudentName}}</h6>
 							<div class="btn-group" ng-if="!d.RfidStudattendance.is_posted">
-								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks == 'P'?'active':''" ng-click="remark(k,'P','Present')">Present</button>
-								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks == 'L'?'active':''" ng-click="remark(k,'L','Late')">Late</button>
-								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks == 'A'?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
+								<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks == 'P'?'active':''" ng-click="remark(k,'P','Present')">Present</button>
+								<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks == 'L'?'active':''" ng-click="remark(k,'L','Late')">Late</button>
+								<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks == 'A'?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
 							</div>
 							<div ng-if="d.RfidStudattendance.is_posted">
 								<span class="label" ng-class="d.RfidStudattendance.remarks == 'P' ? 'label-success' : (d.RfidStudattendance.remarks == 'L' ? 'label-success' : 'label-danger')">{{d.RfidStudattendance.remark_name}}</span>
