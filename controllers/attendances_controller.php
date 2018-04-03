@@ -502,7 +502,10 @@ class AttendancesController extends AppController {
 	}
 
 	function summary_report($fromDate=null,$toDate=null){
+		/*
 		$dates = $this->get_dates_between_two_dates($fromDate,$toDate);
+		
+		$this->Attendance->bind('RfidStudents');
 		
 		$data =  $this->Attendance->find('all',array(
 					'conditions'=>array('date >='=> $fromDate,
@@ -512,6 +515,46 @@ class AttendancesController extends AppController {
 		$this->set(compact('data','dates'));
 		$this->layout='pdf';
 		$this->render();
+		*/
+		
+		
+		if(!empty($fromDate) && !empty($toDate)){
+			//GET DATE BETWEEN TWO DATES
+			$dates = $this->get_dates_between_two_dates($fromDate,$toDate);
+			//SET GATEKEEPER DATABASE
+			$gatekeeper_db  = $this->set_gatekeeper_db();
+			
+			
+			//CALL UPDATED ATTENDANCE ENTRY
+			$data =  $this->Attendance->summary_report($fromDate,$toDate,$gatekeeper_db);	
+			
+			
+			$emp = array();
+			foreach($data as $k=>$d){
+				$emp[$d[0]['full_name']][$d['attendances']['date']]['timein'] = $d['attendances']['timein']; 
+				
+			}
+			
+			//pr($emp);exit;
+			
+			$data = $emp;
+			
+			$hdr['fromDate'] = $fromDate;
+			$hdr['toDate'] = $toDate;
+			$this->set(compact('data','hdr','dates'));
+			$this->layout='pdf';
+			$this->render();
+		}else{
+			$data = array();
+			$hdr = array();
+			$dates = array();
+			$this->set(compact('data','hdr','dates'));
+			$this->layout='pdf';
+			$this->render();
+		}
+		
+		
+		
 		
 	}
 }
