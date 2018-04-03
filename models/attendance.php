@@ -42,5 +42,33 @@ class Attendance extends AppModel {
 			"
 		);
 	}
+	
+	public function summary_report($from,$to,$gatekeeper_db){
+		//pr($from);exit;
+		
+		return $this->query( 
+			"SELECT 
+				`attendances`.`id`,
+				`attendances`.`employee_number`,
+				CONCAT(last_name,', ',first_name,' ',middle_name) AS full_name,
+				`attendances`.`date`,
+				timein,
+				timeout,
+				remarks,
+				status,
+				DATE_FORMAT(timein, '%h:%i:%s %p') AS formated_timein,
+				DATE_FORMAT(timeout, '%h:%i:%s %p') AS formated_timeout
+			FROM
+			  attendances 
+			  INNER JOIN `$gatekeeper_db`.`rfid_students` 
+				ON (
+				  `rfid_students`.`employee_number` = `attendances`.`employee_number`
+				) 
+			WHERE `date` >= '$from' 
+				 AND `date` <= '$to' 
+			ORDER BY `full_name`,`date`
+			"
+		);
+	}
 
 }

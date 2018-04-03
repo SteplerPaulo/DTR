@@ -456,7 +456,7 @@ class AttendancesController extends AppController {
 					$data[$i]['Attendance']['remarks'] = 'A';
 				}else{
 					if($att['attendances']['timein'] <= '07:00:00'){
-						$data[$i]['Attendance']['remarks'] = 'P';
+						$data[$i]['Attendance']['remarks'] = 1;
 					}else{
 						$data[$i]['Attendance']['remarks'] = 'L';
 					}
@@ -465,6 +465,9 @@ class AttendancesController extends AppController {
 				$i++;
 			}
 		}
+		
+		
+		
 		
 		if(!empty($data)){
 			if($this->Attendance->saveAll($data)){
@@ -496,5 +499,62 @@ class AttendancesController extends AppController {
 		$sms_port = $this->SmsPort->find('first',array('conditions'=>array('SmsPort.DeviceStatus'=>'Online','SmsPort.DeviceState'=>'Active')));
 		echo json_encode($sms_port);
 		exit;
+	}
+
+	function summary_report($fromDate=null,$toDate=null){
+		/*
+		$dates = $this->get_dates_between_two_dates($fromDate,$toDate);
+		
+		$this->Attendance->bind('RfidStudents');
+		
+		$data =  $this->Attendance->find('all',array(
+					'conditions'=>array('date >='=> $fromDate,
+									'date <='=>$toDate
+					)));
+		
+		$this->set(compact('data','dates'));
+		$this->layout='pdf';
+		$this->render();
+		*/
+		
+		
+		if(!empty($fromDate) && !empty($toDate)){
+			//GET DATE BETWEEN TWO DATES
+			$dates = $this->get_dates_between_two_dates($fromDate,$toDate);
+			//SET GATEKEEPER DATABASE
+			$gatekeeper_db  = $this->set_gatekeeper_db();
+			
+			
+			//CALL UPDATED ATTENDANCE ENTRY
+			$data =  $this->Attendance->summary_report($fromDate,$toDate,$gatekeeper_db);	
+			
+			
+			$emp = array();
+			foreach($data as $k=>$d){
+				$emp[$d[0]['full_name']][$d['attendances']['date']]['timein'] = $d['attendances']['timein']; 
+				
+			}
+			
+			//pr($emp);exit;
+			
+			$data = $emp;
+			
+			$hdr['fromDate'] = $fromDate;
+			$hdr['toDate'] = $toDate;
+			$this->set(compact('data','hdr','dates'));
+			$this->layout='pdf';
+			$this->render();
+		}else{
+			$data = array();
+			$hdr = array();
+			$dates = array();
+			$this->set(compact('data','hdr','dates'));
+			$this->layout='pdf';
+			$this->render();
+		}
+		
+		
+		
+		
 	}
 }

@@ -61,52 +61,6 @@
 		</div>
 	</div><br/><br/>
 	
-	<!-- Modal 
-	<div class="modal fade" id="AddNewEntryModal" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-sm" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title"></h4>
-				</div>
-				<div class="modal-body">
-				
-					<div class="row">
-						<div class="col-lg-6 col-md-6 col-xs-6" id="NewEntryEmpName">
-						</div>
-						<div class="col-lg-6 col-md-6 col-xs-6" id="NewEntryEmpNo">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-4 col-md-4 col-xs-4">
-							<div class="form-group">
-								<label class="control-label">Date</label>
-								<input id="NewEntryDate" type="date" min="2013-10-01" max="" class="form-control input-sm" required="required"></input>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-xs-4">
-							<div class="form-group">
-								<label class="control-label">Time In</label>
-								<input id="NewEntryTimeIn" type="time"  class="form-control input-sm" required="required"></input>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-xs-4">
-							<div class="form-group">
-								<label class="control-label">Time Out</label>
-								<input id="NewEntryTimeOut" type="time" class="form-control input-sm" required="required"></input>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" id="SaveNewEntry">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	-->
-	
 	<script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
             <h3 class="modal-title" id="modal-title">{{$ctrl.o[0].full_name}}</h3>

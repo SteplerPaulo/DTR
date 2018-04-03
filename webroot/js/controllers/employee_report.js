@@ -1,6 +1,7 @@
 App.controller('ReportController',function($scope,$rootScope,$http,$filter){
 	
 	$scope.initializeController = function(){
+		$scope.summary = true; 
 		$scope.currentPage = 1; 
 		$scope.pageSize = 7;
 		$scope.fromDate =  $filter("date")(Date.now(), 'yyyy-MM-dd');
@@ -12,9 +13,16 @@ App.controller('ReportController',function($scope,$rootScope,$http,$filter){
 		});
 	}
 	
+	
+	$scope.toggle = function(data){
+		$scope.summary = data; 
+	}
+	
+	
 	//INTENT TO ADJUST EVENT HANDLER 
 	$scope.AdjustButton = function(fromDate,toDate,empname,empno){
 
+	
 		$.ajax({
 			url: '/DTR/attendances/init_remarks/'+fromDate+'/'+toDate+'/'+empno+'/'+empname,
 			dataType:'json',
@@ -34,5 +42,19 @@ App.controller('ReportController',function($scope,$rootScope,$http,$filter){
 			return $('iframe')[0].src=get;
 		}
 	}
+
+	//
+	$scope.printSummary = function(fromDate,toDate){
+		console.log(fromDate);
+		console.log(toDate);
+		
+		var get = '/DTR/attendances/summary_report/'+fromDate+'/'+toDate;
+		if(fromDate && toDate) {
+			return $('iframe')[0].src=get;
+		}
+	
+		
+	}
+	
 });
 
