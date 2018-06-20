@@ -31,7 +31,7 @@
 	background-color: #A40053;
 	border-color: #770941;
 }
-#Purple .btn-primary:hover,.btn-primary:focus,.btn-primary:active{
+#Purple .btn-primary:hover,#Purple .btn-primary:focus,#Purple.btn-primary:active{
 	color: #fff;
 	background-color: #74063E;
 	border-color: #54042D;
@@ -83,7 +83,7 @@
 	background-color: #FF9900;
 	border-color: #FF6600;
 }
-#Yellow .btn-primary:hover,.btn-primary:focus,.btn-primary:active{
+#Yellow .btn-primary:hover,#Yellow .btn-primary:focus,#Yellow .btn-primary:active{
 	color: #fff;
 	background-color: #E88E07;
 	border-color: #FF6600;

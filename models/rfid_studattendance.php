@@ -57,20 +57,25 @@ class RfidStudattendance extends AppModel {
 				`rfid_studattendance`.`time_in`,
 				`rfid_studattendance`.`time_out`,
 				`rfid_studattendance`.`remarks`,
-				`remarks`.`name`
+				`remarks`.`name`,
+				`images`.`img_path`
 			FROM
 				`rfid_students` 
 					INNER JOIN `sections` 
 					ON (
 					  `rfid_students`.`section_id` = `sections`.`id`
 					) 
-					INNER JOIN `rfid_studattendance` 
+					LEFT JOIN `rfid_studattendance` 
 					ON (
 					  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
 					) 
-					INNER JOIN `remarks` 
+					LEFT JOIN `remarks` 
 					ON (
 					  `rfid_studattendance`.`remarks` = `remarks`.`alias`
+					) 
+					LEFT JOIN `images` 
+					ON (
+					  `images`.`source_rfid` = `rfid_students`.`source_rfid`
 					) 
 				WHERE (
 					`rfid_students`.`section_id` = '$sectionId'
@@ -79,6 +84,7 @@ class RfidStudattendance extends AppModel {
 			"
 		);
 	}
+	
 	
 	public function monthly_report($sectionId,$month,$year){
 		

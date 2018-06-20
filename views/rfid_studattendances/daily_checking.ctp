@@ -67,13 +67,14 @@ table .active,.thumbnail .active{
 			<section class="row" ng-if="th">
 				<div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="(k,d) in students | filter:q">
 					<div class="thumbnail">
-						<img src="http://placehold.it/400x250" alt="...">
+						<img ng-if="!d.RfidStudattendance.img_path"  src="http://placehold.it/300x300" alt="...">
+						<img ng-if="d.RfidStudattendance.img_path" src="../img/fortagging/{{d.RfidStudattendance.img_path}}" alt="...">
 						<div class="caption" style="height:110px">
-							<h6 style="padding-bottom:2px">{{d.StudentName}}</h6>
+							<h6 style="padding-bottom:2px">{{d.RfidStudattendance.student_name}}</h6>
 							<div class="btn-group" ng-if="!d.RfidStudattendance.is_posted">
-								<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks == 'P'?'active':''" ng-click="remark(k,'P','Present')">Present</button>
-								<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks == 'L'?'active':''" ng-click="remark(k,'L','Late')">Late</button>
-								<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks == 'A'?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
+								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks == 'P'?'active':''" ng-click="remark(k,'P','Present')">Present</button>
+								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks == 'L'?'active':''" ng-click="remark(k,'L','Late')">Late</button>
+								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks == 'A'?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
 							</div>
 							<div ng-if="d.RfidStudattendance.is_posted">
 								<span class="label" ng-class="d.RfidStudattendance.remarks == 'P' ? 'label-success' : (d.RfidStudattendance.remarks == 'L' ? 'label-success' : 'label-danger')">{{d.RfidStudattendance.remark_name}}</span>

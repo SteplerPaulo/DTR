@@ -559,12 +559,16 @@ class RfidStudattendancesController extends AppController {
 	
 	
 	function daily_checking_data($sectionId = null, $date = null){
+		$sectionId = 15; $date = '2018-03-16';
+		
 		
 		$daily_report = $data['DailyReport'] = $this->RfidStudattendance->daily_report($sectionId,$date);
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
-	
+		
+		//pr($daily_report);exit;
+		
 		$data = array();
-			//pr($daily_report);exit;
+		$i=0;
 		foreach($students as $s_key => $student){
 			
 			$data[$s_key]['RfidStudattendance']['student_number'] = $student['rfid_students']['student_number'];
@@ -573,7 +577,12 @@ class RfidStudattendancesController extends AppController {
 			
 			
 			foreach($daily_report as $d_key => $daily){
+				
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
+				
+					//echo $i++.'. '.$daily['rfid_students']['student_number'].' = '.$student['rfid_students']['student_number'].'<br/>';
+					
+				
 					//REMINDER: GET LAST DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY
 					$data[$s_key]['RfidStudattendance']['id'] = $daily['rfid_studattendance']['id'];
 					$data[$s_key]['RfidStudattendance']['date'] = $daily['rfid_studattendance']['date'];
@@ -581,22 +590,29 @@ class RfidStudattendancesController extends AppController {
 					$data[$s_key]['RfidStudattendance']['time_out'] = $daily['rfid_studattendance']['time_out'];
 					$data[$s_key]['RfidStudattendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
 					$data[$s_key]['RfidStudattendance']['remark_name'] = $daily['remarks']['name'];
+					$data[$s_key]['RfidStudattendance']['img_path'] = $daily['images']['img_path'];
 					//$data[$s_key]['RfidStudattendance']['is_posted'] = true;
 					//USE THIS IF GOT TO GET ALL DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY  "$d_key"
 					//$data[$s_key]['RfidStudattendance'][$d_key]['remarks'] = $daily['remarks']['name'];
 				}
 			}
 			
+			
+			
 			if(!isset($data[$s_key]['RfidStudattendance']['id'])){
+				
+				//pr($data[$s_key]['RfidStudattendance']['id']);
 				$data[$s_key]['RfidStudattendance']['date'] = $date;
 				$data[$s_key]['RfidStudattendance']['time_in'] = null;
 				$data[$s_key]['RfidStudattendance']['time_out'] = null;
 				$data[$s_key]['RfidStudattendance']['remarks'] = 'A';
 				$data[$s_key]['RfidStudattendance']['remark_name'] = 'Absent';
 				$data[$s_key]['RfidStudattendance']['status'] = 'S';
-				//$data[$s_key]['RfidStudattendance']['is_posted'] = false;
+				$data[$s_key]['RfidStudattendance']['is_posted'] = false;
 			}
 		}
+		//pr($data);
+		//exit;
 		echo json_encode($data);
 		exit;
 		
