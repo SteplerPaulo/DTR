@@ -558,6 +558,15 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	
+	function get_section_schedule($sectionId){
+		$sectionId = 15;
+		
+		
+		$schedule = $this->Schedule->find('first',array('conditions'=>array('Schedule.id'=>$sectionId)));
+		echo json_encode($schedule);
+		exit;
+	}
+	
 	function daily_checking_data($sectionId = null, $date = null){
 		$sectionId = 15; $date = '2018-03-16';
 		
@@ -619,6 +628,7 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function daily_checking_posting(){
+		pr($this->data);exit;
 		if (!empty($this->data)) {
 			$this->RfidStudattendance->create();
 			if ($this->RfidStudattendance->saveAll($this->data)) {
