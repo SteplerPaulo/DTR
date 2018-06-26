@@ -137,9 +137,14 @@ class RfidStudattendance extends AppModel {
 						) AS full_name,
 						`rfid_students`.`student_number` ,
 						`rfid_students`.`dec_rfid`,
-						`rfid_students`.`gender`
+						`rfid_students`.`gender`,
+						`images`.`img_path`
 					FROM
-					  rfid_students 
+					  rfid_students
+					LEFT JOIN `images` 
+					ON (
+					  `images`.`source_rfid` = `rfid_students`.`source_rfid`
+					)
 					WHERE section_id = '$sectionId' 
 					  AND `type` = 1 
 					ORDER BY `last_name`,

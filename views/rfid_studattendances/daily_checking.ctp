@@ -7,7 +7,7 @@ table .active,.thumbnail .active{
 <div ng-controller="DailyCheckingController" ng-init="initializeController()">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<span class="panel-title">Daily Attendance</span>
+			<span class="panel-title">Daily RfidStudattendance</span>
 			<button class="btn btn-default pull-right">
 				<i class="fa fa-user-secret" aria-hidden="true" title="Login as subtitute adviser"></i>
 			</button>
@@ -43,7 +43,7 @@ table .active,.thumbnail .active{
 				</div>
 				<div class="col-lg-2 col-lg-offset-2">
 					<label>Time In Schedule</label>
-					<input type="time" class="form-control input-sm" ng-model="start_time">
+					<input type="time" class="form-control input-sm" ng-model="start_time" ng-change="updateRemarks()">
 			
 				</div>
 			</section><br/>
@@ -58,9 +58,9 @@ table .active,.thumbnail .active{
 								<td ng-if="!d.RfidStudattendance.time_in" style="color:red" class="text-center">No Time In</td>
 								<td class="text-right" ng-if="!d.RfidStudattendance.is_posted">
 									<div class="btn-group-vertical">
-										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.time_in <= start_time?'active':''" ng-click="remark(k,'P','Present')">Present</button>
-										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.time_in > start_time?'active':''" ng-click="remark(k,'L','Late')">Late</button>
-										<button type="button" class="btn btn-sm btn-default" ng-class="!d.RfidStudattendance.time_in?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
+										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks=='P'?'active':''" ng-click="remark(k,'P','Present')">Present</button>
+										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks=='L'?'active':''" ng-click="remark(k,'L','Late')">Late</button>
+										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks=='A'?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
 									</div>
 								</td>
 								<td class="text-right" ng-if="d.RfidStudattendance.is_posted">
@@ -82,15 +82,14 @@ table .active,.thumbnail .active{
 						<img ng-if="d.RfidStudattendance.img_path" src="../img/fortagging/{{d.RfidStudattendance.img_path}}" alt="...">
 						<div class="caption" style="height:110px">
 							<h6 style="padding-bottom:2px">{{d.RfidStudattendance.student_name}}</h6>
-							<div class="btn-group" ng-if="!d.RfidStudattendance.is_posted">
-								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.time_in <= start_time?'active':''" ng-click="remark(k,'P','Present')">Present</button>
-								
-								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.time_in > start_time?'active':''" ng-click="remark(k,'L','Late')">Late</button>
-								<button type="button" class="btn btn-xs btn-default" ng-class="!d.RfidStudattendance.time_in?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
+							<div class="btn-group" ng-if="!d.is_posted">
+								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks=='P'?'active':''" ng-click="remark(k,'P','Present')">Present</button>
+								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks=='L'?'active':''" ng-click="remark(k,'L','Late')">Late</button>
+								<button type="button" class="btn btn-xs btn-default" ng-class="d.RfidStudattendance.remarks=='A'?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
 							</div>
 							
-							<div ng-if="d.RfidStudattendance.is_posted">
-								<span class="label" ng-class="d.RfidStudattendance.remarks == 'P' ? 'label-success' : (d.RfidStudattendance.remarks == 'L' ? 'label-success' : 'label-danger')">{{d.RfidStudattendance.remark_name}}</span>
+							<div ng-if="d.is_posted">
+								<span class="label" ng-class="d.remarks == 'P' ? 'label-success' : (d.RfidStudattendance.remarks == 'L' ? 'label-success' : 'label-danger')">{{d.RfidStudattendance.remark_name}}</span>
 							</div>
 						</div>
 					</div>

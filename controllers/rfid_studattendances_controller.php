@@ -552,74 +552,61 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function daily_checking_init_data(){
-		$sections = $this->Section->find('all',array('order'=>'Section.name'));
-		echo json_encode($sections);
+		$data = $this->Section->find('all',array('order'=>'Section.name'));
+		echo json_encode($data);
 		exit;
 	}
 	
-	
-	function get_section_schedule($sectionId){
-		$sectionId = 15;
-		
-		
-		$schedule = $this->Schedule->find('first',array('conditions'=>array('Schedule.id'=>$sectionId)));
-		echo json_encode($schedule);
+	function get_section_sched($sectionId){
+		$data = $this->Schedule->find('first',array('conditions'=>array('Schedule.id'=>$sectionId)));
+		echo json_encode($data);
 		exit;
 	}
 	
 	function daily_checking_data($sectionId = null, $date = null){
-		$sectionId = 15; $date = '2018-03-16';
 		
+		//$sectionId = 15; $date = '2018-03-16';
 		
 		$daily_report = $data['DailyReport'] = $this->RfidStudattendance->daily_report($sectionId,$date);
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
+	
+		//pr($students);exit;
 		
-		//pr($daily_report);exit;
 		
-		$data = array();
-		$i=0;
+		
+		$data = array(); $i=0;
 		foreach($students as $s_key => $student){
-			
 			$data[$s_key]['RfidStudattendance']['student_number'] = $student['rfid_students']['student_number'];
 			$data[$s_key]['RfidStudattendance']['student_name'] = strToUpper($student[0]['full_name']);
 			$data[$s_key]['RfidStudattendance']['rfid'] = $student['rfid_students']['dec_rfid'];
-			
+			$data[$s_key]['RfidStudattendance']['img_path'] = $student['images']['img_path'];
 			
 			foreach($daily_report as $d_key => $daily){
-				
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
 				
 					//echo $i++.'. '.$daily['rfid_students']['student_number'].' = '.$student['rfid_students']['student_number'].'<br/>';
 					
-				
 					//REMINDER: GET LAST DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY
 					$data[$s_key]['RfidStudattendance']['id'] = $daily['rfid_studattendance']['id'];
 					$data[$s_key]['RfidStudattendance']['date'] = $daily['rfid_studattendance']['date'];
 					$data[$s_key]['RfidStudattendance']['time_in'] = $daily['rfid_studattendance']['time_in'];
 					$data[$s_key]['RfidStudattendance']['time_out'] = $daily['rfid_studattendance']['time_out'];
 					$data[$s_key]['RfidStudattendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
-					$data[$s_key]['RfidStudattendance']['remark_name'] = $daily['remarks']['name'];
-					$data[$s_key]['RfidStudattendance']['img_path'] = $daily['images']['img_path'];
-					//$data[$s_key]['RfidStudattendance']['is_posted'] = true;
+					
 					//USE THIS IF GOT TO GET ALL DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY  "$d_key"
-					//$data[$s_key]['RfidStudattendance'][$d_key]['remarks'] = $daily['remarks']['name'];
+					//$data[$s_key]['Attendance'][$d_key]['remarks'] = $daily['remarks']['name'];
 				}
 			}
 			
-			
-			
 			if(!isset($data[$s_key]['RfidStudattendance']['id'])){
-				
-				//pr($data[$s_key]['RfidStudattendance']['id']);
 				$data[$s_key]['RfidStudattendance']['date'] = $date;
-				$data[$s_key]['RfidStudattendance']['time_in'] = null;
-				$data[$s_key]['RfidStudattendance']['time_out'] = null;
-				$data[$s_key]['RfidStudattendance']['remarks'] = 'A';
-				$data[$s_key]['RfidStudattendance']['remark_name'] = 'Absent';
-				$data[$s_key]['RfidStudattendance']['status'] = 'S';
-				$data[$s_key]['RfidStudattendance']['is_posted'] = false;
 			}
 		}
+		
+		
+		
+		
+		
 		//pr($data);
 		//exit;
 		echo json_encode($data);
@@ -628,10 +615,14 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function daily_checking_posting(){
-		pr($this->data);exit;
+		
+		
+		//pr($this->data);exit;
 		if (!empty($this->data)) {
 			$this->RfidStudattendance->create();
 			if ($this->RfidStudattendance->saveAll($this->data)) {
+				//echo debug( $this->RfidStudattendance->invalidFields() );
+				$data['data'] = $this->data;
 				$data['message'] = 'Daily attendance successfuly posted!';
 			    $data['status'] = 1;
 			    echo json_encode($data);

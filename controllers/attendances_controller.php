@@ -323,6 +323,8 @@ class AttendancesController extends AppController {
 			$i++;
 		}
 		
+		echo json_encode($this->data);exit;
+		
 		if ($this->AttendanceCopy->saveAll($this->data)) {
 			echo 'Attendance succesfully copied';
 		}else{
