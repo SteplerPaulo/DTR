@@ -39,13 +39,16 @@ App.controller('DailyCheckingController',function($scope,$rootScope,$http,$filte
 			if(!o.RfidStudattendance.remarks){
 				if(o.RfidStudattendance.time_in <= $scope.start_time){
 					$scope.students[i].RfidStudattendance.remarks='P';
+					$scope.students[i].RfidStudattendance.remark_name='Present';
 				}else if(o.RfidStudattendance.time_in > $scope.start_time){
 					$scope.students[i].RfidStudattendance.remarks='L';
+					$scope.students[i].RfidStudattendance.remark_name='Late';
 				}else{
-					$scope.students[i].RfidStudattendance.remarks='A';
+					$scope.students[i].RfidStudattendance.remark_name='Absent';
 				}
 			}
 		});	
+		console.log($scope.students);
 	}
 	
 	
