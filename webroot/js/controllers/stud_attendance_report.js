@@ -15,24 +15,22 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 		$scope.toDate = $filter("date")(Date.now(), 'yyyy-MM-dd');
 
 		
-		$http.get("/DTR/rfid_studattendances/intent_report_data").success(function(response) {
+		$http.get("/DTR/rfid_studattendances/gui_data").success(function(response) {
 			$scope.students = response.students;
 			$scope.sections = response.sections;
 			
 			$scope.perStudent = $scope.perStudentOnly = response.perStudentOnly;
 			$scope.perSection = $scope.perSectionOnly = response.perSectionOnly;
-			//console.log($scope.perSectionOnly);
-			//console.log($scope.perStudentOnly);
+			console.log($scope.perSectionOnly);
+			console.log($scope.perStudentOnly);
 			if($scope.perStudentOnly == false && $scope.perSectionOnly == false){
 				$scope.perStudent = false;
 				$scope.perSection = true;
 			}
 		
 		});
-	
-		
-		
 	}
+	
 	
 	$scope.perWhat = function(per){
 		$scope.DailyReport =  true;	
@@ -66,16 +64,12 @@ App.controller('StudentAttendanceReportController',function($scope,$rootScope,$h
 	
 	//PER SECTION INTENT TO ADJUST EVENT HANDLER 
 	$scope.perSectionDailyReportAdjustButton =  function(secId,secName,date){	
-		$.ajax({
-			url: '/DTR/rfid_studattendances/init_remarks/'+secId+'/'+secName+'/'+date,
-			dataType:'json',
-			type:'post',
-		}).done(function( response ) {
-			var get = '/DTR/admin/rfid_studattendances/per_section_adjustment/'+secId+'/'+secName+'/'+date;
-			if(secId && secName && date) {
-				return $('iframe')[0].src=get;
-			}
-		});
+
+		var get = '/DTR/admin/rfid_studattendances/per_section_adjustment/'+secId+'/'+secName+'/'+date;
+		if(secId && secName && date) {
+			return $('iframe')[0].src=get;
+		}
+		
 	}
 	
 	//PRINT ICON EVENT HANDLER

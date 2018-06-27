@@ -85,7 +85,6 @@ class RfidStudattendance extends AppModel {
 		);
 	}
 	
-	
 	public function monthly_report($sectionId,$month,$year){
 		
 		
@@ -125,7 +124,7 @@ class RfidStudattendance extends AppModel {
 		
 	}
 	
-	public function sectionStudents($sectionId){
+	function sectionStudents($sectionId){
 		return $this->query("
 				SELECT 
 					CONCAT(
@@ -154,4 +153,42 @@ class RfidStudattendance extends AppModel {
 		
 	}
 
+
+	function student_monthly_attendance($sno,$month,$year){
+		return $this->query( 
+			"SELECT 
+			  `rfid_studattendance`.`id`,
+			  `rfid_studattendance`.`student_number`,
+			  CONCAT(
+				IFNULL(`rfid_students`.`last_name`, ''),
+				', ',
+				IFNULL(
+				  `rfid_students`.`middle_name`,
+				  ''
+				),
+				' ',
+				IFNULL(
+				  `rfid_students`.`first_name`,
+				  ''
+				)
+			  ) AS full_name,
+			  `rfid_studattendance`.`date`,
+			  `status`,
+			  `remarks`,
+			  time_in,
+			  time_out,
+			  DATE_FORMAT(time_in, '%h:%i:%s %p') AS formated_timein,
+			  DATE_FORMAT(time_out, '%h:%i:%s %p') AS formated_timeout 
+			FROM
+			  rfid_studattendance 
+			  INNER JOIN `rfid_students` 
+				ON (
+				  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
+				) 
+			WHERE `rfid_studattendance`.`student_number` = '$sno' 
+			  AND MONTH(`rfid_studattendance`.`date`) = '$month' 
+			  AND YEAR(`rfid_studattendance`.`date`) = '$year' 
+			ORDER BY `date` "
+		);
+	}
 }

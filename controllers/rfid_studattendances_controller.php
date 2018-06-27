@@ -11,20 +11,6 @@ class RfidStudattendancesController extends AppController {
 		$this->Auth->allow(array('index','students','report','datetime','doc_report','daily_report','monthly_report'));	
     } 
 
-
-	function index() {
-		$this->RfidStudattendance->recursive = 0;
-		$this->set('rfidStudattendances', $this->paginate());
-	}
-
-	function view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid rfid studattendance', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('rfidStudattendance', $this->RfidStudattendance->read(null, $id));
-	}
-
 	function add() {
 		if (!empty($this->data)) {
 			$this->RfidStudattendance->create();
@@ -73,6 +59,44 @@ class RfidStudattendancesController extends AppController {
 			DIE("You don't have permission to access that page.Pls. contact school's system administrator for further details. ");
 		}
 	}
+	
+	//admin index gui data
+	function gui_data(){//Get Interface Data
+		$data = array();
+		
+		//GET STUDENTS
+		if($this->Access->check('RfidStudent','*') || $this->Access->check('RfidStudent','create','read','update','delete')){
+			$data['perStudentOnly'] = false;
+			$conditions = array('RfidStudent.type'=>1);
+		}else if($this->Access->check('RfidStudent','read')){
+			$userDtls =  $this->User->findById($this->Access->getmy('id'));
+			$conditions = array('RfidStudent.type'=>1,'RfidStudent.student_number'=>$userDtls['User']['id_number']);
+			$data['perStudentOnly'] = true;
+		}else{
+			$conditions = array('RfidStudent.type'=>3);
+			$data['perStudentOnly'] = false;
+		}
+		$data['students'] = $this->RfidStudent->find('all',array('conditions'=>$conditions));
+		
+		//GET SECTIONS
+		if($this->Access->check('Section','*') || $this->Access->check('Section','create','read','update','delete')){
+			$data['perSectionOnly'] = false;
+			$conditions = array();
+		}else if($this->Access->check('Section','read')){
+			$userDtls =  $this->User->findById($this->Access->getmy('id'));
+			$conditions = array('Section.employee_number'=>$userDtls['User']['id_number']);
+			$data['perSectionOnly'] = true;
+		}else{
+			$conditions = array();
+			$data['perSectionOnly'] = false;
+		}
+		$data['sections'] = $this->Section->find('all',array('conditions'=>$conditions));
+	
+		
+		echo json_encode($data);
+		exit;
+	}
+	
 	
 	function admin_adjust($fromDate=null,$toDate=null,$sno=null,$sname=null){
 		$this->layout='clean';
@@ -162,6 +186,7 @@ class RfidStudattendancesController extends AppController {
 		
 	}
 
+	/*
 	function doc_report($fromDate=null,$toDate=null,$sno=null,$sname=null){
 		if(!empty($fromDate) && !empty($toDate) && !empty($sno) && !empty($sname)){
 			
@@ -190,7 +215,9 @@ class RfidStudattendancesController extends AppController {
 			$this->render();
 		}
 	}
+	*/
 	
+	//PER SECTION DAILY REPORT
 	function daily_report($sectionId = null, $sectionName = null, $date = null){
 		$data = $this->RfidStudattendance->daily_report($sectionId,$date);
 		$students = $this->RfidStudattendance->sectionStudents($sectionId);
@@ -272,6 +299,7 @@ class RfidStudattendancesController extends AppController {
 		
 	}
 	
+	//PER SECTION MONTHLY REPORT
 	function monthly_report($sectionId = null, $sectionName = null, $date = null){
 		//pr($date);exit;
 		
@@ -506,44 +534,7 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	
-	function intent_report_data(){
-		$data = array();
-		
-		//GET STUDENTS
-		
-		if($this->Access->check('RfidStudent','*') || $this->Access->check('RfidStudent','create','read','update','delete')){
-			$data['perStudentOnly'] = false;
-			$conditions = array('RfidStudent.type'=>1);
-		}else if($this->Access->check('RfidStudent','read')){
-			$userDtls =  $this->User->findById($this->Access->getmy('id'));
-			$conditions = array('RfidStudent.type'=>1,'RfidStudent.student_number'=>$userDtls['User']['id_number']);
-			$data['perStudentOnly'] = true;
-		}else{
-			$conditions = array('RfidStudent.type'=>3);
-			$data['perStudentOnly'] = false;
-		}
-		
-		$data['students'] = $this->RfidStudent->find('all',array('conditions'=>$conditions));
-		
-		//GET SECTIONS
-		
-		if($this->Access->check('Section','*') || $this->Access->check('Section','create','read','update','delete')){
-			$data['perSectionOnly'] = false;
-			$conditions = array();
-		}else if($this->Access->check('Section','read')){
-			$userDtls =  $this->User->findById($this->Access->getmy('id'));
-			$conditions = array('Section.employee_number'=>$userDtls['User']['id_number']);
-			$data['perSectionOnly'] = true;
-		}else{
-			$conditions = array();
-			$data['perSectionOnly'] = false;
-		}
-		$data['sections'] = $this->Section->find('all',array('conditions'=>$conditions));
 	
-		
-		echo json_encode($data);
-		exit;
-	}
 	
 	function daily_checking(){
 		$sy = $this->SchoolYear->find('list',array('order'=>'SchoolYear.id DESC'));
@@ -636,5 +627,104 @@ class RfidStudattendancesController extends AppController {
 			}
 		}
 		
+	}
+
+	
+	//Daily
+	function adjust_section_daily_report(){
+		
+	}
+	
+	//Daily
+	function print_section_daily_report(){
+		
+		
+	}
+	
+	//Monthly
+	function print_section_monthly_report(){
+		
+	}
+	
+	//Monthly
+	function print_section_deped_report(){
+		
+	}
+	
+	//Monthly
+	function adjust_student_monthly_attendance(){
+		
+	}
+	
+	//Monthly
+	function print_student_monthly_attendance(){
+		
+	}
+
+	
+	
+	function sections(){
+		$data = $this->Section->find('all',array('order'=>'Section.name'));
+		echo json_encode($data);
+		exit;
+	}
+	
+	function student_list(){
+		$students = $this->RfidStudent->find('all');
+		
+		
+		$data = array();
+		foreach($students as $student){
+			$obj = array(
+				//'id'=>$student['RfidStudent']['id'],
+				'student_number'=>$student['RfidStudent']['student_number'],
+				'name'=>$student['RfidStudent']['last_name'].', '.$student['RfidStudent']['first_name'].' '.$student['RfidStudent']['middle_name'],
+			);
+			array_push($data,$obj);
+		}
+		
+
+		echo json_encode($data);
+		exit;
+	}
+	
+	function stud_report($sno=null,$sname=null,$date=null){
+		
+		if(!empty($sno) && !empty($sname) && !empty($date)){
+		
+			$month = date("m",strtotime($date));
+			$year = date("Y",strtotime($date));
+			$max_day = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
+			
+			$attendance = $this->RfidStudattendance->student_monthly_attendance($sno,$month,$year);
+			
+			$i=0;
+			$data = array();
+			for($day=1;$day<=$max_day;$day++){
+				
+				$data[$i]['date'] = date("Y-m-d", mktime(0,0,0,$month,$day,$year));
+				
+				foreach($attendance as $at){
+					if($data[$i]['date'] == $at['rfid_studattendance']['date']){
+						$data[$i]['data'] = $at;
+					}
+				}
+				$i++;
+			}
+			
+			
+			$hdr['sname'] = $sname;
+			$hdr['sno'] = $sno;
+			$hdr['date'] = $date;
+			$this->set(compact('data','hdr'));
+			$this->layout='pdf';
+			$this->render();
+		}else{
+			$data = array();
+			$hdr = array();
+			$this->set(compact('data','hdr'));
+			$this->layout='pdf';
+			$this->render();
+		}
 	}
 }
