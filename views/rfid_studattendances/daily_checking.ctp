@@ -7,7 +7,7 @@ table .active,.thumbnail .active{
 <div ng-controller="DailyCheckingController" ng-init="initializeController()">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<span class="panel-title">Daily RfidStudattendance</span>
+			<span class="panel-title">Daily Attendance</span>
 			<button class="btn btn-default pull-right">
 				<i class="fa fa-user-secret" aria-hidden="true" title="Login as subtitute adviser"></i>
 			</button>
