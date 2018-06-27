@@ -129,11 +129,7 @@
 		<div class=" col-lg-7">
 			<iframe src="/DTR/attendances/doc_report"  width="750" height="600"></iframe>
 		</div>
-	
 	</section>
-	
-	
-
 </div>
 
 <?php echo $this->Html->script('controllers/stud_attendance_report',array('inline'=>false)); ?>
