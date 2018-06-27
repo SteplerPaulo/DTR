@@ -85,10 +85,10 @@ App.controller('DailyCheckingController',function($scope,$rootScope,$http,$filte
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).then(function(response) {
 			console.log(response);
-			if(response.status){
-				//$scope.initializeController();
+			if(response.data.status){
+				$scope.initializeController();
 			}
-			//alert(response.message);
+			alert(response.data.message);
 		});
 		
 		
