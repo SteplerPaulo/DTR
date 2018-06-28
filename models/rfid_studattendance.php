@@ -5,40 +5,6 @@ class RfidStudattendance extends AppModel {
 	var $useTable = 'rfid_studattendance';	
 	
 	
-	public function per_student($from,$to,$sno,$gatekeeper_db){
-		//pr($from);exit;
-		
-		return $this->query( 
-			"SELECT 
-				 `rfid_studattendance`.`id`,
-				 `rfid_studattendance`.`student_number`,
-				  CONCAT(
-					IFNULL(`rfid_students`.`last_name`,''),
-					', ',
-					IFNULL(`rfid_students`.`middle_name`,''),
-					' ',
-					IFNULL(`rfid_students`.`first_name`,'')
-					) AS full_name,
-				 `rfid_studattendance`.`date`,
-				 `status`,
-				 `remarks`,
-				 time_in,
-				 time_out,
-				 DATE_FORMAT(time_in, '%h:%i:%s %p') AS formated_timein,
-				 DATE_FORMAT(time_out, '%h:%i:%s %p') AS formated_timeout
-				FROM
-				  rfid_studattendance 
-				  INNER JOIN `$gatekeeper_db`.`rfid_students` 
-					ON (
-					  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
-					) 
-				WHERE `rfid_studattendance`.`student_number` = '$sno'
-					AND `date` >= '$from' 
-					AND `date` <= '$to' 
-				ORDER BY `date`"
-		);
-	}
-	
 	public function daily_report($sectionId,$date){
 		return $this->query( 
 			"SELECT 
@@ -152,7 +118,6 @@ class RfidStudattendance extends AppModel {
 			");
 		
 	}
-
 
 	function student_monthly_attendance($sno,$month,$year){
 		return $this->query( 
