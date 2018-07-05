@@ -98,8 +98,20 @@
 						<a href="javascript:void(0)" data-toggle="collapse" data-target="#ReportLinks"><i class="fa fa-file-pdf-o fa-fw "></i> Reports <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="ReportLinks" class="collapse">
 							<li>
-								<?php echo $this->Html->link("<i class='fa fa-file-text-o'></i> Student Attendance Report",
-											array('admin' => true,'controller'=>'rfid_studattendances','action'=>'index'),
+								<?php echo $this->Html->link("<i class='fa fa-calendar-check-o' aria-hidden='true'></i> Section Daily Report",
+											array('admin' => false,'controller'=>'rfid_studattendances','action'=>'section_daily_report'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-calendar' aria-hidden='true'></i> Section Monthly Report",
+											array('admin' => false,'controller'=>'rfid_studattendances','action'=>'section_monthly_report'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-calendar-o' aria-hidden='true'></i> Student's Monthly Attendance Report",
+											array('admin' => false,'controller'=>'rfid_studattendances','action'=>'student_monthly_attendance'),
 											array('escape'=>false )
 										);?>
 							</li>
