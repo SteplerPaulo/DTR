@@ -19,51 +19,51 @@
 							<button ng-click="edit()" class="btn btn-default" title="Adjust Student Attendance">Edit</button>
 						</div>
 					</div><br/>
-					
+					<!--
 					<div class="row">
 						<div class="col-lg-12">
-							
-								<table class="table table-bordered">
-									<thead>
-										<tr>
-											<th class="text-center">Date</th>
-											<th class="text-center">Day</th>
-											<th class="text-center">In</th>
-											<th class="text-center">Out</th>
-											<th class="text-center">Remarks</th>
-											<th class="text-center">Actions</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr ng-repeat="(index,d) in data | filter:q">
-											<td class="text-center">{{d.date |  date:"MMM. dd"}}</td>
-											<td class="text-center">{{d.date |  date:"EEE"}}</td>
-											<td class="text-center w20">
-												<span ng-if="!editable || index != editableIndex">{{data[index].data[0].formated_timein | date:"HH:mm:ss a"}}</span>
-												<input ng-change="changeTime(index)" ng-if="editable && index == editableIndex" type="time" class="form-control input-sm" ng-model="data[index].data.rfid_studattendance.time_in"></input>
-											</td>
-											<td class="text-center w20">
-												<span ng-if="!editable || index != editableIndex">{{data[index].data[0].formated_timeout | date:"HH:mm:ss a"}}</span>
-												<input ng-change="changeTime(index)" ng-if="editable && index == editableIndex" type="time" class="form-control input-sm" ng-model="data[index].data.rfid_studattendance.time_out"></input>
-												
-											</td>
-											<td class="text-center">{{d.data.rfid_studattendance.remarks}}</td>
-											<td class="text-center">
-												<a ng-if="d.data" ng-click="editAttendance(index)" title="Edit"><i class="fa fa-edit"></i></a>		
-												<a ng-if="d.data" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								
-								
+						
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th class="text-center">Date</th>
+										<th class="text-center">Day</th>
+										<th class="text-center">In</th>
+										<th class="text-center">Out</th>
+										<th class="text-center">Remarks</th>
+										<th class="text-center">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="(index,d) in data | filter:q">
+										<td class="text-center">{{d.date |  date:"MMM. dd"}}</td>
+										<td class="text-center">{{d.date |  date:"EEE"}}</td>
+										<td class="text-center w20">
+											<span ng-if="!editable || index != editableIndex">{{data[index].data[0].formated_timein | date:"HH:mm:ss a"}}</span>
+											<input ng-change="changeTime(index)" ng-if="editable && index == editableIndex" type="time" class="form-control input-sm" ng-model="data[index].data.rfid_studattendance.time_in"></input>
+										</td>
+										<td class="text-center w20">
+											<span ng-if="!editable || index != editableIndex">{{data[index].data[0].formated_timeout | date:"HH:mm:ss a"}}</span>
+											<input ng-change="changeTime(index)" ng-if="editable && index == editableIndex" type="time" class="form-control input-sm" ng-model="data[index].data.rfid_studattendance.time_out"></input>
+										</td>
+										<td class="text-center">{{d.data.rfid_studattendance.remarks}}</td>
+										<td class="text-center">
+											<a ng-if="d.data" ng-click="editAttendance(index)" title="Edit"><i class="fa fa-edit"></i></a>		
+											<a ng-if="d.data" title="Delete" confirmed-click="Delete(d)" ng-confirm-click="Are you sure you want to delete this record?"><i disabled="disabled" class="fa fa-trash"></i></a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 							
 							
-							
+						
+						
+						
 							
 							
 						</div>
 					</div>
+					-->
 					
 				</div>
 				<div class="panel-footer text-right">
