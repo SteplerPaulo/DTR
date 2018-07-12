@@ -1,35 +1,30 @@
-App.controller('DailyCheckingController',function($scope,$rootScope,$http,$filter){
+App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 	
 	$scope.initializeController = function(){
 		$scope.students = [];
 		$scope.th =  true;
 		$scope.list =  false;
-		$scope.filters = {'1':'Present','2':'Late','3':'Absent'};
 		$scope.date =  $filter("date")(Date.now(), 'yyyy-MM-dd');
+		$scope.start_time = '06:45:00';
+		$scope.late = 'Late';
+		$scope.absent = 'Absent';
 		
 		
-		$http.get("/DTR/rfid_studattendances/daily_checking_init_data").success(function(sections) {
-			$scope.sections = sections;
+		$http.get("/DTR/rfid_studattendances/sps_init_data").success(function(levels) {
+			$scope.levels = levels;
 		});
 	}
 	
-	$scope.getData = function(section,date){
-		//section = '15';
-		//date = '2018-03-16';
+	$scope.getData = function(level,date){
+		//level = '7';
+		date = '2018-03-16';
 		
-		$http.get("/DTR/rfid_studattendances/daily_checking_data/"+section+'/'+date).success(function(result) {
-			
+		$http.get("/DTR/rfid_studattendances/sps_data/"+level+'/'+date).success(function(result) {
 			if(result){
 				$scope.students = result;
-				$http.get("/DTR/rfid_studattendances/get_section_sched/"+section).success(function(response) {
-					console.log(response);
-					if(response){
-						$scope.start_time = response.Schedule.start_time;
-						$scope.updateRemarks();
-					}
-				});
+				$scope.updateRemarks();
 			}
-			
+					
 		});
 	}
 	
