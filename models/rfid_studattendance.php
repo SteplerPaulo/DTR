@@ -156,4 +156,104 @@ class RfidStudattendance extends AppModel {
 			ORDER BY `date` "
 		);
 	}
+	
+	function sps_data($level,$date){
+		 return $this->query( 
+			 "SELECT 
+				  `rfid_students`.`level_id`,
+				  `levels`.`name`,
+				  `rfid_students`.`section_id`,
+				  `sections`.`name`,
+				  CONCAT(
+					IFNULL(
+					  `rfid_students`.`first_name`,
+					  ''
+					),
+					', ',
+					IFNULL(
+					  `rfid_students`.`middle_name`,
+					  ''
+					),
+					' ',
+					IFNULL(`rfid_students`.`last_name`, '')
+				  ) AS full_name,
+				  `rfid_students`.`student_number`,
+				  `rfid_studattendance`.`id`,
+				  `rfid_studattendance`.`date`,
+				  `rfid_studattendance`.`time_in`,
+				  `rfid_studattendance`.`time_out`,
+				  `rfid_studattendance`.`remarks`,
+				  `remarks`.`name`,
+				  `images`.`img_path` 
+				FROM
+				  `rfid_students` 
+				  INNER JOIN `levels` 
+					ON (
+					  `rfid_students`.`level_id` = `levels`.`id`
+					) 
+				  INNER JOIN `sections` 
+					ON (
+					  `rfid_students`.`section_id` = `sections`.`id`
+					) 
+				  LEFT JOIN `rfid_studattendance` 
+					ON (
+					  `rfid_students`.`student_number` = `rfid_studattendance`.`student_number`
+					) 
+				  LEFT JOIN `remarks` 
+					ON (
+					  `rfid_studattendance`.`remarks` = `remarks`.`alias`
+					) 
+				  LEFT JOIN `images` 
+					ON (
+					  `images`.`source_rfid` = `rfid_students`.`source_rfid`
+					) 
+				WHERE (
+					`rfid_students`.`level_id` = '$level' 
+					AND `rfid_studattendance`.`date` = '$date'
+				  )
+				  ORDER BY `sections`.`name`, full_name"
+			); 
+	 }
+	 
+	function levelStudents($level){
+		return $this->query("
+				SELECT 
+				  CONCAT(
+					IFNULL(`rfid_students`.`last_name`, ''),
+					', ',
+					IFNULL(
+					  `rfid_students`.`first_name`,
+					  ''
+					),
+					' ',
+					IFNULL(
+					  `rfid_students`.`middle_name`,
+					  ''
+					)
+				  ) AS full_name,
+				  `rfid_students`.`student_number`,
+				  `rfid_students`.`dec_rfid`,
+				  `rfid_students`.`gender`,
+				  `images`.`img_path`,
+				  `sections`.`id`,
+				  `sections`.`name` 
+				FROM
+				  rfid_students 
+				  LEFT JOIN `images` 
+					ON (
+					  `images`.`source_rfid` = `rfid_students`.`source_rfid`
+					) 
+				  LEFT JOIN `sections` 
+					ON (
+					  `sections`.`id` = `rfid_students`.`section_id`
+					) 
+				WHERE `rfid_students`.level_id = '$level' 
+				  AND `rfid_students`.`type` = '1' 
+				ORDER BY `rfid_students`.`last_name`,
+				  `rfid_students`.`first_name`,
+				  `rfid_students`.`middle_name`  
+				");
+		
+	}
+
 }

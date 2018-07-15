@@ -14,10 +14,10 @@
 						<div class="col-lg-4">
 							<label>Date</label>
 							<input ng-change="filterDate()" type="month" class="form-control input-sm" ng-model="date" max="<?php echo date('Y-m')?>">
-						</div>
+						</div><!--
 						<div class="col-lg-2">
 							<button ng-click="edit()" class="btn btn-default" title="Adjust Student Attendance">Edit</button>
-						</div>
+						</div>-->
 					</div><br/>
 					<!--
 					<div class="row">

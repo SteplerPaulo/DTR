@@ -3,7 +3,7 @@ class RfidStudattendancesController extends AppController {
 
 	var $name = 'RfidStudattendances';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule','User','Section','SchoolYear');
+	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule','User','Section','SchoolYear','Level');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
@@ -233,7 +233,6 @@ class RfidStudattendancesController extends AppController {
 	/****DAILY CHECKING****/
 	function daily_checking(){
 		$sy = $this->SchoolYear->find('list',array('order'=>'SchoolYear.id DESC'));
-		
 		$this->set(compact('sy'));
 	}
 	
@@ -406,6 +405,66 @@ class RfidStudattendancesController extends AppController {
 	}
 	//END
 	
+	//SPS SMS SENDING
+	function sps_sms_sending(){
+		
+	}
 	
+	function sps_init_data(){
+		$data = $this->Level->find('all',array('order'=>'Level.index_order'));
+		echo json_encode($data);
+		exit;
+	}
+	
+	function sps_data($levelId = null, $date =  null){
+		$sps_report = $data['DailyReport'] = $this->RfidStudattendance->sps_data($levelId,$date);
+		
+		$students = $data['Students'] = $this->RfidStudattendance->levelStudents($levelId);
+		//pr($students);exit;
+		//pr($sps_report);exit;
+		
+		
+		$data = array(); $i=0;
+		foreach($students as $s_key => $student){
+			$data[$s_key]['RfidStudattendance']['student_number'] = $student['rfid_students']['student_number'];
+			$data[$s_key]['RfidStudattendance']['student_name'] = strToUpper($student[0]['full_name']);
+			$data[$s_key]['RfidStudattendance']['rfid'] = $student['rfid_students']['dec_rfid'];
+			$data[$s_key]['RfidStudattendance']['img_path'] = $student['images']['img_path'];
+			$data[$s_key]['RfidStudattendance']['section'] = $student['sections']['name'];
+			
+			foreach($sps_report as $d_key => $daily){
+				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
+				
+					//echo $i++.'. '.$daily['rfid_students']['student_number'].' = '.$student['rfid_students']['student_number'].'<br/>';
+					
+					//REMINDER: GET LAST DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY
+					$data[$s_key]['RfidStudattendance']['id'] = $daily['rfid_studattendance']['id'];
+					$data[$s_key]['RfidStudattendance']['date'] = $daily['rfid_studattendance']['date'];
+					$data[$s_key]['RfidStudattendance']['time_in'] = $daily['rfid_studattendance']['time_in'];
+					$data[$s_key]['RfidStudattendance']['time_out'] = $daily['rfid_studattendance']['time_out'];
+					$data[$s_key]['RfidStudattendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
+					$data[$s_key]['RfidStudattendance']['remark_name'] = $daily['remarks']['name'];
+					
+					//USE THIS IF GOT TO GET ALL DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY  "$d_key"
+					//$data[$s_key]['Attendance'][$d_key]['remarks'] = $daily['remarks']['name'];
+				}
+			}
+			
+			if(!isset($data[$s_key]['RfidStudattendance']['id'])){
+				$data[$s_key]['RfidStudattendance']['date'] = $date;
+			}
+		}
+		
+		
+		
+		
+		
+		//pr($data);
+		//exit;
+		echo json_encode($data);
+		exit;
+		
+		
+	}
 	
 }
