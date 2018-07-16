@@ -43,21 +43,12 @@ table .active,.thumbnail .active{
 				<div class="col-lg-12">
 					<table class="table table-striped table-bordered table-condensed">
 						<tbody>
-							<tr ng-repeat="(k,d) in students | filter:q">
-								<td class="w3">{{k+1}}.</td>
+							<tr ng-repeat="(k,d) in students" ng-if="d.RfidStudattendance.remarks=='A' || d.RfidStudattendance.remarks=='L'">
 								<td>{{d.RfidStudattendance.student_name}}</td>
+								<td>{{d.RfidStudattendance.section}}</td>
+								<td class="text-center">{{d.RfidStudattendance.remark_name}}</td>
 								<td ng-if="d.RfidStudattendance.time_in" class="text-center">{{d.RfidStudattendance.time_in}}</td>
 								<td ng-if="!d.RfidStudattendance.time_in" style="color:red" class="text-center">No Time In</td>
-								<td class="text-right" ng-if="!d.RfidStudattendance.is_posted">
-									<div class="btn-group-vertical">
-										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks=='P'?'active':''" ng-click="remark(k,'P','Present')">Present</button>
-										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks=='L'?'active':''" ng-click="remark(k,'L','Late')">Late</button>
-										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks=='A'?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
-									</div>
-								</td>
-								<td class="text-right" ng-if="d.RfidStudattendance.is_posted">
-									<span class="label" ng-class="d.RfidStudattendance.remarks == 'P' ? 'label-success' : (d.RfidStudattendance.remarks == 'L' ? 'label-success' : 'label-danger')">{{d.RfidStudattendance.remark_name}}</span>
-								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -66,18 +57,11 @@ table .active,.thumbnail .active{
 			<section class="row" ng-if="th">
 				<div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="(k,d) in students" ng-if="d.RfidStudattendance.remarks=='A' || d.RfidStudattendance.remarks=='L'">
 					<div class="thumbnail">
-						
-						<input type="checkbox" ng-model="send">
-					
 						<img ng-if="!d.RfidStudattendance.img_path"  src="http://placehold.it/300x300" alt="...">
 						<img ng-if="d.RfidStudattendance.img_path" src="../img/fortagging/{{d.RfidStudattendance.img_path}}" alt="...">
 						<div class="caption" style="height:110px">
-							<h6 style="padding-bottom:2px">{{d.RfidStudattendance.student_name}}</h6>
-							
-
-							<h6>Remarks:
-								<strong>{{d.RfidStudattendance.remark_name}}</strong>
-							</h6>
+							<h6>{{d.RfidStudattendance.student_name}}</h6>
+							<h6>{{d.RfidStudattendance.section}} | {{d.RfidStudattendance.remark_name}}</h6>
 							<h6>Time In: 
 								<strong ng-if="d.RfidStudattendance.time_in">{{d.RfidStudattendance.time_in}}</strong>
 								<strong ng-if="!d.RfidStudattendance.time_in" style="color:red">No Time In</strong>
@@ -88,7 +72,7 @@ table .active,.thumbnail .active{
 			</section>
 		</div>
 		<div class="panel-footer text-right">
-			<button type="button" class="btn btn-sm btn-primary" ng-click="post()">Post</button>
+			<button type="button" class="btn btn-sm btn-primary" ng-click="send()">Send SMS</button>
 		</div>
 	</div>
 </div>

@@ -9,7 +9,6 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 		$scope.late = 'Late';
 		$scope.absent = 'Absent';
 		
-		
 		$http.get("/DTR/rfid_studattendances/sps_init_data").success(function(levels) {
 			$scope.levels = levels;
 		});
@@ -18,20 +17,17 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 	$scope.getData = function(level,date){
 		//level = '7';
 		date = '2018-03-16';
-		
 		$http.get("/DTR/rfid_studattendances/sps_data/"+level+'/'+date).success(function(result) {
 			if(result){
 				$scope.students = result;
 				$scope.updateRemarks();
-			}
-					
+			}	
 		});
 	}
 	
-	
 	$scope.updateRemarks = function(){
 		$.each($scope.students, function(i,o) {
-			if(!o.RfidStudattendance.remarks){
+			//if(!o.RfidStudattendance.is_posted){
 				if(o.RfidStudattendance.time_in <= $scope.start_time){
 					$scope.students[i].RfidStudattendance.remarks='P';
 					$scope.students[i].RfidStudattendance.remark_name='Present';
@@ -42,12 +38,12 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 					$scope.students[i].RfidStudattendance.remarks='A';
 					$scope.students[i].RfidStudattendance.remark_name='Absent';
 				}
-			}
+				$scope.students[i].RfidStudattendance.is_posted = 1;
+			//}
+			
 		});	
 		console.log($scope.students);
 	}
-	
-	
 	
 	$scope.viewStyle = function(viewStyle){
 		if(viewStyle == 'th'){
@@ -55,39 +51,28 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 			$scope.list =  false;
 			return;
 		}
-		
 		$scope.th =  false;
 		$scope.list =  true;
 	}
 	
-	//CHANGE STUDENT ATTENDANCE REMARK
-	$scope.remark = function(i,rem,rem_name){
-		$scope.students[i].RfidStudattendance.remarks = rem;
-		$scope.students[i].RfidStudattendance.status = 'Edited';
-		console.log($scope.students[i]);
-	}
-	
-	//POST BUTTON
-	$scope.post = function () {
+	//SEND BUTTON
+	$scope.send = function () {
 		var data = JSON.parse(angular.toJson($scope.students))
-		//console.log(data);
+		console.log(data);
 		//return;
-		
 		
 		$http({
 			method: 'POST',
-			url: '/DTR/rfid_studattendances/daily_checking_posting',
+			url: '/DTR/rfid_studattendances/sps_sms_posting',
 			data: $.param({data:data}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).then(function(response) {
 			console.log(response);
 			if(response.data.status){
-				$scope.initializeController();
+			//	$scope.initializeController();
 			}
-			alert(response.data.message);
+			//alert(response.data.message);
 		});
-		
-		
 	};
 
 	

@@ -269,18 +269,22 @@ class RfidStudattendancesController extends AppController {
 			foreach($daily_report as $d_key => $daily){
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
 				
-					//echo $i++.'. '.$daily['rfid_students']['student_number'].' = '.$student['rfid_students']['student_number'].'<br/>';
-					
 					//REMINDER: GET LAST DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY
 					$data[$s_key]['RfidStudattendance']['id'] = $daily['rfid_studattendance']['id'];
 					$data[$s_key]['RfidStudattendance']['date'] = $daily['rfid_studattendance']['date'];
-					$data[$s_key]['RfidStudattendance']['time_in'] = $daily['rfid_studattendance']['time_in'];
-					$data[$s_key]['RfidStudattendance']['time_out'] = $daily['rfid_studattendance']['time_out'];
+					
+					if($daily['rfid_studattendance']['time_in']){//AVOID SAVING 00:00:00 On DB
+						$data[$s_key]['RfidStudattendance']['time_in'] = $daily['rfid_studattendance']['time_in'];
+					}
+					if($daily['rfid_studattendance']['time_out']){//AVOID SAVING 00:00:00 On DB
+						$data[$s_key]['RfidStudattendance']['time_out'] = $daily['rfid_studattendance']['time_out'];
+					}
+					
 					$data[$s_key]['RfidStudattendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
 					$data[$s_key]['RfidStudattendance']['remark_name'] = $daily['remarks']['name'];
 					
 					//USE THIS IF GOT TO GET ALL DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY  "$d_key"
-					//$data[$s_key]['Attendance'][$d_key]['remarks'] = $daily['remarks']['name'];
+					//$data[$s_key]['RfidStudattendance'][$d_key]['remarks'] = $daily['remarks']['name'];
 				}
 			}
 			
@@ -288,10 +292,6 @@ class RfidStudattendancesController extends AppController {
 				$data[$s_key]['RfidStudattendance']['date'] = $date;
 			}
 		}
-		
-		
-		
-		
 		
 		//pr($data);
 		//exit;
@@ -440,11 +440,16 @@ class RfidStudattendancesController extends AppController {
 					//REMINDER: GET LAST DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY
 					$data[$s_key]['RfidStudattendance']['id'] = $daily['rfid_studattendance']['id'];
 					$data[$s_key]['RfidStudattendance']['date'] = $daily['rfid_studattendance']['date'];
-					$data[$s_key]['RfidStudattendance']['time_in'] = $daily['rfid_studattendance']['time_in'];
-					$data[$s_key]['RfidStudattendance']['time_out'] = $daily['rfid_studattendance']['time_out'];
 					$data[$s_key]['RfidStudattendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
 					$data[$s_key]['RfidStudattendance']['remark_name'] = $daily['remarks']['name'];
 					
+					if($daily['rfid_studattendance']['time_in']){//AVOID SAVING 00:00:00 On DB
+						$data[$s_key]['RfidStudattendance']['time_in'] = $daily['rfid_studattendance']['time_in'];
+					}
+					if($daily['rfid_studattendance']['time_out']){//AVOID SAVING 00:00:00 On DB
+						$data[$s_key]['RfidStudattendance']['time_out'] = $daily['rfid_studattendance']['time_out'];
+					}
+				
 					//USE THIS IF GOT TO GET ALL DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY  "$d_key"
 					//$data[$s_key]['Attendance'][$d_key]['remarks'] = $daily['remarks']['name'];
 				}
@@ -454,17 +459,32 @@ class RfidStudattendancesController extends AppController {
 				$data[$s_key]['RfidStudattendance']['date'] = $date;
 			}
 		}
-		
-		
-		
-		
-		
-		//pr($data);
-		//exit;
 		echo json_encode($data);
 		exit;
 		
 		
 	}
 	
+	function sps_sms_posting(){
+		//pr($this->data);
+		//exit;
+		
+		if (!empty($this->data)) {
+			$this->RfidStudattendance->create();
+			if ($this->RfidStudattendance->saveAll($this->data)) {
+				//echo debug( $this->RfidStudattendance->invalidFields() );
+				$data['data'] = $this->data;
+				$data['message'] = 'Message Sent!';
+			    $data['status'] = 1;
+			    echo json_encode($data);
+			    exit;
+			} else {
+			    $data['message'] = 'Error on sending sms. Pls. contact your system administrator.';
+			    $data['status'] = 0; 
+			    echo json_encode($data);
+			    exit;
+			}
+		}
+		
+	}
 }

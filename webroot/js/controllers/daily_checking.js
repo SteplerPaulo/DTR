@@ -36,7 +36,7 @@ App.controller('DailyCheckingController',function($scope,$rootScope,$http,$filte
 	
 	$scope.updateRemarks = function(){
 		$.each($scope.students, function(i,o) {
-			if(!o.RfidStudattendance.remarks){
+			if(!o.RfidStudattendance.is_posted){
 				if(o.RfidStudattendance.time_in <= $scope.start_time){
 					$scope.students[i].RfidStudattendance.remarks='P';
 					$scope.students[i].RfidStudattendance.remark_name='Present';
