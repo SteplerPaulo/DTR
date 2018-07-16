@@ -26,8 +26,10 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 	}
 	
 	$scope.updateRemarks = function(){
+		console.log($scope.students);
 		$.each($scope.students, function(i,o) {
-			//if(!o.RfidStudattendance.is_posted){
+			if(!o.RfidStudattendance.is_posted){
+				//console.log(o.RfidStudattendance.is_posted);
 				if(o.RfidStudattendance.time_in <= $scope.start_time){
 					$scope.students[i].RfidStudattendance.remarks='P';
 					$scope.students[i].RfidStudattendance.remark_name='Present';
@@ -38,11 +40,10 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 					$scope.students[i].RfidStudattendance.remarks='A';
 					$scope.students[i].RfidStudattendance.remark_name='Absent';
 				}
-				$scope.students[i].RfidStudattendance.is_posted = 1;
-			//}
+			}
 			
 		});	
-		console.log($scope.students);
+		
 	}
 	
 	$scope.viewStyle = function(viewStyle){
@@ -71,7 +72,7 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 			if(response.data.status){
 			//	$scope.initializeController();
 			}
-			//alert(response.data.message);
+			alert(response.data.message);
 		});
 	};
 

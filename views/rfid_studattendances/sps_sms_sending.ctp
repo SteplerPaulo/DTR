@@ -49,19 +49,22 @@ table .active,.thumbnail .active{
 								<td class="text-center">{{d.RfidStudattendance.remark_name}}</td>
 								<td ng-if="d.RfidStudattendance.time_in" class="text-center">{{d.RfidStudattendance.time_in}}</td>
 								<td ng-if="!d.RfidStudattendance.time_in" style="color:red" class="text-center">No Time In</td>
+								<td class="text-center">
+									<span style="color:red" ng-if="d.RfidStudattendance.is_posted">Posted</span>
+								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</section>
 			<section class="row" ng-if="th">
-				<div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="(k,d) in students" ng-if="d.RfidStudattendance.remarks=='A' || d.RfidStudattendance.remarks=='L'">
+				<div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="(k,d) in students" ng-if="(d.RfidStudattendance.remarks=='A' || d.RfidStudattendance.remarks=='L')">
 					<div class="thumbnail">
 						<img ng-if="!d.RfidStudattendance.img_path"  src="http://placehold.it/300x300" alt="...">
 						<img ng-if="d.RfidStudattendance.img_path" src="../img/fortagging/{{d.RfidStudattendance.img_path}}" alt="...">
 						<div class="caption" style="height:110px">
 							<h6>{{d.RfidStudattendance.student_name}}</h6>
-							<h6>{{d.RfidStudattendance.section}} | {{d.RfidStudattendance.remark_name}}</h6>
+							<h6>{{d.RfidStudattendance.section}} | {{d.RfidStudattendance.remark_name}} <span style="color:red" ng-if="d.RfidStudattendance.is_posted">| Posted</span></h6>
 							<h6>Time In: 
 								<strong ng-if="d.RfidStudattendance.time_in">{{d.RfidStudattendance.time_in}}</strong>
 								<strong ng-if="!d.RfidStudattendance.time_in" style="color:red">No Time In</strong>

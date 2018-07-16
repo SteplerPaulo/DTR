@@ -182,6 +182,7 @@ class RfidStudattendance extends AppModel {
 				  `rfid_studattendance`.`date`,
 				  `rfid_studattendance`.`time_in`,
 				  `rfid_studattendance`.`time_out`,
+				  `rfid_studattendance`.`is_posted`,
 				  `rfid_studattendance`.`remarks`,
 				  `remarks`.`name`,
 				  `images`.`img_path` 
@@ -234,6 +235,7 @@ class RfidStudattendance extends AppModel {
 				  `rfid_students`.`student_number`,
 				  `rfid_students`.`dec_rfid`,
 				  `rfid_students`.`gender`,
+				  `rfid_students`.`guardian_mobile_no`,
 				  `images`.`img_path`,
 				  `sections`.`id`,
 				  `sections`.`name` 

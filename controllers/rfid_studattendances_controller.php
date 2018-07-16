@@ -3,7 +3,7 @@ class RfidStudattendancesController extends AppController {
 
 	var $name = 'RfidStudattendances';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule','User','Section','SchoolYear','Level');
+	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule','User','Section','SchoolYear','Level','MessageOut');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
@@ -431,6 +431,7 @@ class RfidStudattendancesController extends AppController {
 			$data[$s_key]['RfidStudattendance']['rfid'] = $student['rfid_students']['dec_rfid'];
 			$data[$s_key]['RfidStudattendance']['img_path'] = $student['images']['img_path'];
 			$data[$s_key]['RfidStudattendance']['section'] = $student['sections']['name'];
+			$data[$s_key]['RfidStudattendance']['guardian_mobile_no'] = $student['rfid_students']['guardian_mobile_no'];
 			
 			foreach($sps_report as $d_key => $daily){
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
@@ -453,10 +454,13 @@ class RfidStudattendancesController extends AppController {
 					//USE THIS IF GOT TO GET ALL DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY  "$d_key"
 					//$data[$s_key]['Attendance'][$d_key]['remarks'] = $daily['remarks']['name'];
 				}
+				$data[$s_key]['RfidStudattendance']['is_posted'] = $daily['rfid_studattendance']['is_posted'];
+			
 			}
 			
 			if(!isset($data[$s_key]['RfidStudattendance']['id'])){
 				$data[$s_key]['RfidStudattendance']['date'] = $date;
+				$data[$s_key]['RfidStudattendance']['is_posted'] = null;
 			}
 		}
 		echo json_encode($data);
@@ -469,17 +473,44 @@ class RfidStudattendancesController extends AppController {
 		//pr($this->data);
 		//exit;
 		
+		//CREATE MESSAGE OUT DATA
+		$msgout =  array(); $i = 0;
+		foreach($this->data as $k=>$d){
+			if($d['RfidStudattendance']['remarks'] == "A"){
+				$msgout[$i]['MessageOut']['MessageTo']= '+639175683891';//$d['RfidStudattendance']['guardian_mobile_no'];
+				$msgout[$i]['MessageOut']['MessageFrom']= '+09175686999';
+				$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - Absent';
+				$msgout[$i]['MessageOut']['Gateway']= 'Globe';
+				$msgout[$i]['MessageOut']['Port']= 19;
+				$i++;
+			}else if($d['RfidStudattendance']['remarks'] == "L"){
+				$msgout[$i]['MessageOut']['MessageTo']= '+639175683891';//$d['RfidStudattendance']['guardian_mobile_no'];
+				$msgout[$i]['MessageOut']['MessageFrom']= '+09175686999';
+				$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - Late';
+				$msgout[$i]['MessageOut']['Gateway']= 'Globe';
+				$msgout[$i]['MessageOut']['Port']= 19;
+				$i++;
+			}
+			$this->data[$k]['RfidStudattendance']['is_posted'] = true;//update is_posted field
+		}
+		
 		if (!empty($this->data)) {
 			$this->RfidStudattendance->create();
 			if ($this->RfidStudattendance->saveAll($this->data)) {
-				//echo debug( $this->RfidStudattendance->invalidFields() );
-				$data['data'] = $this->data;
-				$data['message'] = 'Message Sent!';
-			    $data['status'] = 1;
-			    echo json_encode($data);
-			    exit;
+				$this->MessageOut->create();
+				if($this->MessageOut->saveAll($msgout)){
+					$data['message'] = 'Message Sent!';
+					$data['status'] = 1;
+					echo json_encode($data);
+					exit;
+				}else{
+					$data['message'] = 'Failed sending SMS . Pls. contact your system administrator.';
+					$data['status'] = 0; 
+					echo json_encode($data);
+					exit;
+				}
 			} else {
-			    $data['message'] = 'Error on sending sms. Pls. contact your system administrator.';
+			    $data['message'] = 'Saving DB Error . Pls. contact your system administrator.';
 			    $data['status'] = 0; 
 			    echo json_encode($data);
 			    exit;
