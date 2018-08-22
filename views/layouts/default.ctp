@@ -89,6 +89,12 @@
 								);?>
 					</li>
 					<li>
+						<?php echo $this->Html->link("<i class='fa fa-send fa-fw'></i> SPS SMS Sending",
+									array('admin' => false,'controller'=>'rfid_studattendances','action'=>'sps_sms_sending'),
+									array('escape'=>false )
+								);?>
+					</li>
+					<li>
 						<?php echo $this->Html->link('<i class="fa fa-clock-o fa-fw"></i> Employee Daily Time Record',
 									array('admin' => false,'controller'=>'attendances','action'=>'/'),
 									array('escape'=>false )
@@ -161,6 +167,12 @@
 							<li>
 								<?php echo $this->Html->link("<i class='fa fa-calendar fa-fw'></i> Sections Schedule",
 											array('admin' => false,'controller'=>'schedules'),
+											array('escape'=>false )
+										);?>
+							</li>
+							<li>
+								<?php echo $this->Html->link("<i class='fa fa-link fa-fw'></i> Image Tagging",
+											array('admin' => false,'controller'=>'images','action'=>'tagging'),
 											array('escape'=>false )
 										);?>
 							</li>
