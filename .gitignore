@@ -11,7 +11,8 @@ CakePHP 2
 /app/Config/database.php
 
 webroot/index.php
+webroot/img/fortagging/*
+tmp/*
 config/database.php 
 config/database.php
-
 
