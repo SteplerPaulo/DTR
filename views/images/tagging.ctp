@@ -2,6 +2,7 @@
 img{
 	margin: 4px 0;
     max-height: 373px;
+	max-width: 373px;
     border: solid #9c9696;
     border-radius: 30px;
 }
