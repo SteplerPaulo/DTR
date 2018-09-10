@@ -78,8 +78,8 @@ table .active,.thumbnail .active{
 						<h6 ng-if="!d.RfidStudattendance.time_in" style="color:red">No Time In</h6>
 							
 					
-						<img ng-if="!d.RfidStudattendance.img_path"  src="http://placehold.it/300x300" alt="...">
-						<img ng-if="d.RfidStudattendance.img_path" src="../img/fortagging/{{d.RfidStudattendance.img_path}}" alt="...">
+						<img ng-if="!d.RfidStudattendance.img_path"  src="../img/noidpicture.jpg" alt="..."/>
+						<img ng-if="d.RfidStudattendance.img_path" src="../img/fortagging/{{d.RfidStudattendance.img_path}}" alt="..."/>
 						<div class="caption" style="height:110px">
 							<h6 style="padding-bottom:2px">{{d.RfidStudattendance.student_name}}</h6>
 							<div class="btn-group" ng-if="!d.is_posted">
