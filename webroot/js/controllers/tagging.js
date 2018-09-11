@@ -1,6 +1,6 @@
 App.controller('ImageTaggingController',function($scope,$rootScope,$http,$filter){
 	
-	$scope.initializeController = function(){
+	$scope.initializeController = function(reload = 0){
 		$scope.currentPage = 1; 
 		$scope.pageSize = 15;
 		$scope.fullimgpath = '../img/defaultstep.jpg';
@@ -11,7 +11,6 @@ App.controller('ImageTaggingController',function($scope,$rootScope,$http,$filter
 		//IMAGE WITHOUT RFID
 		$http.get("/DTR/images/notag").success(function(response) {
 			$scope.notagimage = response;
-			//console.log(response);
 		});
 		
 		//IMAGE WITH SOURCE RFID
@@ -21,12 +20,15 @@ App.controller('ImageTaggingController',function($scope,$rootScope,$http,$filter
 		});
 		
 		//STUDENT LIST FROM RFID STUDENT TABLE -  USE FOR STUDENT NAME TYPEAHEAD
-		$http.get("/DTR/images/student_list").success(function(response) {
-			$input.typeahead({
-					source: response,
-					autoSelect: true
-				});
-		});
+		if(!reload){
+			$http.get("/DTR/images/student_list").success(function(response) {
+				$input.typeahead({
+						source: response,
+						autoSelect: true
+					});
+			});
+		}
+		
 	}
 	
 	$scope.tagImg =  function(d){
@@ -61,9 +63,10 @@ App.controller('ImageTaggingController',function($scope,$rootScope,$http,$filter
 					data: $.param({data:student}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				}).then(function(response) {
-					$scope.initializeController();
+					$scope.initializeController(1);
 					$scope.selected = response.data.id;
 					$scope.wtfilter = $scope.imgpath;
+				
 					
 					console.log(response);
 				});
