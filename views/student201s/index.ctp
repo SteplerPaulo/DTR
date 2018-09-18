@@ -19,7 +19,7 @@
 			<tr>
 				<th>Student Number</th>
 				<th>Name</th>
-				<th>Has RFID</th>
+				<th class="text-center">ID Status</th>
 				<th class="actions text-center">Action</th>
 			</tr>
 		</thead>
@@ -27,7 +27,7 @@
 			<tr pagination-id="StudentListTable" dir-paginate="s in students | filter:q | itemsPerPage: pageSize" current-page="currentPage">
 				<td>{{s.Student201.student_number}}</td>
 				<td>{{s.Student201.full_name}}</td>
-				<td>{{s.Student201.has_rfid_string}}</td>
+				<td class="text-center">{{s.Student201.has_rfid_string}}</td>
 				<td class="actions text-center">
 					<a data-toggle="tooltip" title="Assign RFID" href="/DTR/rfid_students/assign/1:{{s.Student201.student_number}}"><i class="fa fa-tags"></i></a>
 					<a data-toggle="tooltip" title="Edit" href="/DTR/student201s/edit/{{s.Student201.id}}"><i class="fa fa-edit"></i></a>
