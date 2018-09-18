@@ -101,5 +101,18 @@ class RfidStudent extends AppModel {
 				)ORDER BY full_name ASC;
 			");
 	}
+	
+	
+	//Update student 201 status(has rfid)
+	function update_has_rfid(){
+		return $this->query( 
+			"UPDATE 
+			  student201s sfo 
+			  INNER JOIN rfid_students sfog 
+				ON sfog.student_number = sfo.student_number SET sfo.has_rfid = 1 
+			WHERE sfog.source_rfid IS NOT NULL;
+		");
+
+	}
 
 }
