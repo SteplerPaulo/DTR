@@ -3,7 +3,7 @@
 		<div class="login-panel panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">	
-					<h4>Assign RFID No.</h4>
+					<h4>ID REGISTRATION <sup>(Assigning RFID No.)</sup></h4>
 				</h3>
 			</div>
 			<?php echo $this->Form->create('RfidStudent',array('action'=>'save'));?>
