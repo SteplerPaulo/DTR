@@ -92,6 +92,8 @@ class RfidStudentsController extends AppController {
 	}
 	
 	function save(){
+		//pr($this->data);exit;
+		
 		$rfid = $this->data['RfidStudent']['source_rfid'];
 		if(strlen($rfid) <= 8){
 			$dec = hexdec ($rfid);
@@ -138,12 +140,12 @@ class RfidStudentsController extends AppController {
 		
 		if($this->RfidStudent->save($this->data)){
 			//UPDATE EMPLOYEE 201
-			if(isset($this->data['Employee'])){
+			if(isset($this->data['Employee']['id']) && !empty($this->data['Employee']['id'])){
 				$this->data['Employee']['has_rfid'] = 1;
 				$this->Employee->save($this->data['Employee']);
 			}
 			//UPDATE STUDENT 201
-			if(isset($this->data['Student201'])){
+			if(isset($this->data['Student201']['id']) && !empty($this->data['Student201']['id'])){
 				$this->data['Student201']['has_rfid'] = 1;
 				$this->Student201->save($this->data['Student201']);
 			}
@@ -354,5 +356,20 @@ class RfidStudentsController extends AppController {
 			exit;
 		}
 		exit;
+	}
+	
+	
+	//Use to fixbug when force entry on RFID_students table has been done
+	function update_201_has_rfid(){
+		$this->RfidStudent->update_has_rfid();
+	}
+	
+	function students_with_unregistered_id(){
+		$data = $this->Student201->find('all',array('conditions'=>array('Student201.has_rfid'=>0)));
+		//pr($data);exit;
+
+		$this->set(compact('data'));
+		$this->layout='pdf';
+		$this->render();
 	}
 }
