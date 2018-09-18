@@ -154,4 +154,42 @@ class ImagesController extends AppController {
 		exit;
 	}
 	
+	//Save new img_path on images table
+	//Note: Check if new image has a duplicated data on an existing images folder  
+	function init_new_images(){
+		die("You're not Authorize to access this page");
+	
+		$folders = glob('C:/Users/Paulo/Pictures/Additional Pics NCS/*', GLOB_BRACE);
+
+		$data = array();
+		$i=0;
+		foreach($folders as $fdr){
+			$folderImages = glob($fdr.'/*.{jpg,JPG}', GLOB_BRACE);
+			
+			if(!empty($folderImages)){
+				
+				foreach($folderImages as $images){
+					$img = explode("/",$images);
+					$data[$i++]['Image']['img_path']  = $img[5].'/'.$img[6];
+					
+				}
+			}
+			
+		}
+		//pr($data);exit;
+		//$this->Image->create();
+		if ($this->Image->saveAll($data)) {
+			$data['status'] = 1;
+			$data['message'] = 'Saved!';
+			echo json_encode($data);
+			exit;
+		}else{
+			$data['status'] = 0;
+			$data['message'] = 'Error!';
+			echo json_encode($data);
+			exit;
+		}
+	}
+	
+	
 }
