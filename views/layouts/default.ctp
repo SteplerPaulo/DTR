@@ -133,7 +133,7 @@
 						<a href="javascript:void(0)" data-toggle="collapse" data-target="#AdminMenu"><i class="fa fa-user-circle-o fa-fw "></i> Admin Menu <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="AdminMenu" class="collapse">
 							<li>
-								<?php echo $this->Html->link("<i class='fa fa-id-card-o'></i> Assign RFID",
+								<?php echo $this->Html->link("<i class='fa fa-id-card-o'></i> ID Registration",
 											array('admin' => false,'controller'=>'rfid_students','action'=>'assign'),
 											array('escape'=>false )
 										);?>
