@@ -13,8 +13,8 @@ class Student201 extends AppModel {
 							IFNULL(Student201.middle_name,'')
 					)",
 		'has_rfid_string' =>"CASE Student201.has_rfid
-										WHEN '0' THEN 'False'
-										WHEN '1' THEN 'True'
+										WHEN '0' THEN 'Unregistered'
+										WHEN '1' THEN 'Registered'
 									END "
 	);
 	
