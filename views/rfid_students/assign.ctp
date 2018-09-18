@@ -33,7 +33,7 @@
 				<hr/>
 				<div class="row" ng-if="StudentMode">
 					<div class="col-lg-3">
-						<?php echo $this->Form->input('student_number',array('ng-disabled'=>'HaveAnExistingRFID','ng-blur'=>'getStudDetails(Field.student_number)','required'=>'required','label'=>'Student No','class'=>'form-control','ng-model'=>'Field.student_number'));?>
+						<?php echo $this->Form->input('student_number',array('autocomplete'=>'off','ng-disabled'=>'HaveAnExistingRFID','ng-blur'=>'getStudDetails(Field.student_number)','required'=>'required','label'=>'Student No','class'=>'form-control','ng-model'=>'Field.student_number'));?>
 					</div>
 					<div class="col-lg-3">
 						<?php echo $this->Form->input('level_id',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','options'=>$levels,'empty'=>'--Select--','class'=>'form-control','ng-model'=>'Field.level_id'));?>
@@ -116,7 +116,7 @@
 				
 				<div class="row"><br/>
 					<div class="col-lg-3">
-						<?php echo $this->Form->input('source_rfid',array('ng-disabled'=>'HaveAnExistingRFID','required'=>'required','label'=>'RFID','class'=>'form-control','ng-model'=>'Field.source_rfid','my-enter'=>'CheckRFID(Field.source_rfid)'));?>
+						<?php echo $this->Form->input('source_rfid',array('autocomplete'=>'off','ng-disabled'=>'HaveAnExistingRFID','required'=>'required','label'=>'RFID','class'=>'form-control','ng-model'=>'Field.source_rfid','my-enter'=>'CheckRFID(Field.source_rfid)'));?>
 					</div>
 					<div class="col-lg-8">
 						<div class="panel panel-danger" ng-show="HaveAnExistingRFID">
