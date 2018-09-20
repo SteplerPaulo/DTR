@@ -365,7 +365,7 @@ class RfidStudentsController extends AppController {
 	}
 	
 	function students_with_unregistered_id(){
-		$data = $this->Student201->find('all',array('conditions'=>array('Student201.has_rfid'=>0)));
+		$data = $this->Student201->find('all',array('recursive'=>2,'conditions'=>array('Student201.has_rfid'=>0)));
 		//pr($data);exit;
 
 		$this->set(compact('data'));

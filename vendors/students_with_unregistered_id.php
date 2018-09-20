@@ -1,7 +1,7 @@
 <?php
 require('formsheet.php');
 class StudentList extends Formsheet{
-	protected static $_width = 4.25;
+	protected static $_width = 8.5;
 	protected static $_height = 11;
 	protected static $_unit = 'in';
 	protected static $_orient = 'P';	
@@ -18,7 +18,7 @@ class StudentList extends Formsheet{
 		$metrics = array(
 			'base_x'=> 0.125+$x,
 			'base_y'=> 0.125,
-			'width'=> 4,
+			'width'=> 8,
 			'height'=> 0.5,
 			'cols'=> 20,
 			'rows'=> 3,	
@@ -26,7 +26,7 @@ class StudentList extends Formsheet{
 		$this->section($metrics);
 
 		$this->GRID['font_size']=8;
-		$this->DrawImage(0.2,0,0.7,0.7,'../webroot/img/'.$SystemDefault['school_logo']);
+		$this->DrawImage(5,0,0.7,0.7,'../webroot/img/'.$SystemDefault['school_logo']);
 		$this->centerText(0,1,$SystemDefault['school_name'],$metrics['cols'],'bi');
 		$this->centerText(0,3.5,'S.Y. 2018 - 2019',$metrics['cols'],'');
 		$this->GRID['font_size']=10;
@@ -38,7 +38,7 @@ class StudentList extends Formsheet{
 		$metrics = array(
 			'base_x'=> 0.125+$x,
 			'base_y'=> 1,
-			'width'=> 4,
+			'width'=> 8,
 			'height'=> 9.6,
 			'cols'=> 9,
 			'rows'=> 48,	
@@ -49,17 +49,17 @@ class StudentList extends Formsheet{
 		$this->DrawBox(0,0,$metrics['cols'],$metrics['rows'],$fill=null);
 		$this->DrawMulitpleLines(2,47,1,'h');
 		$this->DrawLine(1,'v');
-		$this->DrawLine(7,'v');
+		$this->DrawLine(6,'v');
 		$this->centerText(0,1.3,'No.',1,'');
-		$this->centerText(1,1.3,'NAME',6,'');
-		$this->centerText(7,1.3,'Student No.',2,'');
+		$this->centerText(1,1.3,'NAME',5,'');
+		$this->centerText(6,1.3,'Grade / Section',3,'');
 		
 		$y=2.8;
 		$i=1;
 		foreach($data as $d){
 			$this->centerText(0,$y,$i,1,'');
-			$this->leftText(1.2,$y,$d['Student201']['full_name'],'','');
-			$this->centerText(7,$y,$d['Student201']['student_number'],2,'');			
+			$this->leftText(1.1,$y,$d['Student201']['full_name'],'','');
+			$this->centerText(6,$y,$d['Level']['name'].' / '.$d['Section']['name'],3,'');			
 			$y++;
 			$i++;
 		}
