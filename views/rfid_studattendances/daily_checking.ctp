@@ -78,7 +78,7 @@ table .active,.thumbnail .active{
 						<h6 ng-if="!d.RfidStudattendance.time_in" style="color:red">No Time In</h6>
 							
 					
-						<img ng-if="!d.RfidStudattendance.img_path"  src="../img/noidpicture2.jpg" alt="..."/>
+						<img ng-if="!d.RfidStudattendance.img_path"  src="../img/noidpicturesacred.jpg" height="600px" width="450px" alt="..."/>
 						<img ng-if="d.RfidStudattendance.img_path" src="../img/fortagging/{{d.RfidStudattendance.img_path}}" alt="..."/>
 						<div class="caption" style="height:110px">
 							<h6 style="padding-bottom:2px">{{d.RfidStudattendance.student_name}}</h6>
