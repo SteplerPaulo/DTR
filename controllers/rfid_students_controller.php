@@ -310,7 +310,7 @@ class RfidStudentsController extends AppController {
 
 	function decimal_octal_update(){
 		$data = $this->RfidStudent->find('all',array('recursive'=>0,'fields'=>array('id','source_rfid','rfid','dec_rfid')));
-		pr($data);exit;
+		//pr($data);exit;
 		
 		foreach($data as $k => $d){
 			if($d['RfidStudent']['source_rfid'] != null){
@@ -361,7 +361,11 @@ class RfidStudentsController extends AppController {
 	
 	//Use to fixbug when force entry on RFID_students table has been done
 	function update_201_has_rfid(){
-		$this->RfidStudent->update_has_rfid();
+		if($this->RfidStudent->update_has_rfid()){
+			die('Success Updating 201');
+		}else{
+			die('Faied Updating 201');
+		}
 	}
 	
 	function students_with_unregistered_id(){
