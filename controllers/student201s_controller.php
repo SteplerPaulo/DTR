@@ -102,9 +102,9 @@ class Student201sController extends AppController {
 		$this->set(compact('student'));
 	}
 	
-	 function onSaveData(){
+	function onSaveData(){
 		 
 		 
-	 }
+	}
 	
 }
