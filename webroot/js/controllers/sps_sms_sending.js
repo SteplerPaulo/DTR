@@ -70,7 +70,7 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 		}).then(function(response) {
 			console.log(response);
 			if(response.data.status){
-			//	$scope.initializeController();
+				$scope.initializeController();
 			}
 			alert(response.data.message);
 		});
