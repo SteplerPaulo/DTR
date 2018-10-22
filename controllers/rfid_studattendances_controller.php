@@ -3,7 +3,7 @@ class RfidStudattendancesController extends AppController {
 
 	var $name = 'RfidStudattendances';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule','User','Section','SchoolYear','Level','MessageOut');
+	var $uses = array('RfidStudattendance','RfidStudent','Remark','Schedule','User','Section','SchoolYear','Level','MessageOut','SmsPort');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
@@ -470,8 +470,13 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function sps_sms_posting(){
+		
+		
 		//pr($this->data);
 		//exit;
+		
+		
+		$port = $this->SmsPort->find('first',array('orderby'=>array('SmsPort.id'=>'DESC')));
 		
 		//CREATE MESSAGE OUT DATA
 		$msgout =  array(); $i = 0;
@@ -481,18 +486,22 @@ class RfidStudattendancesController extends AppController {
 				$msgout[$i]['MessageOut']['MessageFrom']= '+09175686999';
 				$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - Absent';
 				$msgout[$i]['MessageOut']['Gateway']= 'Globe';
-				$msgout[$i]['MessageOut']['Port']= 19;
+				$msgout[$i]['MessageOut']['Port']= $port['SmsPort']['Port'];
 				$i++;
 			}else if($d['RfidStudattendance']['remarks'] == "L"){
 				$msgout[$i]['MessageOut']['MessageTo']= '+639175683891';//$d['RfidStudattendance']['guardian_mobile_no'];
 				$msgout[$i]['MessageOut']['MessageFrom']= '+09175686999';
 				$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - Late';
 				$msgout[$i]['MessageOut']['Gateway']= 'Globe';
-				$msgout[$i]['MessageOut']['Port']= 19;
+				$msgout[$i]['MessageOut']['Port']= $port['SmsPort']['Port'];
 				$i++;
 			}
 			$this->data[$k]['RfidStudattendance']['is_posted'] = true;//update is_posted field
 		}
+		
+		//pr($msgout);
+		//exit;
+		
 		
 		if (!empty($this->data)) {
 			$this->RfidStudattendance->create();

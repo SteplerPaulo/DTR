@@ -63,6 +63,9 @@ class RfidStudent extends AppModel {
 		)
 	);
 	
+	
+
+	
 	function reset_data(){
 		return $this->query( 
 			"SELECT 

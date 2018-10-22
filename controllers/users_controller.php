@@ -2,14 +2,14 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
-	var $uses =  array('User','Document');
+	var $uses =  array('User','Document','RfidStudent');
 	var $helpers = array('Access');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('register','login','check','upload','download','install','permission_control','modify_permision','add_aco','add_aro'));	
-    } 
+		$this->Auth->allow(array('register','login','check','upload','download','install','permission_control','modify_permision','add_aco','add_aro','api_get_rfidstudents'));	
+	} 
 	
 	function login() {
 		
@@ -466,5 +466,32 @@ class UsersController extends AppController {
 	
 	function admin_login(){
 		$this->redirect(array('controller'=>'users', 'action'=>'login', 'admin'=>false));
+	}
+
+	//USE FOR WEBSOCKET
+	function api_get_rfidstudents(){
+		
+		header("Access-Control-Allow-Origin: *");
+		
+		$this->RfidStudent->unbindModel( array('hasAndBelongsToMany' => array('Fetcher')));
+		$this->RfidStudent->bindModel(array(
+			'hasOne' => array(
+				'Image' => array(
+					'foreignKey' => false,
+					'conditions' => array('RfidStudent.source_rfid = Image.source_rfid')
+				)
+			)
+		));
+	
+		$students = $this->RfidStudent->find('all',array('conditions'=>array('RfidStudent.type'=>1)));
+		
+		
+		
+		
+		
+
+		
+		echo json_encode($students);
+		exit;
 	}
 }
