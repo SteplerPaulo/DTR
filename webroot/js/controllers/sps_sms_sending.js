@@ -16,7 +16,7 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 	
 	$scope.getData = function(level,date){
 		//level = '7';
-		date = '2018-03-16';
+		//date = '2018-03-16';
 		$http.get("/DTR/rfid_studattendances/sps_data/"+level+'/'+date).success(function(result) {
 			if(result){
 				$scope.students = result;
