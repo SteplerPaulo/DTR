@@ -61,7 +61,7 @@ table .active,.thumbnail .active{
 				<div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="(k,d) in students" ng-if="(d.RfidStudattendance.remarks=='A' || d.RfidStudattendance.remarks=='L')">
 					<div class="thumbnail">
 						<img ng-if="!d.RfidStudattendance.img_path"  src="http://placehold.it/300x300" alt="...">
-						<img ng-if="d.RfidStudattendance.img_path" src="../img/fortagging/{{d.RfidStudattendance.img_path}}" alt="...">
+						<img ng-if="d.RfidStudattendance.img_path" src="/DTR/img/fortagging/{{d.RfidStudattendance.img_path}}" alt="...">
 						<div class="caption" style="height:110px">
 							<h6>{{d.RfidStudattendance.student_name}}</h6>
 							<h6>{{d.RfidStudattendance.section}} | {{d.RfidStudattendance.remark_name}} <span style="color:red" ng-if="d.RfidStudattendance.is_posted">| Posted</span></h6>
