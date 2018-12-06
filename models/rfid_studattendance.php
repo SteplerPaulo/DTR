@@ -164,6 +164,7 @@ class RfidStudattendance extends AppModel {
 				  `levels`.`name`,
 				  `rfid_students`.`section_id`,
 				  `sections`.`name`,
+				  `schedules`.`start_time`,
 				  CONCAT(
 					IFNULL(
 					  `rfid_students`.`first_name`,
@@ -195,6 +196,10 @@ class RfidStudattendance extends AppModel {
 				  INNER JOIN `sections` 
 					ON (
 					  `rfid_students`.`section_id` = `sections`.`id`
+					) 
+				  INNER JOIN `schedules` 
+					ON (
+					  `sections`.`id` = `schedules`.`section_id`
 					) 
 				  LEFT JOIN `rfid_studattendance` 
 					ON (

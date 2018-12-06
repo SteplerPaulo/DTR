@@ -5,9 +5,10 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 		$scope.th =  true;
 		$scope.list =  false;
 		$scope.date =  $filter("date")(Date.now(), 'yyyy-MM-dd');
-		$scope.start_time = '06:45:00';
-		$scope.late = 'Late';
-		$scope.absent = 'Absent';
+		//$scope.start_time = '06:45:00';
+		$scope.filters = {'2':'Late','3':'Absent'};
+		
+		
 		
 		$http.get("/DTR/rfid_studattendances/sps_init_data").success(function(levels) {
 			$scope.levels = levels;
@@ -17,12 +18,14 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 	$scope.getData = function(level,date){
 		//level = '7';
 		//date = '2018-03-16';
-		$http.get("/DTR/rfid_studattendances/sps_data/"+level+'/'+date).success(function(result) {
-			if(result){
-				$scope.students = result;
-				$scope.updateRemarks();
-			}	
-		});
+		if(level && date){
+			$http.get("/DTR/rfid_studattendances/sps_data/"+level+'/'+date).success(function(result) {
+				if(result){
+					$scope.students = result;
+					$scope.updateRemarks();
+				}	
+			});
+		}
 	}
 	
 	$scope.updateRemarks = function(){
@@ -30,10 +33,10 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 		$.each($scope.students, function(i,o) {
 			if(!o.RfidStudattendance.is_posted){
 				//console.log(o.RfidStudattendance.is_posted);
-				if(o.RfidStudattendance.time_in <= $scope.start_time){
+				if(o.RfidStudattendance.time_in <= o.RfidStudattendance.start_time){
 					$scope.students[i].RfidStudattendance.remarks='P';
 					$scope.students[i].RfidStudattendance.remark_name='Present';
-				}else if(o.RfidStudattendance.time_in > $scope.start_time){
+				}else if(o.RfidStudattendance.time_in > o.RfidStudattendance.start_time){
 					$scope.students[i].RfidStudattendance.remarks='L';
 					$scope.students[i].RfidStudattendance.remark_name='Late';
 				}else{
@@ -76,5 +79,6 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 		});
 	};
 
-	
+
+		
 });

@@ -433,6 +433,7 @@ class RfidStudattendancesController extends AppController {
 			$data[$s_key]['RfidStudattendance']['section'] = $student['sections']['name'];
 			$data[$s_key]['RfidStudattendance']['guardian_mobile_no'] = $student['rfid_students']['guardian_mobile_no'];
 			
+			
 			foreach($sps_report as $d_key => $daily){
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
 				
@@ -443,6 +444,7 @@ class RfidStudattendancesController extends AppController {
 					$data[$s_key]['RfidStudattendance']['date'] = $daily['rfid_studattendance']['date'];
 					$data[$s_key]['RfidStudattendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
 					$data[$s_key]['RfidStudattendance']['remark_name'] = $daily['remarks']['name'];
+					$data[$s_key]['RfidStudattendance']['start_time'] = $daily['schedules']['start_time'];
 					
 					if($daily['rfid_studattendance']['time_in']){//AVOID SAVING 00:00:00 On DB
 						$data[$s_key]['RfidStudattendance']['time_in'] = $daily['rfid_studattendance']['time_in'];
