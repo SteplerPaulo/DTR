@@ -4,7 +4,7 @@ App.controller('DailyCheckingController',function($scope,$rootScope,$http,$filte
 		$scope.students = [];
 		$scope.th =  true;
 		$scope.list =  false;
-		$scope.filters = {'1':'Present','2':'Late','3':'Absent'};
+		$scope.filters = {'1':'Present','2':'Absent','3':'Late'};
 		$scope.date =  $filter("date")(Date.now(), 'yyyy-MM-dd');
 		
 		

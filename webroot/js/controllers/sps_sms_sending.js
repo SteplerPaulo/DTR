@@ -6,7 +6,7 @@ App.controller('SPSSMSSENDING',function($scope,$rootScope,$http,$filter){
 		$scope.list =  false;
 		$scope.date =  $filter("date")(Date.now(), 'yyyy-MM-dd');
 		//$scope.start_time = '06:45:00';
-		$scope.filters = {'2':'Late','3':'Absent'};
+		$scope.filters = {'2':'Absent','3':'Late'};
 		
 		
 		
