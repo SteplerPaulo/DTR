@@ -529,4 +529,26 @@ class RfidStudattendancesController extends AppController {
 		}
 		
 	}
+
+	function sps_entry(){
+		
+	}
+
+	function sps_entry_saving(){
+		//pr($this->data);exit;
+		
+		
+		$this->RfidStudattendance->create();
+			if ($this->RfidStudattendance->saveAll($this->data)) {
+				$data['message'] = 'Saving Successful!';
+				$data['status'] = 1;
+				echo json_encode($data);
+				exit;
+			} else {
+			    $data['message'] = 'Saving Error . Pls. contact your system administrator.';
+			    $data['status'] = 0; 
+			    echo json_encode($data);
+			    exit;
+			}
+	}
 }

@@ -8,9 +8,6 @@ table .active,.thumbnail .active{
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<span class="panel-title">SPS DAILY SMS SENDING</span>
-			<button class="btn btn-default pull-right">
-				<i class="fa fa-user-secret" aria-hidden="true" title="Login as subtitute adviser"></i>
-			</button>
 		</div>
 		<div class="panel-body">
 			<section class="row">
@@ -28,7 +25,7 @@ table .active,.thumbnail .active{
 				<div class="col-lg-2">
 					<label>Filter By</label>
 					<select class='form-control input-sm' ng-model='q'>
-						<option value="">All--Late & Absent</option>
+						<option value="">Absent & Late</option>
 						<option ng-repeat="d in filters">{{d}}</option>
 					</select>
 				</div>
