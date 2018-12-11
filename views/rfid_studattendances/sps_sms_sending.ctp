@@ -8,9 +8,6 @@ table .active,.thumbnail .active{
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<span class="panel-title">SPS DAILY SMS SENDING</span>
-			<button class="btn btn-default pull-right">
-				<i class="fa fa-user-secret" aria-hidden="true" title="Login as subtitute adviser"></i>
-			</button>
 		</div>
 		<div class="panel-body">
 			<section class="row">
@@ -26,8 +23,15 @@ table .active,.thumbnail .active{
 					</select>
 				</div>
 				<div class="col-lg-2">
-					<label>Start Time</label>
-					<input type="time" class="form-control input-sm" ng-model="start_time" ng-change="updateRemarks()">
+					<label>Filter By</label>
+					<select class='form-control input-sm' ng-model='q'>
+						<option value="">Absent & Late</option>
+						<option ng-repeat="d in filters">{{d}}</option>
+					</select>
+				</div>
+				<div class="col-lg-2">
+					<!--<label>Start Time</label>
+					<input type="time" class="form-control input-sm" ng-model="start_time" ng-change="updateRemarks()">-->
 				</div>
 				<div class="col-lg-2 col-lg-offset-2">
 					<label>View</label><br/>
@@ -43,7 +47,7 @@ table .active,.thumbnail .active{
 				<div class="col-lg-12">
 					<table class="table table-striped table-bordered table-condensed">
 						<tbody>
-							<tr ng-repeat="(k,d) in students" ng-if="d.RfidStudattendance.remarks=='A' || d.RfidStudattendance.remarks=='L'">
+							<tr ng-repeat="(k,d) in students | filter:q" ng-if="d.RfidStudattendance.remarks=='A' || d.RfidStudattendance.remarks=='L'">
 								<td>{{d.RfidStudattendance.student_name}}</td>
 								<td>{{d.RfidStudattendance.section}}</td>
 								<td class="text-center">{{d.RfidStudattendance.remark_name}}</td>
@@ -58,15 +62,15 @@ table .active,.thumbnail .active{
 				</div>
 			</section>
 			<section class="row" ng-if="th">
-				<div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="(k,d) in students" ng-if="(d.RfidStudattendance.remarks=='A' || d.RfidStudattendance.remarks=='L')">
+				<div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="(k,d) in students | filter:q" ng-if="(d.RfidStudattendance.remarks=='A' || d.RfidStudattendance.remarks=='L')">
 					<div class="thumbnail">
-						<img ng-if="!d.RfidStudattendance.img_path"  src="http://placehold.it/300x300" alt="...">
-						<img ng-if="d.RfidStudattendance.img_path" src="/DTR/img/fortagging/{{d.RfidStudattendance.img_path}}" alt="...">
+						<img ng-if="!d.RfidStudattendance.img_path"  src="../img/noidpicturesacred.jpg" alt="...">
+						<img ng-if="d.RfidStudattendance.img_path" src="/DTR/img/fortagging/{{d.RfidStudattendance.img_path}}" onError="this.onerror=null;this.src='../img/noidpicturesacred.jpg';">
 						<div class="caption" style="height:110px">
 							<h6>{{d.RfidStudattendance.student_name}}</h6>
 							<h6>{{d.RfidStudattendance.section}} | {{d.RfidStudattendance.remark_name}} <span style="color:red" ng-if="d.RfidStudattendance.is_posted">| Posted</span></h6>
 							<h6>Time In: 
-								<strong ng-if="d.RfidStudattendance.time_in">{{d.RfidStudattendance.time_in}}</strong>
+								<strong ng-if="d.RfidStudattendance.time_in">{{d.RfidStudattendance.time_in}} <!--| {{d.RfidStudattendance.start_time}}--></strong>
 								<strong ng-if="!d.RfidStudattendance.time_in" style="color:red">No Time In</strong>
 							</h6>
 						</div>

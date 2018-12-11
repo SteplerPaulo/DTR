@@ -434,6 +434,7 @@ class RfidStudattendancesController extends AppController {
 			$data[$s_key]['RfidStudattendance']['section'] = $student['sections']['name'];
 			$data[$s_key]['RfidStudattendance']['guardian_mobile_no'] = $student['rfid_students']['guardian_mobile_no'];
 			
+			
 			foreach($sps_report as $d_key => $daily){
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
 				
@@ -444,6 +445,7 @@ class RfidStudattendancesController extends AppController {
 					$data[$s_key]['RfidStudattendance']['date'] = $daily['rfid_studattendance']['date'];
 					$data[$s_key]['RfidStudattendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
 					$data[$s_key]['RfidStudattendance']['remark_name'] = $daily['remarks']['name'];
+					$data[$s_key]['RfidStudattendance']['start_time'] = $daily['schedules']['start_time'];
 					
 					if($daily['rfid_studattendance']['time_in']){//AVOID SAVING 00:00:00 On DB
 						$data[$s_key]['RfidStudattendance']['time_in'] = $daily['rfid_studattendance']['time_in'];
@@ -537,5 +539,27 @@ class RfidStudattendancesController extends AppController {
 			}
 		}
 		
+	}
+
+	function sps_entry(){
+		
+	}
+
+	function sps_entry_saving(){
+		//pr($this->data);exit;
+		
+		
+		$this->RfidStudattendance->create();
+			if ($this->RfidStudattendance->saveAll($this->data)) {
+				$data['message'] = 'Saving Successful!';
+				$data['status'] = 1;
+				echo json_encode($data);
+				exit;
+			} else {
+			    $data['message'] = 'Saving Error . Pls. contact your system administrator.';
+			    $data['status'] = 0; 
+			    echo json_encode($data);
+			    exit;
+			}
 	}
 }
