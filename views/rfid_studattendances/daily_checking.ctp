@@ -57,7 +57,7 @@ table .active,.thumbnail .active{
 								<td ng-if="d.RfidStudattendance.time_in" class="text-center">{{d.RfidStudattendance.time_in}}</td>
 								<td ng-if="!d.RfidStudattendance.time_in" style="color:red" class="text-center">No Time In</td>
 								<td class="text-right" ng-if="!d.RfidStudattendance.is_posted">
-									<div class="btn-group-vertical">
+									<div class="btn-group">
 										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks=='P'?'active':''" ng-click="remark(k,'P','Present')">Present</button>
 										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks=='L'?'active':''" ng-click="remark(k,'L','Late')">Late</button>
 										<button type="button" class="btn btn-sm btn-default" ng-class="d.RfidStudattendance.remarks=='A'?'active':''" ng-click="remark(k,'A','Absent')">Absent</button>
