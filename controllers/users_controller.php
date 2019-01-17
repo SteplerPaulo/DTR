@@ -2,13 +2,13 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
-	var $uses =  array('User','Document','RfidStudent');
+	var $uses =  array('User','Document','RfidStudent','RfidStudattendance');
 	var $helpers = array('Access');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('register','login','check','upload','download','install','permission_control','modify_permision','add_aco','add_aro','api_get_rfidstudents'));	
+		$this->Auth->allow(array('register','login','check','upload','download','install','permission_control','modify_permision','add_aco','add_aro','api_get_rfidstudents','api_gateinfo'));	
 	} 
 	
 	function login() {
@@ -485,13 +485,21 @@ class UsersController extends AppController {
 	
 		$students = $this->RfidStudent->find('all',array('conditions'=>array('RfidStudent.type'=>1)));
 		
-		
-		
-		
-		
-
-		
 		echo json_encode($students);
+		exit;
+	}
+	
+	function api_gateinfo(){
+		header("Access-Control-Allow-Origin: *");
+
+		$data = array();
+		
+		$in = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>'2018-03-08')));
+		$out = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>'2018-03-08','RfidStudattendance.time_out NOT'=>NULL)));
+		$data['in'] = count($in);
+		$data['out'] = count($out);
+		
+		echo json_encode($data);
 		exit;
 	}
 }
