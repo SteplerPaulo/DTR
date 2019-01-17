@@ -1,4 +1,4 @@
-<?php
+     <?php
 class UsersController extends AppController {
 
 	var $name = 'Users';
@@ -494,8 +494,8 @@ class UsersController extends AppController {
 
 		$data = array();
 		
-		$in = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>'2018-03-08')));
-		$out = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>'2018-03-08','RfidStudattendance.time_out NOT'=>NULL)));
+		$in = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"))));
+		$out = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"),'RfidStudattendance.time_out NOT'=>NULL)));
 		$data['in'] = count($in);
 		$data['out'] = count($out);
 		
