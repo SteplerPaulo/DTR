@@ -473,40 +473,42 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function sps_sms_posting(){
-		
+	
 		
 		$port = $this->SmsPort->find('first',array('orderby'=>array('SmsPort.id'=>'DESC')));
-		
+		//pr($port);exit;
 		//CREATE MESSAGE OUT DATA
 		$msgout =  array(); $i = 0;
 		foreach($this->data as $k=>$d){
-			if($d['RfidStudattendance']['remarks'] == "A"){
+			if(isset($d['RfidStudattendance']['remarks'])){
+				if($d['RfidStudattendance']['remarks'] == "A" && $d['RfidStudattendance']['guardian_mobile_no']){
+					
 				
-				
-				
-				if ($k % 2 == 0) {
-					$msgout[$i]['MessageOut']['MessageTo']= '+639178351831';//$d['RfidStudattendance']['guardian_mobile_no'];
-				}else{
-					$msgout[$i]['MessageOut']['MessageTo']= '+639778230820';//$d['RfidStudattendance']['guardian_mobile_no'];
+					/*
+					if ($k % 2 == 0) {
+						$msgout[$i]['MessageOut']['MessageTo']= '+639178351831';//$d['RfidStudattendance']['guardian_mobile_no'];
+					}else{
+						$msgout[$i]['MessageOut']['MessageTo']= '+639778230820';//$d['RfidStudattendance']['guardian_mobile_no'];
+					}
+					*/
+					
+					
+					$msgout[$i]['MessageOut']['MessageTo']= $d['RfidStudattendance']['guardian_mobile_no'];
+					$msgout[$i]['MessageOut']['MessageFrom']= '+639657590001';
+					$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - No time-in found '.$d['RfidStudattendance']['date'];
+					$msgout[$i]['MessageOut']['Gateway']= 'Globe';
+					$msgout[$i]['MessageOut']['Port']= $port['SmsPort']['Port'];
+					$msgout[$i]['MessageOut']['MessageType']= 'SmsSubmit';
+					$i++;
+				}else if($d['RfidStudattendance']['remarks'] == "L" && $d['RfidStudattendance']['guardian_mobile_no']){
+					$msgout[$i]['MessageOut']['MessageTo']= $d['RfidStudattendance']['guardian_mobile_no'];
+					$msgout[$i]['MessageOut']['MessageFrom']= '+639657590001';
+					$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - Late time-in '.$d['RfidStudattendance']['date'].' '.$d['RfidStudattendance']['time_in'];
+					$msgout[$i]['MessageOut']['Gateway']= 'Globe';
+					$msgout[$i]['MessageOut']['Port']= $port['SmsPort']['Port'];
+					$msgout[$i]['MessageOut']['MessageType']= 'SmsSubmit';
+					$i++;
 				}
-				
-				
-				
-				//$msgout[$i]['MessageOut']['MessageTo']= $d['RfidStudattendance']['guardian_mobile_no'];
-				$msgout[$i]['MessageOut']['MessageFrom']= '+639657590001';
-				$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - Absent';
-				$msgout[$i]['MessageOut']['Gateway']= 'Globe';
-				$msgout[$i]['MessageOut']['Port']= $port['SmsPort']['Port'];
-				$msgout[$i]['MessageOut']['MessageType']= 'SmsSubmit';
-				$i++;
-			}else if($d['RfidStudattendance']['remarks'] == "L"){
-				//$msgout[$i]['MessageOut']['MessageTo']= $d['RfidStudattendance']['guardian_mobile_no'];
-				$msgout[$i]['MessageOut']['MessageFrom']= '+09175686999';
-				$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - Late';
-				$msgout[$i]['MessageOut']['Gateway']= 'Globe';
-				$msgout[$i]['MessageOut']['Port']= $port['SmsPort']['Port'];
-				$msgout[$i]['MessageOut']['MessageType']= 'SmsSubmit';
-				$i++;
 			}
 			$this->data[$k]['RfidStudattendance']['is_posted'] = true;//update is_posted field
 			//sleep(1);
