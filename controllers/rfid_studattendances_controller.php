@@ -237,7 +237,14 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function daily_checking_init_data(){
-		$data = $this->Section->find('all',array('order'=>'Section.name'));
+		//CHECK IF USER IS NOT AN ADMIN
+		if(!$this->Access->check('User','create','read','update','delete')){
+			$user = $this->User->findByUsername($this->Access->getmy('username'));
+			$data = $this->Section->find('all',array('conditions'=>array('Section.employee_number'=>$user['User']['id_number'])));
+		}else{
+			$data = $this->Section->find('all',array('order'=>'Section.name'));
+		}
+		
 		echo json_encode($data);
 		exit;
 	}
