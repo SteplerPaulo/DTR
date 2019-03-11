@@ -2,7 +2,7 @@
 require('formsheet.php');
 class DailyReport extends Formsheet{
 	protected static $_width = 8.5;
-	protected static $_height = 11;
+	protected static $_height = 13;
 	protected static $_unit = 'in';
 	protected static $_orient = 'P';	
 	protected static $curr_page = 1;
@@ -41,15 +41,15 @@ class DailyReport extends Formsheet{
 			'base_x'=> 0.125+$x,
 			'base_y'=> 2,
 			'width'=> 4,
-			'height'=> 8.6,
+			'height'=> 10.6,
 			'cols'=> 30,
-			'rows'=> 43,	
+			'rows'=> 53,	
 		);	
 		$this->section($metrics);
 		$y = 1;
 		$this->GRID['font_size']=8;
 		$this->DrawBox(0,0,$metrics['cols'],$metrics['rows'],$fill=null);
-		$this->DrawMulitpleLines(2,42,1,'h');
+		$this->DrawMulitpleLines(2,52,1,'h');
 		$this->DrawLine(18,'v');
 		$this->DrawLine(22,'v');
 		$this->DrawLine(26,'v');
@@ -117,7 +117,7 @@ class DailyReport extends Formsheet{
 			'base_x'=> 0,
 			'base_y'=> 0,
 			'width'=> 8.5,
-			'height'=> 11,
+			'height'=> 13,
 			'cols'=> 4,
 			'rows'=> 3,	
 		);	

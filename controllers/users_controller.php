@@ -1,14 +1,14 @@
-<?php
+     <?php
 class UsersController extends AppController {
 
 	var $name = 'Users';
-	var $uses =  array('User','Document','RfidStudent','RfidStudattendance');
+	var $uses =  array('User','Document','RfidStudent','RfidStudattendance','Image');
 	var $helpers = array('Access');
 	
 	function beforeFilter(){ 
 		parent::beforeFilter();
 		$this->Auth->userModel = 'User'; 
-		$this->Auth->allow(array('register','login','check','upload','download','install','permission_control','modify_permision','add_aco','add_aro','api_get_rfidstudents','api_gateinfo'));	
+		$this->Auth->allow(array('register','login','check','upload','download','install','permission_control','modify_permision','add_aco','add_aro','api_get_rfidstudents','api_gateinfo','get_images'));	
 	} 
 	
 	function login() {
@@ -494,12 +494,49 @@ class UsersController extends AppController {
 
 		$data = array();
 		
-		$in = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>'2018-03-08')));
-		$out = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>'2018-03-08','RfidStudattendance.time_out NOT'=>NULL)));
+		$in = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"))));
+		$out = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"),'RfidStudattendance.time_out NOT'=>NULL)));
 		$data['in'] = count($in);
 		$data['out'] = count($out);
 		
 		echo json_encode($data);
 		exit;
+	}
+	
+	function get_images(){
+		header("Access-Control-Allow-Origin: *");
+
+		$data = array();
+		
+		$this->RfidStudent->unbindModel( array('hasAndBelongsToMany' => array('Fetcher'),'belongsTo'=>array('Section','Level')));
+		
+		$this->RfidStudent->bindModel(array(
+			'hasOne' => array(
+				'Image' => array(
+					'foreignKey' => false,
+					'conditions' => array('RfidStudent.source_rfid = Image.source_rfid')
+				)
+			)
+		));
+		$images = $this->RfidStudent->find('all',array('conditions'=>array('RfidStudent.type'=>1)));
+		
+		//pr($images);exit;
+		
+		
+		//$images = $this->Image->find('all');
+		
+		foreach($images as $img){
+			$data[$img['RfidStudent']['source_rfid']] = array(
+														'studname'=>$img['RfidStudent']['full_name'],
+														'imgpath'=>$img['Image']['img_path'],
+														'sourcerfid'=>$img['Image']['source_rfid']
+														) ;
+			
+			
+		}
+		//pr($data);exit;
+		echo json_encode($data);
+		exit;
+		
 	}
 }
