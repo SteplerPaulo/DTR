@@ -562,4 +562,11 @@ class RfidStudattendancesController extends AppController {
 			    exit;
 			}
 	}
+
+	function classlist(){
+		$this->layout='pdf';
+		$this->render();
+		
+	}
+	
 }
