@@ -3,7 +3,10 @@ class RfidStudentsController extends AppController {
 
 	var $name = 'RfidStudents';
 	var $helpers = array('Access');
-	var $uses = array('RfidStudent','Section','SchoolYear','Level','Student201','Employee','RfidHistory');
+	var $uses = array('RfidStudent','Section','SchoolYear','Level','Student201','Employee','RfidHistory','MessageOut','SmsPort');
+	
+	
+
 
 	function index() {
 		$this->paginate = array(
@@ -53,8 +56,32 @@ class RfidStudentsController extends AppController {
 			$this->Session->setFlash(__('Invalid rfid student', true));
 			$this->redirect(array('action' => 'index'));
 		}
+		
 		if (!empty($this->data)) {
+			
+				//pr($this->data['RfidStudent']['guardian_mobile_no']);exit;
 			if ($this->RfidStudent->save($this->data)) {
+				
+				
+				$port = $this->SmsPort->find('first',array('orderby'=>array('SmsPort.id'=>'DESC')));
+				
+				$msgout['MessageOut']['MessageTo']= $this->data['RfidStudent']['guardian_mobile_no'];
+				$msgout['MessageOut']['MessageFrom']= '+639657590001';
+				$msgout['MessageOut']['MessageText']= 'Sample Text';
+				$msgout['MessageOut']['Gateway']= 'Globe';
+				$msgout['MessageOut']['Port']= $port['SmsPort']['Port'];
+				$msgout['MessageOut']['MessageType']= 'SmsSubmit';
+				
+				$this->MessageOut->saveAll($msgout);
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				$this->Session->setFlash(__('The rfid student has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
