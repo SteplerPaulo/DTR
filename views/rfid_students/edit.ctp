@@ -21,8 +21,10 @@
 				</div>
 				<div class="panel-footer">	
 					<div class="text-right">
-						<button class="btn btn-primary" type="submit">Submit</button>
-						<a href="/DTR/rfid_students/index/" class="btn btn-default">Cancel</a>
+					
+						<button class="btn btn-primary btn-sm" type="submit">Save & Send Sample Text</button>
+						<!--<button class="btn btn-default btn-sm" type="submit">Save</button>-->
+						<a href="/DTR/rfid_students/index/" class="btn btn-default btn-sm">Cancel</a>
 					</div>
 				</div>
 				<?php echo $this->Form->end();?>
