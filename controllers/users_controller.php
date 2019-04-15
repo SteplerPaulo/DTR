@@ -491,13 +491,40 @@ class UsersController extends AppController {
 	
 	function api_gateinfo(){
 		header("Access-Control-Allow-Origin: *");
-
 		$data = array();
 		
-		$in = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"))));
-		$out = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"),'RfidStudattendance.time_out NOT'=>NULL)));
-		$data['in'] = count($in);
-		$data['out'] = count($out);
+		
+		//HS IN 
+		$this->RfidStudattendance->bindModel(array('belongsTo' => array('RfidStudent' => array('foreignKey' => false,'conditions' => array('RfidStudattendance.student_number = RfidStudent.student_number')))));
+		$hs_in = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"),'RfidStudent.level_id'=>array(1,2,3,10,11,12))));
+		//HS OUT
+		$this->RfidStudattendance->bindModel(array('belongsTo' => array('RfidStudent' => array('foreignKey' => false,'conditions' => array('RfidStudattendance.student_number = RfidStudent.student_number')))));
+		$hs_out = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"),'RfidStudent.level_id'=>array(1,2,3,10,11,12),'RfidStudattendance.time_out NOT'=>NULL)));
+	
+		//GS IN
+		$this->RfidStudattendance->bindModel(array('belongsTo' => array('RfidStudent' => array('foreignKey' => false,'conditions' => array('RfidStudattendance.student_number = RfidStudent.student_number')))));
+		$gs_in = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"),'RfidStudent.level_id NOT'=>array(1,2,3,10,11,12))));
+		//GS OUT
+		$this->RfidStudattendance->bindModel(array('belongsTo' => array('RfidStudent' => array('foreignKey' => false,'conditions' => array('RfidStudattendance.student_number = RfidStudent.student_number')))));
+		$gs_out = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"),'RfidStudent.level_id NOT'=>array(1,2,3,10,11,12),'RfidStudattendance.time_out NOT'=>NULL)));
+	
+	
+		
+		//TOTAL IN
+		$total_in = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"))));
+		//TOTAL OUT
+		$total_out = $this->RfidStudattendance->find('all',array('conditions'=>array('RfidStudattendance.date'=>date("Y-m-d"),'RfidStudattendance.time_out NOT'=>NULL)));
+	
+	
+	
+
+		
+		$data['hs_in'] = count($hs_in);
+		$data['hs_out'] = count($hs_out);
+		$data['gs_in'] = count($gs_in);
+		$data['gs_out'] = count($gs_out);
+		$data['total_in'] = count($total_in);
+		$data['total_out'] = count($total_out);
 		
 		echo json_encode($data);
 		exit;

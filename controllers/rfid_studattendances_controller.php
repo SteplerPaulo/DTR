@@ -498,11 +498,22 @@ class RfidStudattendancesController extends AppController {
 						$msgout[$i]['MessageOut']['MessageTo']= '+639778230820';//$d['RfidStudattendance']['guardian_mobile_no'];
 					}
 					*/
+					//pr($d['RfidStudattendance']['guardian_mobile_no']);
+					//pr($d);
+					
+					if(strlen($d['RfidStudattendance']['guardian_mobile_no']) != 13){
+						$msgout[$i]['MessageOut']['MessageTo']= '+639175008027';
+						$msgout[$i]['MessageOut']['MessageText']= 'HTA No Registered CP No -'.$d['RfidStudattendance']['student_number'];
+					}else{
+						//pr('wew2');
+						$msgout[$i]['MessageOut']['MessageTo']= $d['RfidStudattendance']['guardian_mobile_no'];
+						$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - No time-in found '.$d['RfidStudattendance']['date'];
+					
+					}
 					
 					
-					$msgout[$i]['MessageOut']['MessageTo']= $d['RfidStudattendance']['guardian_mobile_no'];
+					
 					$msgout[$i]['MessageOut']['MessageFrom']= '+639657590001';
-					$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - No time-in found '.$d['RfidStudattendance']['date'];
 					$msgout[$i]['MessageOut']['Gateway']= 'Globe';
 					$msgout[$i]['MessageOut']['Port']= $port['SmsPort']['Port'];
 					$msgout[$i]['MessageOut']['MessageType']= 'SmsSubmit';
