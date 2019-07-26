@@ -1,7 +1,8 @@
 <?php
 class MessageIn extends AppModel {
 	var $name = 'MessageIn';
-	var $useDbConfig = 'gatekeeper';
+	var $useDbConfig = 'sms';
+	var $primaryKey = 'Id';
 	var $validate = array(
 		'Id' => array(
 			'numeric' => array(
