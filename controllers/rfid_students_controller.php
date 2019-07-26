@@ -118,6 +118,7 @@ class RfidStudentsController extends AppController {
 		$this->set(compact('relationships','sections','sy','levels','genders'));
 	}
 	
+	
 	function save(){
 		//pr($this->data);exit;
 		
@@ -403,4 +404,44 @@ class RfidStudentsController extends AppController {
 		$this->layout='pdf';
 		$this->render();
 	}
+
+	
+	function assign_v2(){
+		
+		
+	}
+	
+	function stud_201(){
+		$students = $this->Student201->find('all',array('order'=>array('last_name','first_name,middle_name')));
+				
+		echo json_encode($students);
+		exit;
+		
+	}
+	
+	function sections(){
+		
+		$sections = $this->Section->find('all',array('order'=>array('name')));
+		echo json_encode($sections);
+		exit;
+	}
+	
+	
+	function levels(){
+		$levels = $this->Level->find('all',array('order'=>array('index_order')));
+		echo json_encode($levels);
+		exit;
+	}
+	
+	function sy(){
+		$sy = $this->SchoolYear->find('first',array('conditions'=>array('is_default'=>1)));
+		echo json_encode($sy);
+		exit;
+	}
+	
+	function save_rfid(){
+		pr($this->data);exit;
+	}
+	
+	
 }
