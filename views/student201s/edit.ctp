@@ -3,7 +3,7 @@
 		<div class="login-panel panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">	
-					<h4>Edit Student</h4>
+					<h4>Edit Student Info</h4>
 				</h3>
 			</div>
 			<?php echo $this->Form->create('Student201',array('action'=>'edit'));?>
