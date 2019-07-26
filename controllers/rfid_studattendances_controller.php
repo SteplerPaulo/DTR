@@ -257,15 +257,9 @@ class RfidStudattendancesController extends AppController {
 	}
 	
 	function daily_checking_data($sectionId = null, $date = null){
-		
 		//$sectionId = 15; $date = '2018-03-16';
-		
 		$daily_report = $data['DailyReport'] = $this->RfidStudattendance->daily_report($sectionId,$date);
 		$students = $data['Students'] = $this->RfidStudattendance->sectionStudents($sectionId);
-	
-		//pr($students);exit;
-		
-		
 		
 		$data = array(); $i=0;
 		foreach($students as $s_key => $student){
@@ -273,6 +267,7 @@ class RfidStudattendancesController extends AppController {
 			$data[$s_key]['RfidStudattendance']['student_name'] = strToUpper($student[0]['full_name']);
 			$data[$s_key]['RfidStudattendance']['rfid'] = $student['rfid_students']['dec_rfid'];
 			$data[$s_key]['RfidStudattendance']['img_path'] = $student['images']['img_path'];
+			$data[$s_key]['RfidStudattendance']['guardian_mobile_no'] = $student['rfid_students']['guardian_mobile_no'];
 			
 			foreach($daily_report as $d_key => $daily){
 				if( $daily['rfid_students']['student_number'] == $student['rfid_students']['student_number']){
@@ -290,25 +285,25 @@ class RfidStudattendancesController extends AppController {
 					
 					$data[$s_key]['RfidStudattendance']['remarks'] = $daily['rfid_studattendance']['remarks'];
 					$data[$s_key]['RfidStudattendance']['remark_name'] = $daily['remarks']['name'];
-					
 					//USE THIS IF GOT TO GET ALL DATA INPUT BY THE PARTICULAR STUDENT ON GATE FOR THE DAY  "$d_key"
 					//$data[$s_key]['RfidStudattendance'][$d_key]['remarks'] = $daily['remarks']['name'];
 				}
 			}
-			
 			if(!isset($data[$s_key]['RfidStudattendance']['id'])){
 				$data[$s_key]['RfidStudattendance']['date'] = $date;
 			}
 		}
-		
-		//pr($data);
-		//exit;
 		echo json_encode($data);
 		exit;
-		
 	}
 	
 	function daily_checking_posting(){
+		
+		foreach($this->data as $k=>$d){
+			//update is_posted field
+			$this->data[$k]['RfidStudattendance']['is_posted'] = true;
+		}
+		
 		if (!empty($this->data)) {
 			$this->RfidStudattendance->create();
 			if ($this->RfidStudattendance->saveAll($this->data)) {
@@ -325,7 +320,6 @@ class RfidStudattendancesController extends AppController {
 			    exit;
 			}
 		}
-		
 	}
 	//END
 	
@@ -430,8 +424,6 @@ class RfidStudattendancesController extends AppController {
 		$students = $data['Students'] = $this->RfidStudattendance->levelStudents($levelId);
 		//pr($students);exit;
 		//pr($sps_report);exit;
-		
-		
 		$data = array(); $i=0;
 		foreach($students as $s_key => $student){
 			$data[$s_key]['RfidStudattendance']['student_number'] = $student['rfid_students']['student_number'];
@@ -490,7 +482,6 @@ class RfidStudattendancesController extends AppController {
 			if(isset($d['RfidStudattendance']['remarks'])){
 				if($d['RfidStudattendance']['remarks'] == "A" && $d['RfidStudattendance']['guardian_mobile_no']){
 					
-				
 					/*
 					if ($k % 2 == 0) {
 						$msgout[$i]['MessageOut']['MessageTo']= '+639178351831';//$d['RfidStudattendance']['guardian_mobile_no'];
@@ -510,8 +501,6 @@ class RfidStudattendancesController extends AppController {
 						$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - No time-in found '.$d['RfidStudattendance']['date'];
 					
 					}
-					
-					
 					
 					$msgout[$i]['MessageOut']['MessageFrom']= '+639657590001';
 					$msgout[$i]['MessageOut']['Gateway']= 'Globe';
@@ -589,4 +578,62 @@ class RfidStudattendancesController extends AppController {
 		
 	}
 	
+	// UPDATED FUNTION AIMING TO SIMPLIFIED SMS SENDING 
+	// INSTEAD OF USING TWO MODULE(Daily Checking , SPS SMS Sending)
+	// COMPACT SMS SENDING
+	function send_sms(){
+		$port = $this->SmsPort->find('first',array('orderby'=>array('SmsPort.id'=>'DESC')));
+		//pr($port);exit;
+		
+		//CREATE MESSAGE OUT DATA
+		$msgout =  array(); $i = 0;
+		foreach($this->data as $k=>$d){
+			if(isset($d['RfidStudattendance']['remarks'])){
+				//Filter students' with registered guardian mobile no
+				$gmobileno = $d['RfidStudattendance']['guardian_mobile_no'];
+				$remarks = $d['RfidStudattendance']['remarks'];
+				if(!empty($gmobileno) && strlen($gmobileno) == 13){
+					if($remarks == "A"){
+						$msgout[$i]['MessageOut']['MessageTo']= $gmobileno;
+						$msgout[$i]['MessageOut']['MessageFrom']= '+639657590001';
+						$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - No time-in found '.$d['RfidStudattendance']['date'];
+						$msgout[$i]['MessageOut']['Gateway']= 'Globe';
+						$msgout[$i]['MessageOut']['Port']= $port['SmsPort']['Port'];
+						$msgout[$i]['MessageOut']['MessageType']= 'SmsSubmit';
+						$i++;
+					}else if($remarks == "L"){
+						$msgout[$i]['MessageOut']['MessageTo']= $gmobileno;
+						$msgout[$i]['MessageOut']['MessageFrom']= '+639657590001';
+						$msgout[$i]['MessageOut']['MessageText']= $d['RfidStudattendance']['student_name'].' - Late time-in found '.$d['RfidStudattendance']['date'];
+						$msgout[$i]['MessageOut']['Gateway']= 'Globe';
+						$msgout[$i]['MessageOut']['Port']= $port['SmsPort']['Port'];
+						$msgout[$i]['MessageOut']['MessageType']= 'SmsSubmit';
+						$i++;
+					}
+				}else{//notify authority regarding student(s) with no registered guardian mobile no.
+					$msgout[$i]['MessageOut']['MessageTo']= '+639175008027'; //authority phone no 
+					$msgout[$i]['MessageOut']['MessageFrom']= '+639657590001';
+					$msgout[$i]['MessageOut']['MessageText']= 'HTA No Registered CP No -'.$d['RfidStudattendance']['student_number'];
+					$msgout[$i]['MessageOut']['Gateway']= 'Globe';
+					$msgout[$i]['MessageOut']['Port']= $port['SmsPort']['Port'];
+					$msgout[$i]['MessageOut']['MessageType']= 'SmsSubmit';
+				}
+			}
+		}
+		
+		if (!empty($msgout)) {
+			$this->MessageOut->create();
+			if($this->MessageOut->saveAll($msgout)){
+				$data['message'] = 'SMS Sent!';
+				$data['status'] = 1;
+				echo json_encode($data);
+				exit;
+			}else{
+				$data['message'] = 'Failed sending SMS . Pls. contact your system administrator.';
+				$data['status'] = 0; 
+				echo json_encode($data);
+				exit;
+			}
+		}
+	}
 }

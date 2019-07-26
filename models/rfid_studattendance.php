@@ -103,6 +103,7 @@ class RfidStudattendance extends AppModel {
 						`rfid_students`.`student_number` ,
 						`rfid_students`.`dec_rfid`,
 						`rfid_students`.`gender`,
+						`rfid_students`.`guardian_mobile_no`,
 						`images`.`img_path`
 					FROM
 					  rfid_students

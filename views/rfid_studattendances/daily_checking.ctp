@@ -9,7 +9,7 @@ table .active,.thumbnail .active{
 		<div class="panel-heading">
 			<span class="panel-title">Daily Attendance</span>
 			<button class="btn btn-default pull-right">
-				<i class="fa fa-user-secret" aria-hidden="true" title="Login as subtitute adviser"></i>
+				<i class="fa fa-user-secret" title="Login as subtitute adviser"></i>
 			</button>
 		</div>
 		<div class="panel-body">
@@ -30,6 +30,7 @@ table .active,.thumbnail .active{
 					<select class='form-control input-sm' ng-model='q'>
 						<option value="">All Students</option>
 						<option ng-repeat="d in filters">{{d}}</option>
+						<option value="Absent Late">Absent & Late</option>
 					</select>
 				</div>
 				<div class="col-lg-2">
@@ -79,7 +80,10 @@ table .active,.thumbnail .active{
 							
 					
 						<img ng-if="!d.RfidStudattendance.img_path"  src="../img/noidpicturesacred.jpg" height="600px" width="450px" alt="..."/>
-						<img ng-if="d.RfidStudattendance.img_path" src="../img/fortagging/{{d.RfidStudattendance.img_path}}" alt="..."/>
+						<img ng-if="d.RfidStudattendance.img_path" src="../img/fortagging/{{d.RfidStudattendance.img_path}}" alt="..." onError="this.onerror=null;this.src='../img/noidpicturesacred.jpg';"/>
+						
+						
+						
 						<div class="caption" style="height:110px">
 							<h6 style="padding-bottom:2px">{{d.RfidStudattendance.student_name}}</h6>
 							<div class="btn-group" ng-if="!d.is_posted">
@@ -96,8 +100,16 @@ table .active,.thumbnail .active{
 				</div>
 			</section>
 		</div>
-		<div class="panel-footer text-right">
-			<button type="button" class="btn btn-sm btn-primary" ng-click="post()">Post</button>
+		<div class="panel-footer">
+			<div class="row">
+				<div class="col-lg-10">			
+					<label>Send SMS</label>
+					<input type="checkbox" ng-model="sendsms">
+				</div>
+				<div class="col-lg-2 text-right">
+					<button type="button" class="btn btn-sm btn-primary" ng-click="post()">Post</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
