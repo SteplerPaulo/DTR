@@ -3,7 +3,7 @@ class SectionsController extends AppController {
 
 	var $name = 'Sections';
 	var $helpers = array('Access');
-	var $uses = array('Section','RfidStudent','Employee');
+	var $uses = array('Section','RfidStudent','Employee','Student201');
 
 	function index() {
 		$this->Section->recursive = 0;
@@ -62,6 +62,18 @@ class SectionsController extends AppController {
 	}
 	
 	function all(){
+		$this->Section->bindModel(array(
+			'hasMany' => array(
+				'Student201' => array(
+					'foreignKey' => 'section_code',
+					'conditions' => '',
+					'fields'=>array('section_code','student_number'),
+				)
+			)
+		));
+		
+		
+		
 		$sections = $this->Section->find('all');
 		echo json_encode($sections);
 		exit;
@@ -102,7 +114,7 @@ class SectionsController extends AppController {
 		
 	}
 	
-	 function force_section_load(){
+	function force_section_load(){
 		 
 		$employees = $this->Employee->find('all');									
 							//pr($employees);exit;								
