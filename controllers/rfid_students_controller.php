@@ -225,10 +225,12 @@ class RfidStudentsController extends AppController {
 	}	
 	
 	function success(){
+		
 		$relationships = array('Parent'=>'Parent','Guardian'=>'Guardian');
 		$sections = $this->Section->find('list');
 
 		$this->set(compact('relationships','sections'));
+		
 		
 	}
 	
@@ -315,6 +317,7 @@ class RfidStudentsController extends AppController {
 	
 	function reset_this(){
 		
+		
 		$data = array();
 		foreach($this->data as $k => $d){
 			$data[$k]['RfidStudent'] = array(
@@ -325,6 +328,7 @@ class RfidStudentsController extends AppController {
 						) ;
 			
 		}
+		
 		if($this->RfidStudent->saveAll($data)){
 			//pr($data);exit;
 		}else{
@@ -408,36 +412,8 @@ class RfidStudentsController extends AppController {
 	}
 	
 	function stud_201(){
-		
-		$this->Student201->bindModel(array(
-			'hasOne' => array(
-				'RfidStudent' => array(
-					'foreignKey' => false,
-					'conditions' => array('Student201.student_number = RfidStudent.student_number'),
-				)
-			),
-			'hasOne' => array(
-				'RfidStudent' => array(
-					'foreignKey' => false,
-					'conditions' => array('Student201.student_number = RfidStudent.student_number'),
-				)
-			),
-		));
-		
-		$fields = array(
-			'Section.id',
-			'Section.alias',
-			'Section.name',
-			'Level.id',
-			'Level.alias',
-			'Level.name',
-			'RfidStudent.id',
-			'RfidStudent.source_rfid',
-			'Student201.*'
-		);
-		
-		
-		$students = $this->Student201->find('all',array('fields'=>$fields,'order'=>array('last_name','first_name,middle_name')));	
+		$students = $this->Student201->find('all',array('order'=>array('last_name','first_name,middle_name')));
+				
 		echo json_encode($students);
 		exit;
 		
@@ -463,46 +439,8 @@ class RfidStudentsController extends AppController {
 		exit;
 	}
 	
-	function save_rfid(){		
-		
-		
-		$rfid = $this->data['RfidStudent']['source_rfid'];
-		if(strlen($rfid) <= 8){
-			$dec = hexdec ($rfid);
-			$octal = decoct($dec);
-			if(strlen($dec) == 7){
-				$dec = '000'.$dec;
-			}else if(strlen($dec) == 8){
-				$dec = '00'.$dec;
-			}else if(strlen($dec) == 9){
-				$dec = '0'.$dec;
-			}
-		}else{
-			$octal = decoct($rfid);
-			$dec = $rfid;
-			if(strlen($dec) == 7){
-				$dec = '000'.$dec;
-			}else if(strlen($dec) == 8){
-				$dec = '00'.$dec;
-			}else if(strlen($dec) == 9){
-				$dec = '0'.$dec;
-			}
-		}
-		$this->data['RfidStudent']['rfid']= $octal;
-		$this->data['RfidStudent']['dec_rfid']= $dec;
-		
-
-		$data = array();
-		if($this->RfidStudent->saveAll($this->data)){
-			$data = $this->RfidStudent->findById($this->RfidStudent->id);
-			
-			echo json_encode($data);
-			exit;
-		}else{
-			$data['status'] = false;
-			echo json_encode($data);
-			exit;
-		}
+	function save_rfid(){
+		pr($this->data);exit;
 	}
 	
 	
