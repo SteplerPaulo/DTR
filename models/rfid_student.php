@@ -44,7 +44,27 @@ class RfidStudent extends AppModel {
 			'order' => ''
 		)
 	);
+	
+	
+	var $hasOne = array(
+		'Image' => array(
+			'className' => 'Image',
+			'foreignKey' => false,
+			'conditions' => array('Image.source_rfid = RfidStudent.source_rfid'),
+			'fields' => '',
+			'order' => ''
+		),
+		'Student201' => array(
+			'className' => 'Student201',
+			'foreignKey' => false,
+			'conditions' => array('Student201.student_number = RfidStudent.student_number'),
+			'fields' => '',
+			'order' => ''
+		),
+	);
 
+	
+	
 	var $hasAndBelongsToMany = array(
 		'Fetcher' => array(
 			'className' => 'Fetcher',
