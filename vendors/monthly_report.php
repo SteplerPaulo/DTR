@@ -80,7 +80,7 @@ class MonthlyReport extends Formsheet{
 		$y=2.8;
 		foreach($data as $key => $stud){
 			$this->leftText(0.1,$y,++$key.'.','','');
-			$this->leftText(1.1,$y++,strtoupper($stud['StudentName']),'','');
+			$this->leftText(1.1,$y,strtoupper($stud['StudentName']),'','');
 			foreach($stud['Attendance'] as $attnd){
 				$date = strtotime($attnd['Date']);
 				$day   = date('d',$date);
@@ -96,7 +96,7 @@ class MonthlyReport extends Formsheet{
 				$this->centerText(12+$day,$y,$attnd['Remarks'],$x_ntrvl,'b');
 				$this->SetTextColor(0,0,0);	
 			}
-
+			$y++;
 		}
 		$x=12;
 		$y = 1.7;

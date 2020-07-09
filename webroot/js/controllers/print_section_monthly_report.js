@@ -4,6 +4,7 @@ App.controller('PrintSectionMonthlyReport',function($scope,$rootScope,$http,$fil
 		$scope.date = $filter("date")(Date.now(), 'yyyy-MM');
 		$http.get("/DTR/rfid_studattendances/sections").success(function(sections) {
 			$scope.sections = sections;
+			console.log($scope.sections);
 		});
 	}
 });
