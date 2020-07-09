@@ -44,7 +44,7 @@
 				</td>
 				<td class="text-right">{{stud.Student201.student_number}}</td>
 				<td class="text-right">{{stud.Student201.full_name}}</td>
-				<td><input ng-model="stud.RfidStudent.source_rfid" ng-enter="save(i)" class="form-control input-sm" placeholder="RFID No."/></td>
+				<td><input ng-model="source_rfid" ng-enter="save(stud)" class="form-control input-sm" placeholder="RFID No."/></td>
 			</tr>
 		</tbody>
 		<tfoot>
